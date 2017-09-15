@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAShop.BusinessLogic", "YAShop.BusinessLogic\YAShop.BusinessLogic.csproj", "{23A37F97-EC75-40F0-AEB2-EEFD88ACDF38}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAShop.ConsoleApp", "YAShop.Console\YAShop.ConsoleApp.csproj", "{D95EE2EC-4EE3-424E-988F-F9C618DAE848}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprut.MyShop", "Sprut.MyShop\Sprut.MyShop.csproj", "{4784D2DC-8FD6-4418-83CC-198497C4FDCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D95EE2EC-4EE3-424E-988F-F9C618DAE848}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D95EE2EC-4EE3-424E-988F-F9C618DAE848}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D95EE2EC-4EE3-424E-988F-F9C618DAE848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4784D2DC-8FD6-4418-83CC-198497C4FDCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4784D2DC-8FD6-4418-83CC-198497C4FDCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4784D2DC-8FD6-4418-83CC-198497C4FDCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4784D2DC-8FD6-4418-83CC-198497C4FDCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
