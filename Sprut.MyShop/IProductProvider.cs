@@ -4,17 +4,29 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Sprut.MyShop
 {
-    public interface IDataProvider
+    public class DataProviders
     {
-        Product GetProduct(string sku);
-        Product[] GetAllProducts();
+        private static DataProviders _current;
+        public static DataProviders Current => _current ?? (_current = new DataProviders());
+
+        public DataProviders()
+        {
+            Products = new TestProductProvider();
+        }
+
+        public IProductProvider Products { get; private set; }
+
+    }
+    public interface IProductProvider
+    {
+        Product Get(string sku);
+        void Add(Product product);
+        Product[] GetAll();
     }
 
-    class TestProductProvider : IDataProvider
+    class TestProductProvider : IProductProvider
     {
-        List<Product> _products = new List<Product>();
-
-        
+        readonly List<Product> _products = new List<Product>();
 
         public TestProductProvider()
         {
@@ -37,15 +49,20 @@ namespace Sprut.MyShop
 
         }
 
-        public Product GetProduct(string sku)
+        public Product Get(string sku)
         {
             return _products.FirstOrDefault(p => p.SKU == sku);
         }
 
-        public Product[] GetAllProducts()
+        public Product[] GetAll()
         {
-            // ¬озваращаем массив что бы никто не 
+            // ¬озваращаем массив что бы никто не изменил его
             return _products.ToArray();
+        }
+
+        public void Add(Product product)
+        {
+            _products.Add(product);
         }
     }
 }
