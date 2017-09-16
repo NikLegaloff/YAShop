@@ -44,8 +44,9 @@ namespace YAShop.BusinessLogic.Presistense
                 var server = new MongoClient("mongodb://127.0.0.1");
                 _db = server.GetDatabase("YAShop");
             }
-            _db.DropCollection(typeof(T).Name);
             _collection = _db.GetCollection<T>(typeof(T).Name);
+            // drop all records
+            _collection.DeleteMany(subj => true);
             return this;
         }
     }
