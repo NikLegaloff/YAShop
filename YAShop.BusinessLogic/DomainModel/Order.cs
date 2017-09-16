@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using YAShop.BusinessLogic.Presistense;
 
 namespace YAShop.BusinessLogic.DomainModel
 {

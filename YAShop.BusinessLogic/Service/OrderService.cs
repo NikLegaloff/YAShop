@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using YAShop.BusinessLogic.DomainModel;
 
 namespace YAShop.BusinessLogic.Service
@@ -12,7 +13,7 @@ namespace YAShop.BusinessLogic.Service
     {
         private int counter = 0;
 
-        public Guid CreateAndSave(Order order)
+        public ObjectId CreateAndSave(Order order)
         {
             order.State = OrderState.Created;
             order.Date = DateTime.Now;
