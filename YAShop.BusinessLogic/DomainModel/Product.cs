@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
+using YAShop.BusinessLogic.Presistense;
 
 namespace YAShop.BusinessLogic.DomainModel
 {

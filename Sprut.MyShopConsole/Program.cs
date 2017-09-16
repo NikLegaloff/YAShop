@@ -12,7 +12,7 @@ namespace Sprut.MyShopConsole
         static void Main(string[] args)
         {
             DataProviders.Current.Products.Add(new Product {SKU = "New SKu 1", Title = "New title", Price = 111.11m});
-            var allProducts = DataProviders.Current.Products.GetAll();
+            Product[] allProducts = DataProviders.Current.Products.GetAll();
             foreach (var product in allProducts)
             {
                 Console.WriteLine(product.SKU + "\t" + product.Title + "\t" + product.Price.ToString("0.00"));
