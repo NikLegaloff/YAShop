@@ -7,5 +7,6 @@ namespace Sprut.MyShop
         Product Get(string sku);
         void Add(Product product);
         Product[] GetAll();
+
     }
 }

@@ -18,6 +18,11 @@ namespace Sprut.MyShopConsole
                 Console.WriteLine(product.SKU + "\t" + product.Title + "\t" + product.Price.ToString("0.00"));
             }
 
+            Console.WriteLine("Bay SKU S1 Qty 1");
+            DataProviders.Current.Products.AddInOrder("S1", 1);
+            Order order 
+            Console.WriteLine(DataProviders.Current.Products.GetOrder());
+
             Console.ReadLine();
         }
     }
