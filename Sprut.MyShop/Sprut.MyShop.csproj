@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Order\OrderProvider.cs" />
-    <Compile Include="Product\DataProviders.cs" />
+    <Compile Include="DataProviders.cs" />
     <Compile Include="Order\IOrderProvider.cs" />
     <Compile Include="Order\Order.cs" />
     <Compile Include="Product\Product.cs" />

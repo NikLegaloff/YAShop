@@ -45,24 +45,5 @@ namespace Sprut.MyShop
             _products.Add(product);
         }
 
-        // Добавить Product в заказ
-        public void AddInOrder(string sku,int Qty)
-        {
-            Product product = Get(sku);
-            OrderItem orderitem = new OrderItem();
-            orderitem.SKU = product.SKU;
-            orderitem.Title = product.Title;
-            orderitem.Qty = Qty;
-            orderitem.Price = product.Price * Qty;
-
-            _order.Items.Add(orderitem);
-
-        }
-
-        // Получить список Productов
-        public Order GetOrder()
-        {
-            return _order;
-        }
     }
 }

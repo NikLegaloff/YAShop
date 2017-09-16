@@ -19,13 +19,7 @@ namespace Sprut.MyShop
         public OrderState State { get; set; }
         public decimal Total => Items.Sum(s => s.Price * s.Qty);
 
-        public Order()
-        {
-            Id = 1; //тестовый номер
-            State = OrderState.Created;
-            Items = new List<OrderItem>();
-            Date = DateTime.Today;
-        }
+        
     }
 
    
