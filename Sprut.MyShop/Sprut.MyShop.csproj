@@ -40,10 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Order\OrderProvider.cs" />
-    <Compile Include="DataProviders.cs" />
-    <Compile Include="Order\IOrderProvider.cs" />
     <Compile Include="Order\Order.cs" />
+    <Compile Include="Order\IOrdertProvider.cs" />
+    <Compile Include="Order\OrderProvider.cs" />
+    <Compile Include="Cart\CartProvider.cs" />
+    <Compile Include="DataProviders.cs" />
+    <Compile Include="Cart\ICartProvider.cs" />
+    <Compile Include="Cart\Cart.cs" />
     <Compile Include="Product\Product.cs" />
     <Compile Include="Product\IProductProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

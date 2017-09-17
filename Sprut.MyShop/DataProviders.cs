@@ -14,17 +14,17 @@ namespace Sprut.MyShop
 
     }
 
-    public class OrderProviders
+    public class CartProviders
     {
-        private static OrderProviders _current;
-        public static OrderProviders Current => _current ?? (_current = new OrderProviders());
+        private static CartProviders _current;
+        public static CartProviders Current => _current ?? (_current = new CartProviders());
 
-        public OrderProviders()
+        public CartProviders()
         {
-            Order = new OrderProvider();
+            Cart = new CartProvider();
         }
 
-        public IOrderProvider Order { get; set; }
+        public ICartProvider Cart { get; set; }
 
     }
 }

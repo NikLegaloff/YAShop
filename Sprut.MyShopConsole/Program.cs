@@ -39,14 +39,13 @@ namespace Sprut.MyShopConsole
                         var sku=Console.ReadLine();
                         Console.Write("Enter Qty:");
                         var qty = Convert.ToInt16(Console.ReadLine());
-                        OrderProviders.Current.Order.AddInOrder(sku, qty);
+                        CartProviders.Current.Cart.AddInCart(sku, qty);
                         break;
                     case "3":
-                        Order order = OrderProviders.Current.Order.GetOrder();
-                        Console.WriteLine("You shoping cart (order number:"+order.Id+", state:"+order.State+"):");
+                        Cart cart = CartProviders.Current.Cart.GetCart();
                         Console.WriteLine("SKU \t Title \t\t Qty \t Price (1Qty) \t Total price");
 
-                        foreach (var item in order.Items)
+                        foreach (var item in cart.Items)
                         {
                             Console.WriteLine(item.SKU + " \t " + item.Title + "\t " 
                                 + item.Qty+" \t"+item.Price+"\t\t "+item.Price*item.Qty);
