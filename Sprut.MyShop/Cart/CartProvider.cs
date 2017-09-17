@@ -8,10 +8,9 @@ namespace Sprut.MyShop
     {
         readonly Cart _cart = new Cart(); //пустая корзина
 
-        //делаем новый заказ
+        //создаем пустую карзину
         public CartProvider()
         {
-            _cart.Id = 13; //тестовый номер
             _cart.Items = new List<CartItem>();
         }
 

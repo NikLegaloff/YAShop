@@ -8,7 +8,6 @@ namespace Sprut.MyShop
 {
     public class Cart
     {
-        public int Id { get; set; } //надо ли !!!!
         public List<CartItem> Items { get; set; }
         public decimal Total => Items.Sum(s => s.Price * s.Qty);
 
