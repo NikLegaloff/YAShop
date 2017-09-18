@@ -26,6 +26,7 @@ namespace Sprut.MyShopConsole
                 Console.WriteLine("4. Delete from cart");
                 Console.WriteLine("5. Start order");
                 Console.WriteLine("6. View order");
+                Console.WriteLine("7. Info S1");
                 Console.WriteLine("0. Exit");
                 select=Console.ReadLine();
 
@@ -78,6 +79,12 @@ namespace Sprut.MyShopConsole
                         }
                         Console.WriteLine("Total: " + torder.Items.Sum(s => s.Price * s.Qty));
                         break;
+                    case "7":
+                        var product2 = DataProviders.Current.Products.Get("S1");
+                        Console.WriteLine("SKU \t Title \t\t Price \t Description");
+                        Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
+                        break;
+                        
 
                 }
             } while (select != "0");

@@ -39,15 +39,16 @@ namespace WebAppAdmin.Controllers
             return View();
         }
 
-        public IActionResult ViewProductEdit()
+        public ActionResult ViewProductEdit()
         {
             ViewBag.product = DataProviders.Current.Products.GetAll();
-            return View(DataProviders.Current.Products.GetAll());
+            return View();
         }
 
         public ActionResult EditProduct(string sku)
         {
-            return View();
+            Product product = DataProviders.Current.Products.Get(sku);
+            return View(product);
         }
 
 

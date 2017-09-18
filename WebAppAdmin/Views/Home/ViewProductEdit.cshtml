@@ -1,4 +1,4 @@
-﻿@Model DataProviders.Current.Products
+﻿
 @{
     ViewData["Title"] = "View Product Edit";
 }
@@ -15,7 +15,7 @@
         <td></td>
     </tr>
 
-    @foreach (var p in Model)
+    @foreach (var p in ViewBag.product)
     {
         <tr>
             <td>@p.SKU</td>
