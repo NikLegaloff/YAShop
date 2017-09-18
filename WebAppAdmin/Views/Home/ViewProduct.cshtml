@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "View Product";
+}
+
+<table>
+    <tr>
+        <td>SKU</td>
+        <td>Title</td>
+        <td>Qty</td>
+        <td>Price</td>
+        <td>Image</td>
+        <td>Descripton</td>
+        <td>CategoryId</td>
+    </tr>
+
+    @foreach (var p in ViewBag.product)
+    {
+        <tr>
+            <td>@p.SKU</td>
+            <td>@p.Title</td>
+            <td>@p.Qty</td>
+            <td>@p.Price</td>
+            <td>@p.Image</td>
+            <td>@p.Descripton</td>
+            <td>@p.CategoryId</td>
+        </tr>
+    }
+    
+</table>
+
+
+
+

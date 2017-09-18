@@ -27,4 +27,18 @@ namespace Sprut.MyShop
         public ICartProvider Cart { get; set; }
 
     }
+
+    public class OrderProviders
+    {
+        private static OrderProviders _current;
+        public static OrderProviders Current => _current ?? (_current = new OrderProviders());
+
+        public OrderProviders()
+        {
+            Order = new OrderProvider();
+        }
+
+        public IOrderProvider Order { get; set; }
+
+    }
 }

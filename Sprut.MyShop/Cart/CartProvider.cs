@@ -17,6 +17,13 @@ namespace Sprut.MyShop
         // Добавить Product в корзину
         public void AddInCart(string sku,int Qty)
         {
+            CartItem item = _cart.Items.Find(x => x.SKU == sku);
+            if(item != null)
+            {
+                item.Qty += Qty;
+                return;
+            }
+            
             Product product = DataProviders.Current.Products.Get(sku);
             CartItem cartitem = new CartItem();
             cartitem.SKU = product.SKU;
@@ -32,6 +39,12 @@ namespace Sprut.MyShop
         public Cart GetCart()
         {
             return _cart;
+        }
+
+        // Удаление из корзины
+        public void DelFromCart(string sku)
+        {
+            _cart.Items.Remove(_cart.Items.Find(x => x.SKU == sku));
         }
     }
 }

@@ -1,40 +1,38 @@
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-//namespace Sprut.MyShop
-//{
-//    class OrderProvider : IOrderProvider
-//    {
-//        readonly Order _order = new Order(); //пустой заказ
+namespace Sprut.MyShop
+{
+    class OrderProvider : IOrderProvider
+    {
+        readonly Order _order = new Order(); //пустой заказ
 
-//        //делаем новый заказ
-//        public OrderProvider()
-//        {
-//            _order.Id = 13; //тестовый номер
-//            _order.State = OrderState.Created;
-//            _order.Items = new List<CartItem>();
-//            _order.Date = DateTime.Now;
-//        }
+        //делаем новый заказ
+        public string StartOrder(Cart cart)
+        {
+            _order.Number = (((int)DateTime.Now.Subtract(new DateTime(2017, 9, 15)).TotalSeconds) * 10).ToString(); //тестовый номер
+            _order.Items = new List<OrderItem>();
+            _order.Date = DateTime.Now;
+            _order.State = OrderState.Created;
 
-//        // Добавить Product в заказ
-//        public void AddInOrder(string sku,int Qty)
-//        {
-//            Product product = DataProviders.Current.Products.Get(sku);
-//            CartItem orderitem = new CartItem();
-//            orderitem.SKU = product.SKU;
-//            orderitem.Title = product.Title;
-//            orderitem.Qty = Qty;
-//            orderitem.Price = product.Price;
+            foreach(var item in cart.Items)
+            {
+                _order.Items.Add(new OrderItem{ SKU = item.SKU, Title=item.Title, Qty=item.Qty, Price=item.Price});
+            }
+            return _order.Number;
+        }
 
-//            _order.Items.Add(orderitem);
+        // Получить заказ номер... (возвращает пока только текущий)
+        public Order GetOrder(string number)
+        {
+            return _order;
+        }
 
-//        }
-
-//        // Получить список Productов
-//        public Order GetOrder()
-//        {
-//            return _order;
-//        }
-//    }
-//}
+        // Изменить статус заказа
+        public void SetOrderState(string number,OrderState state)
+        {
+            _order.State = state;
+        }
+    }
+}

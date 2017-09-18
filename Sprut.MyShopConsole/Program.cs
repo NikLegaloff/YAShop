@@ -12,6 +12,9 @@ namespace Sprut.MyShopConsole
         static void Main(string[] args)
         {
             DataProviders.Current.Products.Add(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
+            string order = null;
+
+
 
             string select = null;
             do {
@@ -20,6 +23,9 @@ namespace Sprut.MyShopConsole
                 Console.WriteLine("1. View catalog");
                 Console.WriteLine("2. Bay");
                 Console.WriteLine("3. View shoping cart");
+                Console.WriteLine("4. Delete from cart");
+                Console.WriteLine("5. Start order");
+                Console.WriteLine("6. View order");
                 Console.WriteLine("0. Exit");
                 select=Console.ReadLine();
 
@@ -52,8 +58,26 @@ namespace Sprut.MyShopConsole
 
 
                         }
+                        Console.WriteLine("Total: " + cart.Items.Sum(s => s.Price * s.Qty));
                         break;
-
+                    case "4":
+                        Console.Write("Enter SKU for Delete:");
+                        var sku_del = Console.ReadLine();
+                        CartProviders.Current.Cart.DelFromCart(sku_del);
+                        break;
+                    case "5":
+                        order = OrderProviders.Current.Order.StartOrder(CartProviders.Current.Cart.GetCart());
+                        break;
+                    case "6":
+                        var torder = OrderProviders.Current.Order.GetOrder(order);
+                        Console.WriteLine("Order number: " + torder.Number + ", date: " + torder.Date + ", state:" + torder.State);
+                        Console.WriteLine("SKU \tTitle \t\tQty \tPrice");
+                        foreach(var item in torder.Items)
+                        {
+                            Console.WriteLine(item.SKU + "\t" + item.Title + "\t" + item.Qty + "\t" + item.Price);
+                        }
+                        Console.WriteLine("Total: " + torder.Items.Sum(s => s.Price * s.Qty));
+                        break;
 
                 }
             } while (select != "0");

@@ -10,5 +10,6 @@ namespace Sprut.MyShop
     {
         void AddInCart(string sku, int Qty);
         Cart GetCart();
+        void DelFromCart(string sku);
     }
 }
