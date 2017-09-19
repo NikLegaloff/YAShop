@@ -60,6 +60,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bus\CommandBus.cs" />
+    <Compile Include="Bus\Products\AddProductToCartCommand.cs" />
+    <Compile Include="Bus\Products\AddProductToCartCommandHandler.cs" />
+    <Compile Include="Bus\ICommand.cs" />
+    <Compile Include="Bus\AbstractCommandHandler.cs" />
     <Compile Include="DomainModel\Cart.cs" />
     <Compile Include="Presistense\DomainObject.cs" />
     <Compile Include="DomainModel\Order.cs" />

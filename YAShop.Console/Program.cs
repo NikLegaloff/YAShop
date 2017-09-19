@@ -1,5 +1,6 @@
 ﻿using System;
 using YAShop.BusinessLogic;
+using YAShop.BusinessLogic.Bus.Products;
 
 
 namespace YAShop.ConsoleApp
@@ -10,8 +11,18 @@ namespace YAShop.ConsoleApp
         {
             Registry.Init(new ProgrCommonInfrProvider());
 
+            
             var cartService = Registry.Current.Services.Cart;
             var products = Registry.Current.Data.Products.Select(product => true);
+            var now = DateTime.Now;
+
+            for (int i = 0; i < 1000000; i++)
+            {
+                Registry.Current.Bus.Execute(new AddProductToCartCommand { SKU = products[0].SKU, Title = products[0].Title, QTY = 1 });
+            }
+            Console.WriteLine(DateTime.Now.Subtract(now).TotalMilliseconds);
+            Console.ReadLine();
+            return;
             cartService.Add(products[0].SKU, products[0].Title, 1);
             cartService.Add(products[1].SKU, products[1].Title, 1);
 

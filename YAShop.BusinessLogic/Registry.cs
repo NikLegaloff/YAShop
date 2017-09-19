@@ -1,4 +1,5 @@
 using System;
+using YAShop.BusinessLogic.Bus;
 using YAShop.BusinessLogic.Infrastr;
 using YAShop.BusinessLogic.Presistense;
 using YAShop.BusinessLogic.Service;
@@ -23,12 +24,14 @@ namespace YAShop.BusinessLogic
             {
                 Services = Services.Create(),
                 Infrastructure = new Infrastructure(commonInfrastructureProvider),
-                Data = new DataProviders()
+                Data = new DataProviders(),
+                Bus = new CommandBus()
             };
         }
 
         public Infrastructure Infrastructure { get; set; }
         public Services Services { get; set; }
         public DataProviders Data { get; set; }
+        public CommandBus Bus{ get; set; }
     }
 }
