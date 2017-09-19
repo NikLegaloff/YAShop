@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sprut.MyShop
 {
-    public class Product 
+    public class Product
     {
         public string SKU { get; set; }
         public string Title { get; set; }

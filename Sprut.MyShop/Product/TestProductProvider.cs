@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +7,7 @@ namespace Sprut.MyShop
 {
     class TestProductProvider : IProductProvider
     {
-        readonly List<Product> _products = new List<Product>();
+        List<Product> _products = new List<Product>();  //было readonly
 
         public TestProductProvider()
         {
@@ -31,7 +32,7 @@ namespace Sprut.MyShop
 
         public Product Get(string sku)
         {
-            return _products.FirstOrDefault(p => p.SKU == sku);
+            return _products.Find(p => p.SKU == sku);
         }
 
         public Product[] GetAll()
@@ -42,7 +43,43 @@ namespace Sprut.MyShop
 
         public void Add(Product product)
         {
-            _products.Add(product);
+            var _product = Get(product.SKU);
+
+
+            if (_product != null)
+            {
+                var _product_index = _products.IndexOf(_product);
+                _products[_product_index] = product;
+
+
+            }
+            else { _products.Add(product); }
+        }
+
+        public string[,] ImportFromExcel(string filename)
+        {
+            //имя файла для теста
+            filename = "e:\\temp\\MyShopTest.xlsx";
+            //Создаем приложение
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            //Открываем книгу
+            Microsoft.Office.Interop.Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(filename);
+            //Выбираем лист
+            Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet;
+            xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Sheets[1];
+            int usedRows = xlWorkSheet.UsedRange.Rows.Count;
+            int usedCols = xlWorkSheet.UsedRange.Columns.Count;
+            string[,] xlArray = new string[usedRows,usedCols];
+            for(int y = 0; y <= usedRows; y++)
+            {
+                for(int x=0; x <= usedCols; x++)
+                {
+                    xlArray[y,x]= (xlWorkSheet.Cells[y+1, x+1]).Text.ToString();
+                }
+            }
+            //Удаляем приложение (выходим из экселя) - ато будет висеть в процессах!
+            xlApp.Quit();
+            return xlArray;
         }
 
     }

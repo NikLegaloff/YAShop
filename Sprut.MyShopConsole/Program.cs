@@ -27,6 +27,7 @@ namespace Sprut.MyShopConsole
                 Console.WriteLine("5. Start order");
                 Console.WriteLine("6. View order");
                 Console.WriteLine("7. Info S1");
+                Console.WriteLine("8. Import from Excel");
                 Console.WriteLine("0. Exit");
                 select=Console.ReadLine();
 
@@ -83,6 +84,9 @@ namespace Sprut.MyShopConsole
                         var product2 = DataProviders.Current.Products.Get("S1");
                         Console.WriteLine("SKU \t Title \t\t Price \t Description");
                         Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
+                        break;
+                    case "8":
+                        DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
                         break;
                         
 
