@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "ViewAllProductForEdit";
+}
+
+<h2>ViewAllProductForEdit</h2>
+
+<table>
+    <tr>
+        <td>SKU</td>
+        <td>Title</td>
+        <td>Qty</td>
+        <td>Price</td>
+        <td>Image</td>
+        <td>Descripton</td>
+        <td>CategoryId</td>
+        <td></td>
+    </tr>
+
+    @foreach (var p in ViewBag.Products)
+    {
+        <tr>
+            <td>@p.SKU</td>
+            <td>@p.Title</td>
+            <td>@p.Qty</td>
+            <td>@p.Price</td>
+            <td>@p.Image</td>
+            <td>@p.Descripton</td>
+            <td>@p.CategoryId</td>
+            <td>@Html.ActionLink("Edit", "EditProduct", new { sku = p.SKU })</td>
+        </tr>
+
+
+    }
+
+</table>
+

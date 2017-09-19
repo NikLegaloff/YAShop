@@ -48,15 +48,13 @@ namespace WebAppAdmin.Controllers
         public ActionResult EditProduct(string sku)
         {
             Product product = DataProviders.Current.Products.Get(sku);
-            
             return View("EditProduct", product);
         }
         [HttpPost]
         public ActionResult EditProduct(Product product)
         {
             DataProviders.Current.Products.Add(product);
-
-            return Redirect("ViewProductEdit");
+            return Redirect("ViewAllProductForEdit");
         }
 
 

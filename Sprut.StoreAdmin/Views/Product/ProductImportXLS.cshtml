@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "ProductImportXLS";
+}
+
+<h2>ProductImportXLS</h2>
+
+
+
+
+<table>
+    <tr>
+        @for (int col = 0; col < ViewBag.xlArrayCols; col++)
+            {
+            <td>
+                <select name="@ViewBag.xlArray[0, col]">
+                    <option value="SKU" @if (@ViewBag.xlArray[0, col] == "SKU") { @Html.Raw("selected"); }>SKU</option>
+                    <option value="Title" @if (@ViewBag.xlArray[0, col] == "Title") { @Html.Raw("selected"); }>Title</option>
+
+  <option value="Price" @if (@ViewBag.xlArray[0, col] == "Price") { @Html.Raw("selected"); }>Price</option>
+
+  <option value="Qty" @if (@ViewBag.xlArray[0, col] == "Qty") { @Html.Raw("selected"); }>Qty</option>
+
+  <option value="Image" @if (@ViewBag.xlArray[0, col] == "Image") { @Html.Raw("selected"); }>Image</option>
+
+  <option value="Descripton" @if (@ViewBag.xlArray[0, col] == "Descripton") { @Html.Raw("selected"); }>Descripton</option>
+
+  <option value="CategoryId" @if (@ViewBag.xlArray[0, col] == "CategoryId") { @Html.Raw("selected"); }>CategoryId</option>
+
+</select>
+
+</td>
+        }
+    </tr>
+
+
+
+    @for(int row = 1; row < ViewBag.xlArrayRows; row++)
+    {
+        <tr>
+            @for (int col = 0; col < ViewBag.xlArrayCols; col++)
+            {
+                <td>
+                    @ViewBag.xlArray[row,col]
+                </td>
+            }
+        </tr>
+    }
+
+</table>

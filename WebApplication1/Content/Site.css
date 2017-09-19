@@ -22,14 +22,3 @@ select,
 textarea {
     max-width: 280px;
 }
-
-table {
-    border: 1px solid;
-    border-spacing: 7px;
-
-}
-
-TH, TD {
-    border: 1px solid black; /* Параметры рамки */
-    padding: 4px; /* Поля вокруг текста */
-}

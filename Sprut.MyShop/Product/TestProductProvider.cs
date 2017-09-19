@@ -17,7 +17,7 @@ namespace Sprut.MyShop
                 Title = "Test product 1",
                 Price = 12.5m,
                 Qty = 5,
-                Descripton = "Product 1 description<br>with html"
+                Descripton = "Product 1 description"
             });
             _products.Add(new Product
             {
@@ -25,7 +25,7 @@ namespace Sprut.MyShop
                 Title = "Test product 2",
                 Price = 12.0m,
                 Qty = 10,
-                Descripton = "Product 2 description<br>with html"
+                Descripton = "Product 2 description"
             });
 
         }
@@ -59,7 +59,7 @@ namespace Sprut.MyShop
         public string[,] ImportFromExcel(string filename)
         {
             //имя файла для теста
-            filename = "e:\\temp\\MyShopTest.xlsx";
+            //filename = "e:\\temp\\MyShopTest.xlsx";
             //Создаем приложение
             Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
             //Открываем книгу
@@ -70,9 +70,9 @@ namespace Sprut.MyShop
             int usedRows = xlWorkSheet.UsedRange.Rows.Count;
             int usedCols = xlWorkSheet.UsedRange.Columns.Count;
             string[,] xlArray = new string[usedRows,usedCols];
-            for(int y = 0; y <= usedRows; y++)
+            for(int y = 0; y < usedRows; y++)
             {
-                for(int x=0; x <= usedCols; x++)
+                for(int x=0; x < usedCols; x++)
                 {
                     xlArray[y,x]= (xlWorkSheet.Cells[y+1, x+1]).Text.ToString();
                 }
