@@ -44,13 +44,28 @@ namespace WebAppAdmin.Controllers
             ViewBag.product = DataProviders.Current.Products.GetAll();
             return View();
         }
-
+        [HttpGet]
         public ActionResult EditProduct(string sku)
         {
             Product product = DataProviders.Current.Products.Get(sku);
-            return View(product);
+            
+            return View("EditProduct", product);
+        }
+        [HttpPost]
+        public ActionResult EditProduct(Product product)
+        {
+            DataProviders.Current.Products.Add(product);
+
+            return Redirect("ViewProductEdit");
         }
 
+
+        public IActionResult ProductImport()
+        {
+            var xlArray = DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
+            ViewBag.xlArray = xlArray;
+            return View();
+        }
 
     }
 }
