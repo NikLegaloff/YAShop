@@ -1,0 +1,1 @@
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Sprut.StoreAdmin.MvcApplication" Language="C#" %>
