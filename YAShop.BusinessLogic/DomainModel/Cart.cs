@@ -4,6 +4,15 @@ namespace YAShop.BusinessLogic.DomainModel
 {
     public class CartItem
     {
+        public CartItem(string sku, string title, int qty)
+        {
+            SKU = sku;
+            Title = title;
+            QTY = qty;
+        }
+
+        public CartItem() { }
+
         public string SKU { get; set; }
         public string Title { get; set; }
         public int QTY { get; set; }

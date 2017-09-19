@@ -1,4 +1,5 @@
 using System;
+using YAShop.BusinessLogic.DomainModel;
 
 namespace YAShop.BusinessLogic.Bus.Products
 {
@@ -8,7 +9,8 @@ namespace YAShop.BusinessLogic.Bus.Products
 
         public override void Process(AddProductToCartCommand command)
         {
-            Registry.Current.Services.Cart.Add(command.SKU, command.Title, command.QTY);
+            var cart = Registry.Current.Services.Cart.GetCart();
+            cart.Items.Add(new CartItem(command.SKU, command.Title, command.QTY));
         }
     }
 }
