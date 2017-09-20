@@ -41,4 +41,18 @@ namespace Sprut.MyShop
         public IOrderProvider Order { get; set; }
 
     }
+
+    public class CategoryProviders
+    {
+        private static CategoryProviders _current;
+        public static CategoryProviders Current => _current ?? (_current = new CategoryProviders());
+
+        public CategoryProviders()
+        {
+            Category = new CategoryProvider();
+        }
+
+        public ICategoryProvider Category { get; set; }
+
+    }
 }

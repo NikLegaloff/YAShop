@@ -29,6 +29,7 @@ namespace Sprut.MyShopConsole
                 Console.WriteLine("7. Info S1");
                 Console.WriteLine("8. Import from Excel");
                 Console.WriteLine("9. Add from Excel");
+                Console.WriteLine("10. Build Category Tree");
                 Console.WriteLine("0. Exit");
                 select=Console.ReadLine();
 
@@ -107,6 +108,14 @@ namespace Sprut.MyShopConsole
                                 DataProviders.Current.Products.Add(_product_temp);
                             }
                             break;
+                     case "10":
+                        var categorytree = CategoryProviders.Current.Category.TextCategoryTree(0);
+                        foreach(var cat in categorytree)
+                        {
+                            Console.WriteLine(cat[0] + "\t" + cat[1]);
+                        }
+                        break;
+
 
                 }
             } while (select != "0");

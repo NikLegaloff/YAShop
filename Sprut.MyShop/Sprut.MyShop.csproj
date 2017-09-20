@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Category\Category.cs" />
+    <Compile Include="Category\CategoryProvider.cs" />
+    <Compile Include="Category\ICategoryProvider.cs" />
     <Compile Include="Order\Order.cs" />
     <Compile Include="Order\IOrdertProvider.cs" />
     <Compile Include="Order\OrderProvider.cs" />
