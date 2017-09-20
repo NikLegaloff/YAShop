@@ -1,0 +1,24 @@
+﻿@model Sprut.MyShop.Product
+@{
+    ViewBag.Title = "EditProduct";
+}
+
+<h2>EditProduct</h2>
+
+Редактирование выбранного SKU
+
+@using (Html.BeginForm())
+{
+    <p>SKU @Html.EditorFor(m => m.SKU)</p>
+    <p>Title @Html.EditorFor(m => m.Title)</p>
+    <p>Price @Html.EditorFor(m => m.Price)</p>
+    <p>Qty @Html.EditorFor(m => m.Qty)</p>
+    <p>Image @Html.EditorFor(m => m.Image)</p>
+    <p>Descriton @Html.EditorFor(m => m.Descripton)</p>
+    <p>Category @Html.EditorFor(m => m.CategoryId)</p>
+
+
+    <input type="submit" value="Добавить" />
+
+}
+

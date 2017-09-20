@@ -1,11 +1,8 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "ProductImportXLS";
 }
 
 <h2>ProductImportXLS</h2>
-
-
 
 
 <table>
@@ -48,3 +45,10 @@
     }
 
 </table>
+
+
+@using (Html.BeginForm()) { 
+    
+<input type="submit" value="Импорт" />
+
+}

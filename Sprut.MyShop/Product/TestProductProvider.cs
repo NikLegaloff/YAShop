@@ -32,7 +32,7 @@ namespace Sprut.MyShop
 
         public Product Get(string sku)
         {
-            return _products.Find(p => p.SKU == sku);
+            return _products.FirstOrDefault(p => p.SKU == sku);
         }
 
         public Product[] GetAll()
@@ -54,6 +54,12 @@ namespace Sprut.MyShop
 
             }
             else { _products.Add(product); }
+        }
+
+        public void Delete(string sku)
+        {
+            var _product= _products.FirstOrDefault(p => p.SKU == sku);
+            _products.Remove(_product);
         }
 
         public string[,] ImportFromExcel(string filename)

@@ -28,6 +28,7 @@ namespace Sprut.MyShopConsole
                 Console.WriteLine("6. View order");
                 Console.WriteLine("7. Info S1");
                 Console.WriteLine("8. Import from Excel");
+                Console.WriteLine("9. Add from Excel");
                 Console.WriteLine("0. Exit");
                 select=Console.ReadLine();
 
@@ -88,7 +89,24 @@ namespace Sprut.MyShopConsole
                     case "8":
                         DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
                         break;
-                        
+                    case "9":
+                            //для теста добавления в базу, по идее нужно с представления возвращать данные для добавления
+                            var xlArray = DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
+                            
+                            for (int i = 1; i < xlArray.GetLength(0); i++)
+                            {
+                            Product _product_temp = new Product();
+                            _product_temp.SKU = xlArray[i, 0];
+                                _product_temp.Title = xlArray[i, 1];
+                                _product_temp.Price = Decimal.Parse(xlArray[i, 2]);
+                                _product_temp.Qty = Int16.Parse(xlArray[i, 3]);
+                                _product_temp.Image = xlArray[i, 4];
+                                _product_temp.Descripton = xlArray[i, 5];
+                                //_product.CategoryId = Guid.Parse(xlArray[i, 6]); не решено с категорией
+
+                                DataProviders.Current.Products.Add(_product_temp);
+                            }
+                            break;
 
                 }
             } while (select != "0");

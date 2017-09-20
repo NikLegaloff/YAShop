@@ -6,6 +6,7 @@ namespace Sprut.MyShop
     {
         Product Get(string sku);
         void Add(Product product);
+        void Delete(string sku);
         Product[] GetAll();
         string[,] ImportFromExcel(string filename);
 
