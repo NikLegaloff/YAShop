@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using YAShop.BusinessLogic.Bus.Products;
 
 namespace YAShop.BusinessLogic.Bus
 {
@@ -17,16 +16,18 @@ namespace YAShop.BusinessLogic.Bus
             object inst;
             var commandType = command.GetType();
 
-            if (!_handlers.ContainsKey(commandType)) { 
-                var name = commandType.FullName+ "Handler";
-                var assembly = Assembly.GetAssembly(GetType());
-                var type = assembly.GetType(name,false,true);
-                inst = Activator.CreateInstance(type, args:this);
-                _handlers.Add(commandType, inst);
+            lock (_handlers)
+            {
+                if (!_handlers.ContainsKey(commandType)) { 
+                    var name = commandType.FullName+ "Handler";
+                    var assembly = Assembly.GetAssembly(GetType());
+                    var type = assembly.GetType(name,false,true);
+                    inst = Activator.CreateInstance(type, args:this);
+                    _handlers.Add(commandType, inst);
+                }
+                else
+                    inst =_handlers[commandType];
             }
-            else
-                inst =_handlers[commandType];
-
             MethodInfo method = inst.GetType().GetMethod("Process");
             method.Invoke(inst, new []{command});
         }

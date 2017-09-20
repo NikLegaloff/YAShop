@@ -34,6 +34,10 @@ namespace Sprut.MyShop
             _categorys.Add(category);
         }
 
+        public List<Category> GetTree()
+        {
+            
+        }
         public List<string[]> TextCategoryTree(int root_parentid)
         {
             _cattree.Clear();
