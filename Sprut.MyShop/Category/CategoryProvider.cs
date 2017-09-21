@@ -26,6 +26,7 @@ namespace Sprut.MyShop
             _categorys.Add(new Category { Id = 7, Parent_id = 1, Name = "Cat7-1" });
             _categorys.Add(new Category { Id = 8, Parent_id = 1, Name = "Cat8-1" });
             _categorys.Add(new Category { Id = 9, Parent_id = 3, Name = "Cat9-3" });
+            _categorys.Add(new Category { Id = 10, Parent_id = 4, Name = "Cat10-4" });
         }
 
         public void Add(Category category)
@@ -34,18 +35,18 @@ namespace Sprut.MyShop
             _categorys.Add(category);
         }
 
-        public List<string[]> TextCategoryTree(int root_parentid)
+        public List<string[]> TextCategoryTree(int rootParentid)
         {
             _cattree.Clear();
             _r = 0;
-            BuildTree(root_parentid);
+            BuildTree(rootParentid);
             return (_cattree);
         }
 
 
-        void BuildTree(int root_parentid)
+        void BuildTree(int rootParentid)
         {
-            foreach (var cat in _categorys.FindAll(c => c.Parent_id == root_parentid))
+            foreach (var cat in _categorys.FindAll(c => c.Parent_id == rootParentid))
             {
                 _cattree.Add(new string[] { new string('-',_r) + " " + cat.Name, cat.Id.ToString() });
                 _r++;
