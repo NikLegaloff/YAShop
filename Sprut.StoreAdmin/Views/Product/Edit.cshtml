@@ -9,7 +9,7 @@
 
 @using (Html.BeginForm())
 {
-    <p>SKU @Html.DisplayFor(m => m.SKU)</p>
+    <p>SKU @Html.EditorFor(m => m.SKU)</p>
     <p>Title @Html.EditorFor(m => m.Title)</p>
     <p>Price @Html.EditorFor(m => m.Price)</p>
     <p>Qty @Html.EditorFor(m => m.Qty)</p>
@@ -18,7 +18,7 @@
     <p>Category @Html.EditorFor(m => m.CategoryId)</p>
 
 
-    <input type="submit" value="Изменить" />
+    <input type="submit" value="@ViewBag.Action" />
 
 }
 

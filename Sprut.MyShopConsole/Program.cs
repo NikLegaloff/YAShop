@@ -109,10 +109,10 @@ namespace Sprut.MyShopConsole
                             }
                             break;
                      case "10":
-                        var categorytree = CategoryProviders.Current.Category.TextCategoryTree(0);
+                        var categorytree = CategoryProviders.Current.Category.GetTree();
                         foreach(var cat in categorytree)
                         {
-                            Console.WriteLine(cat[0] + "\t" + cat[1]);
+                            Console.WriteLine(cat.Name + "\t" + cat.Id);
                         }
                         break;
 

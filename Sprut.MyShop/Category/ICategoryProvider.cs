@@ -9,6 +9,6 @@ namespace Sprut.MyShop
     public interface ICategoryProvider
     {
         void Add(Category category);
-        List<string[]> TextCategoryTree(int root_parentid);
+        List<Category> GetTree();
     }
 }

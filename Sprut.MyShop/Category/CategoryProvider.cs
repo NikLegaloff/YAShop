@@ -12,21 +12,35 @@ namespace Sprut.MyShop
         List<Category> _categorys = new List<Category>();
 
 
-        List<string[]> _cattree = new List<string[]>();
+        List<Category> _cattree = new List<Category>();
         int _r = 0;
+        Guid i0 = Guid.NewGuid();
 
         public CategoryProvider()
         {
-            _categorys.Add(new Category { Id = 1, Parent_id = 0, Name = "CatRoot1" });
-            _categorys.Add(new Category { Id = 2, Parent_id = 0, Name = "CatRoot2" });
-            _categorys.Add(new Category { Id = 3, Parent_id = 0, Name = "CatRoot3" });
-            _categorys.Add(new Category { Id = 4, Parent_id = 1, Name = "Cat4-1" });
-            _categorys.Add(new Category { Id = 5, Parent_id = 3, Name = "Cat5-3" });
-            _categorys.Add(new Category { Id = 6, Parent_id = 2, Name = "Cat6-2" });
-            _categorys.Add(new Category { Id = 7, Parent_id = 1, Name = "Cat7-1" });
-            _categorys.Add(new Category { Id = 8, Parent_id = 1, Name = "Cat8-1" });
-            _categorys.Add(new Category { Id = 9, Parent_id = 3, Name = "Cat9-3" });
-            _categorys.Add(new Category { Id = 10, Parent_id = 4, Name = "Cat10-4" });
+            
+            var i1 = Guid.NewGuid();
+            var i2 = Guid.NewGuid();
+            var i3 = Guid.NewGuid();
+            var i4 = Guid.NewGuid();
+            var i5 = Guid.NewGuid();
+            var i6 = Guid.NewGuid();
+            var i7 = Guid.NewGuid();
+            var i8 = Guid.NewGuid();
+            var i9 = Guid.NewGuid();
+            var i10 = Guid.NewGuid();
+            
+
+            _categorys.Add(new Category { Id = i1, ParentId = i0, Name = "CatRoot1" });
+            _categorys.Add(new Category { Id = i2, ParentId = i0, Name = "CatRoot2" });
+            _categorys.Add(new Category { Id = i3, ParentId = i0, Name = "CatRoot3" });
+            _categorys.Add(new Category { Id = i4, ParentId = i4, Name = "Cat4-1" });
+            _categorys.Add(new Category { Id = i5, ParentId = i3, Name = "Cat5-3" });
+            _categorys.Add(new Category { Id = i6, ParentId = i2, Name = "Cat6-2" });
+            _categorys.Add(new Category { Id = i7, ParentId = i1, Name = "Cat7-1" });
+            _categorys.Add(new Category { Id = i8, ParentId = i1, Name = "Cat8-1" });
+            _categorys.Add(new Category { Id = i9, ParentId = i3, Name = "Cat9-3" });
+            _categorys.Add(new Category { Id = i10, ParentId = i4, Name = "Cat10-4" });
         }
 
         public void Add(Category category)
@@ -35,28 +49,20 @@ namespace Sprut.MyShop
             _categorys.Add(category);
         }
 
-<<<<<<< HEAD
-        public List<string[]> TextCategoryTree(int rootParentid)
-=======
         public List<Category> GetTree()
-        {
-            
-        }
-        public List<string[]> TextCategoryTree(int root_parentid)
->>>>>>> 2628bf27ff08288e8c52de0f99de37f8dd7e55e1
         {
             _cattree.Clear();
             _r = 0;
-            BuildTree(rootParentid);
+            BuildTree(i0);
             return (_cattree);
         }
 
 
-        void BuildTree(int rootParentid)
+        void BuildTree(Guid rootParentid)
         {
-            foreach (var cat in _categorys.FindAll(c => c.Parent_id == rootParentid))
+            foreach (var cat in _categorys.FindAll(c => c.ParentId == rootParentid))
             {
-                _cattree.Add(new string[] { new string('-',_r) + " " + cat.Name, cat.Id.ToString() });
+                _cattree.Add(new Category { Name=new string('-',_r) + " " + cat.Name, Id = cat.Id});
                 _r++;
                 BuildTree(cat.Id);
                 _r--;

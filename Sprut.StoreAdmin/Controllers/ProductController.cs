@@ -12,57 +12,41 @@ namespace Sprut.StoreAdmin.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult ViewAllProduct()
-        {
             ViewBag.Products = DataProviders.Current.Products.GetAll();
             return View();
         }
-
-
-        public ActionResult ViewAllProductForEdit()
-        {
-            ViewBag.Products = DataProviders.Current.Products.GetAll();
-            return View();
-        }
-
 
         [HttpGet]
-        public ActionResult EditProduct(string sku)
+        public ActionResult Edit(string sku)
         {
-            Product product = DataProviders.Current.Products.Get(sku);
-            return View("EditProduct", product);
+            Product product;
+            if (sku==null)
+            {
+                product = new Product();
+                ViewBag.Action = "Добавить";
+            }
+            else
+            {
+                product = DataProviders.Current.Products.Get(sku);
+                ViewBag.Action = "Изменить";
+            }
+            return View("Edit", product);
         }
         [HttpPost]
-        public ActionResult EditProduct(Product product)
+        public ActionResult Edit(Product product)
         {
             DataProviders.Current.Products.Add(product);
-            return Redirect("ViewAllProductForEdit");
+            return Redirect("Index");
         }
         public ActionResult DeleteProduct(string sku)
         {
             DataProviders.Current.Products.Delete(sku);
-            return Redirect("ViewAllProductForEdit");
+            return Redirect("Index");
 
         }
 
         [HttpGet]
-        public ActionResult AddProduct()
-        {
-            Product product = new Product();
-            return View("AddProduct", product);
-        }
-        [HttpPost]
-        public ActionResult AddProduct(Product product)
-        {
-            DataProviders.Current.Products.Add(product);
-            return Redirect("ViewAllProduct");
-        }
-
-        [HttpGet]
-        public ActionResult ProductImportXLS()
+        public ActionResult ImportXLS()
         {
             var xlArray = DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
             ViewBag.xlArray = xlArray;
@@ -71,7 +55,7 @@ namespace Sprut.StoreAdmin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult ProductImportXLS(string temp)
+        public ActionResult ImportXLS(string temp)
         {
             //для теста добавления в базу, по идее нужно с представления возвращать данные для добавления
             var xlArray = DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
@@ -88,7 +72,7 @@ namespace Sprut.StoreAdmin.Controllers
 
                 DataProviders.Current.Products.Add(_product_temp);
             }
-            return View("Index");
+            return Redirect("Index");
         }
     }
 }

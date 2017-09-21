@@ -5,8 +5,41 @@
 
 <h2>Index</h2>
 
-<a href="~/Product/ViewAllProduct">Просмотр списка продуктов</a><br />
-<a href="~/Product/ViewAllProductForEdit">Выбор продукта для редактирования</a><br />
-<a href="~/Product/ProductImportXLS">Импорт продуктов из файла</a><br />
-<a href="~/Product/AddProduct">Добавить новый продукт</a><br />
+<a href="~/Product/ImportXLS">Импорт продуктов из файла Excel</a><br />
+<a href="~/Product/Edit">Добавить новый продукт</a><br />
+
+<h2>ViewAllProduct</h2>
+
+<table>
+    <tr>
+        <td>SKU</td>
+        <td>Title</td>
+        <td>Qty</td>
+        <td>Price</td>
+        <td>Image</td>
+        <td>Descripton</td>
+        <td>CategoryId</td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    @foreach (var p in ViewBag.Products)
+    {
+        <tr>
+            <td>@p.SKU</td>
+            <td>@p.Title</td>
+            <td>@p.Qty</td>
+            <td>@p.Price</td>
+            <td>@p.Image</td>
+            <td>@p.Descripton</td>
+            <td>@p.CategoryId</td>
+            <td>@Html.ActionLink("Edit", "Edit", new { sku = p.SKU })</td>
+            <td>@Html.ActionLink("Delete", "DeleteProduct", new { sku = p.SKU })</td>
+        </tr>
+
+
+    }
+
+</table>
+
 
