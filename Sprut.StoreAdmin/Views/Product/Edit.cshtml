@@ -5,7 +5,13 @@
 
 <h2>EditProduct</h2>
 
-Редактирование выбранного SKU
+@if (Model.SKU!=null) {
+    @Html.Label("Редактирование выбранного SKU");
+}
+else
+{
+    @Html.Label("Добавление нового SKU");
+}
 
 @using (Html.BeginForm())
 {

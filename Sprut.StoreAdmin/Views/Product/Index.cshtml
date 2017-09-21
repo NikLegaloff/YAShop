@@ -1,4 +1,4 @@
-﻿
+﻿@model Sprut.StoreAdmin.Models.FilterViewModels
 @{
     ViewBag.Title = "Index";
 }
@@ -7,6 +7,57 @@
 
 <a href="~/Product/ImportXLS">Импорт продуктов из файла Excel</a><br />
 <a href="~/Product/Edit">Добавить новый продукт</a><br />
+
+<div>
+    <h3>Фильтр</h3>
+
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.Label("Category") 
+            <select name="category">
+                @foreach(var o in ViewBag.Categorys)
+                {
+                    <option value="@o.Id">@o.Name</option>
+                }
+            </select>
+        
+            <br />
+
+            @Html.Label("Product name:")
+        @Html.EditorFor(m => m.Name)
+
+        <br />
+
+        @Html.Label("Sort:")
+            
+
+              @Html.DropDownListFor(m => m.Sort, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "No"  },
+                       new { value = 1 , text = "Min->Max" },
+                       new { value = 2 , text = "Max->Min"}
+                    },
+                  "value",
+                  "text",
+                   2))
+
+            <br />
+
+            @Html.Label("Price:") @Html.Editor("minPrice") @Html.Label(" to ") @Html.Editor("maxPrice")
+
+
+
+            <input type="submit" value="Applay" />
+            <input type="reset" value="Reset" />
+            }
+</div>
+
+
+
+
+
 
 <h2>ViewAllProduct</h2>
 
@@ -38,7 +89,7 @@
         </tr>
 
 
-    }
+        }
 
 </table>
 

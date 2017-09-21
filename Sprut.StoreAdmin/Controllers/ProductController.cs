@@ -4,17 +4,40 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Sprut.MyShop;
+using Sprut.StoreAdmin.Models;
 
 namespace Sprut.StoreAdmin.Controllers
 {
     public class ProductController : Controller
     {
-        // GET: Product
-        public ActionResult Index()
+        readonly FilterViewModels _filter = new FilterViewModels();
+
+        public ActionResult Index(FilterViewModels _filter)
         {
-            ViewBag.Products = DataProviders.Current.Products.GetAll();
-            return View();
+            List<Product> products = DataProviders.Current.Products.GetAll().ToList();
+
+            if (_filter.Name != "")
+            {
+                products = products.FindAll(p => p.Title.Contains(_filter.Name)==true);
+            }
+
+            switch (_filter.Sort)
+            {
+                case 1:
+                    products = products.OrderBy(p=>p.Price);
+                    break;
+                case 2:
+                    products = products.FindAll(p => p.Title.Contains(_filter.Name) == true);
+                    break;
+            }
+           
+
+            ViewBag.Products = products;
+            ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
+            return View(_filter);
         }
+
+
 
         [HttpGet]
         public ActionResult Edit(string sku)
@@ -48,7 +71,7 @@ namespace Sprut.StoreAdmin.Controllers
         [HttpGet]
         public ActionResult ImportXLS()
         {
-            var xlArray = DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
+            var xlArray = DataProviders.Current.Products.ImportFromExcel("d:\\temp\\MyShopTest.xlsx");
             ViewBag.xlArray = xlArray;
             ViewBag.xlArrayRows = xlArray.GetLength(0);
             ViewBag.xlArrayCols = xlArray.GetLength(1);
@@ -58,7 +81,7 @@ namespace Sprut.StoreAdmin.Controllers
         public ActionResult ImportXLS(string temp)
         {
             //для теста добавления в базу, по идее нужно с представления возвращать данные для добавления
-            var xlArray = DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
+            var xlArray = DataProviders.Current.Products.ImportFromExcel("d:\\temp\\MyShopTest.xlsx");
             for(int i = 1; i < xlArray.GetLength(0); i++)
             {
                 Product _product_temp = new Product();
@@ -74,5 +97,6 @@ namespace Sprut.StoreAdmin.Controllers
             }
             return Redirect("Index");
         }
+
     }
 }
