@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sprut.MyShop
 {
-    public class Product
+    public class Product : DomainObject
     {
         public string SKU { get; set; }
         public string Title { get; set; }
@@ -14,6 +14,7 @@ namespace Sprut.MyShop
         public string Image { get; set; }
         public string Descripton { get; set; }
         public Guid CategoryId { get; set; }
+        public Category Category => DataProviders.Current.Categories.Find(CategoryId);
 
 
     }

@@ -1,16 +1,58 @@
+using System;
+using System.Collections.Generic;
+
 namespace Sprut.MyShop
 {
+    public class DomainObject
+    {
+        public DomainObject()
+        {
+            Id=Guid.Empty;
+        }
+
+        public Guid Id { get; set; }
+    }
+
+    public interface IDataProvider<T> where T : DomainObject
+    {
+        T Find(Guid id);
+        void Save(T subj);
+        void Delete(T subj);
+        List<T> Select(string query, dynamic param);
+    }
+
+    public class SQLDataProvider<T> : IDataProvider<T> where T : DomainObject
+    {
+        public T Find(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Save(T subj)
+        {
+            
+            throw new NotImplementedException();
+        }
+
+        public void Delete(T subj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<T> Select(string query, dynamic param)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class DataProviders
     {
         private static DataProviders _current;
         public static DataProviders Current => _current ?? (_current = new DataProviders());
 
-        public DataProviders()
-        {
-            Products = new TestProductProvider();
-        }
+        public SQLDataProvider<Product> Products = new SQLDataProvider<Product>();
+        public SQLDataProvider<Category> Categories = new SQLDataProvider<Category>();
 
-        public IProductProvider Products { get; private set; }
 
     }
 
