@@ -10,5 +10,6 @@ namespace Sprut.MyShop
     {
         void Add(Category category);
         List<Category> GetTree();
+        Category Get(Guid guid);
     }
 }

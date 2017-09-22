@@ -45,8 +45,18 @@ namespace Sprut.MyShop
 
         public void Add(Category category)
         {
-            //автоматическое ID не реалезованно
-            _categorys.Add(category);
+            var _category = Get(category.Id);
+
+
+            if (_category != null)
+            {
+                var categoryIndex = _categorys.IndexOf(_category);
+                _categorys[categoryIndex] = category;
+            }
+            else
+            {
+                _categorys.Add(category);
+            }
         }
 
         public List<Category> GetTree()
@@ -67,6 +77,11 @@ namespace Sprut.MyShop
                 BuildTree(cat.Id);
                 _r--;
             }
+        }
+
+        public Category Get(Guid guid)
+        {
+            return(_categorys.FirstOrDefault(c => c.Id == guid));
         }
     }
 

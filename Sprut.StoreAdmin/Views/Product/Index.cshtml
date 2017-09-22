@@ -7,51 +7,53 @@
 
 <a href="~/Product/ImportXLS">Импорт продуктов из файла Excel</a><br />
 <a href="~/Product/Edit">Добавить новый продукт</a><br />
+<a href="~/Product/Category">Работа с категориями</a><br />
 
 <div>
     <h3>Фильтр</h3>
 
 
-
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Filter"))
     {
-        @Html.Label("Category") 
-            <select name="category">
-                @foreach(var o in ViewBag.Categorys)
-                {
-                    <option value="@o.Id">@o.Name</option>
-                }
-            </select>
-        
-            <br />
+        @Html.Label("Category")
+        <select name="category">
+            @foreach (var o in ViewBag.Categorys)
+            {
+                <option value="@o.Id">@o.Name</option>
+            }
+        </select>
 
-            @Html.Label("Product name:")
+        <br/>
+
+        @Html.Label("Product name:")
         @Html.EditorFor(m => m.Name)
 
-        <br />
+        <br/>
 
         @Html.Label("Sort:")
-            
-
-              @Html.DropDownListFor(m => m.Sort, new SelectList(
-                  new List<Object>{
-                       new { value = 0 , text = "No"  },
-                       new { value = 1 , text = "Min->Max" },
-                       new { value = 2 , text = "Max->Min"}
-                    },
-                  "value",
-                  "text",
-                   2))
-
-            <br />
-
-            @Html.Label("Price:") @Html.Editor("minPrice") @Html.Label(" to ") @Html.Editor("maxPrice")
 
 
+        @Html.DropDownListFor(m => m.Sort, new SelectList(
+            new List<Object>
+            {
+                new {value = 0, text = "No"},
+                new {value = 1, text = "Min->Max"},
+                new {value = 2, text = "Max->Min"}
+            },
+            "value",
+            "text",
+            2))
 
-            <input type="submit" value="Applay" />
-            <input type="reset" value="Reset" />
-            }
+        <br/>
+
+        @Html.Label("Price:")
+        @Html.EditorFor(m => m.minPrice)
+        @Html.Label(" to ")
+        @Html.EditorFor(m => m.maxPrice)
+
+
+        <input type="submit" value="Applay"/>
+    }
 </div>
 
 
@@ -59,38 +61,38 @@
 
 
 
-<h2>ViewAllProduct</h2>
+    <h2>ViewAllProduct</h2>
 
-<table>
-    <tr>
-        <td>SKU</td>
-        <td>Title</td>
-        <td>Qty</td>
-        <td>Price</td>
-        <td>Image</td>
-        <td>Descripton</td>
-        <td>CategoryId</td>
-        <td></td>
-        <td></td>
-    </tr>
-
-    @foreach (var p in ViewBag.Products)
-    {
+    <table>
         <tr>
-            <td>@p.SKU</td>
-            <td>@p.Title</td>
-            <td>@p.Qty</td>
-            <td>@p.Price</td>
-            <td>@p.Image</td>
-            <td>@p.Descripton</td>
-            <td>@p.CategoryId</td>
-            <td>@Html.ActionLink("Edit", "Edit", new { sku = p.SKU })</td>
-            <td>@Html.ActionLink("Delete", "DeleteProduct", new { sku = p.SKU })</td>
+            <td>SKU</td>
+            <td>Title</td>
+            <td>Qty</td>
+            <td>Price</td>
+            <td>Image</td>
+            <td>Descripton</td>
+            <td>CategoryId</td>
+            <td></td>
+            <td></td>
         </tr>
+
+        @foreach (var p in ViewBag.Products)
+        {
+            <tr>
+                <td>@p.SKU</td>
+                <td>@p.Title</td>
+                <td>@p.Qty</td>
+                <td>@p.Price</td>
+                <td>@p.Image</td>
+                <td>@p.Descripton</td>
+                <td>@p.CategoryId</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { sku = p.SKU })</td>
+                <td>@Html.ActionLink("Delete", "DeleteProduct", new { sku = p.SKU })</td>
+            </tr>
 
 
         }
 
-</table>
+    </table>
 
 

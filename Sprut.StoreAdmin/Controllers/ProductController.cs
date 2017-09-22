@@ -16,7 +16,7 @@ namespace Sprut.StoreAdmin.Controllers
         {
             List<Product> products = DataProviders.Current.Products.GetAll().ToList();
 
-            if (_filter.Name != "")
+            if (_filter.Name != null)
             {
                 products = products.FindAll(p => p.Title.Contains(_filter.Name)==true);
             }
@@ -24,19 +24,29 @@ namespace Sprut.StoreAdmin.Controllers
             switch (_filter.Sort)
             {
                 case 1:
-                    products = products.OrderBy(p=>p.Price);
+                    products = products.OrderBy(p=>p.Price).ToList();
                     break;
                 case 2:
-                    products = products.FindAll(p => p.Title.Contains(_filter.Name) == true);
+                    products = products.OrderByDescending(p => p.Price).ToList();
                     break;
             }
-           
+
+            if (_filter.minPrice > 0)
+            {
+                products = products.FindAll(p => p.Price > _filter.minPrice);
+            }
+
+            if (_filter.maxPrice > 0)
+            {
+                products = products.FindAll(p => p.Price < _filter.maxPrice);
+            }
 
             ViewBag.Products = products;
             ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
             return View(_filter);
         }
 
+  
 
 
         [HttpGet]
@@ -96,6 +106,44 @@ namespace Sprut.StoreAdmin.Controllers
                 DataProviders.Current.Products.Add(_product_temp);
             }
             return Redirect("Index");
+        }
+
+        public ActionResult Category()
+        {
+            ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CatEdit(string guid, string act)
+        {
+            Category _category;
+
+            Guid _parse;
+            Guid.TryParse(guid, out _parse);
+
+            if (act == "new")
+            {
+                _category = new Category()
+                {
+                    Id = Guid.NewGuid(),
+                    ParentId = _parse
+                };
+                ViewBag.Action = "Добавить";
+            }
+            else
+            {
+
+                _category = CategoryProviders.Current.Category.Get(_parse);
+                ViewBag.Action = "Изменить";
+            }
+            return View("CatEdit", _category);
+        }
+        [HttpPost]
+        public ActionResult CatEdit(Category Category)
+        {
+            CategoryProviders.Current.Category.Add(Category);
+            return Redirect("Category");
         }
 
     }

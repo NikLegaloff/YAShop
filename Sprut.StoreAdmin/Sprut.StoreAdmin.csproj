@@ -271,6 +271,8 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\ImportXLS.cshtml" />
+    <Content Include="Views\Product\Category.cshtml" />
+    <Content Include="Views\Product\CatEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
