@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sprut.MyShop.Infrastructure;
 
-namespace Sprut.MyShop
+namespace Sprut.MyShop.Domain
 {
     public class Product : DomainObject
     {
@@ -14,7 +15,7 @@ namespace Sprut.MyShop
         public string Image { get; set; }
         public string Descripton { get; set; }
         public Guid CategoryId { get; set; }
-        public Category Category => DataProviders.Current.Categories.Find(CategoryId);
+        public Category Category => Registry.Current.Categories.Find(CategoryId);
 
 
     }

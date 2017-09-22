@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sprut.MyShop;
+using Sprut.MyShop.Domain;
+using Sprut.MyShop.Infrastructure;
 
 namespace Sprut.MyShopConsole
 {
@@ -11,7 +13,9 @@ namespace Sprut.MyShopConsole
     {
         static void Main(string[] args)
         {
-            DataProviders.Current.Products.Add(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
+            Registry.Init(new ConsoleCommonInfrastructureProvider());
+
+            Registry.Current.Products.Save(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
             string order = null;
 
 
@@ -36,7 +40,7 @@ namespace Sprut.MyShopConsole
                 switch (select)
                 {
                     case "1":
-                        var allProducts = DataProviders.Current.Products.GetAll();
+                        var allProducts = Registry.Current.Products.Select();
                         Console.WriteLine("SKU \t Title \t\t Price \t Description");
                         foreach (var product in allProducts)
                         {
@@ -83,16 +87,16 @@ namespace Sprut.MyShopConsole
                         Console.WriteLine("Total: " + torder.Items.Sum(s => s.Price * s.Qty));
                         break;
                     case "7":
-                        var product2 = DataProviders.Current.Products.Get("S1");
+                        var product2 = Registry.Current.Products.Get("S1");
                         Console.WriteLine("SKU \t Title \t\t Price \t Description");
                         Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
                         break;
                     case "8":
-                        DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
+                        Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
                         break;
                     case "9":
                             //для теста добавления в базу, по идее нужно с представления возвращать данные для добавления
-                            var xlArray = DataProviders.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
+                            var xlArray = Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
                             
                             for (int i = 1; i < xlArray.GetLength(0); i++)
                             {
@@ -105,7 +109,7 @@ namespace Sprut.MyShopConsole
                                 _product_temp.Descripton = xlArray[i, 5];
                                 //_product.CategoryId = Guid.Parse(xlArray[i, 6]); не решено с категорией
 
-                                DataProviders.Current.Products.Add(_product_temp);
+                                Registry.Current.Products.Add(_product_temp);
                             }
                             break;
                      case "10":

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using YAShop.BusinessLogic.Infrastr;
 
@@ -18,6 +19,7 @@ namespace YAShop.ConsoleApp
         }
 
 
-        public Dictionary<string, object> TransactionCache { get; } = new Dictionary<string, object>();
+        Dictionary<string, object> _identityMap { get; } = new Dictionary<string, object>();
+        public IDictionary IdentityMap => _identityMap;
     }
 }
