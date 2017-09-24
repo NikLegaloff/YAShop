@@ -37,7 +37,7 @@ namespace YAShop.BusinessLogic.DomainModel
 
         [DBField(SqlDbType.NVarChar, 0, false, true, typeof(List<OrderItem>))]
         public List<OrderItem> Items { get; set; }
-        public string ItemsJSON { get; set; }
+        private string ItemsJSON { get; set; }
 
     }
 

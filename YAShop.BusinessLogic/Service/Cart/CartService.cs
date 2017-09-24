@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using YAShop.BusinessLogic.DomainModel;
 
-namespace YAShop.BusinessLogic.Service
+namespace YAShop.BusinessLogic.Service.Cart
 {
     public class CartService : AbstractService
     {
@@ -19,12 +18,12 @@ namespace YAShop.BusinessLogic.Service
             else items.Add(new CartItem { SKU = sku, Title = title, QTY = qty });
         }
 
-        public Cart GetCart()
+        public DomainModel.Cart GetCart()
         {
-            var cart = (Cart)Registry.Current.Infrastructure.Common.GetFromSession("Cart");
+            var cart = (DomainModel.Cart)Registry.Current.Infrastructure.Common.GetFromSession("Cart");
             if (cart == null)
             {
-                cart = new Cart();
+                cart = new DomainModel.Cart();
                 Registry.Current.Infrastructure.Common.PutInSession("Cart", cart);
             }
             return cart;

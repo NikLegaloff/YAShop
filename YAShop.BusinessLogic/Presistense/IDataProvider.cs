@@ -14,8 +14,6 @@ namespace YAShop.BusinessLogic.Presistense
         void Delete(T subj);
         List<T> Select(Expression<Func<T, bool>> filter);
         T[] Select(string sql=null, dynamic param=null, int? top = null);
-
         PageData<T> SelectPage(string query, PagingArgs paging, dynamic param = null, string sortingAlias = null, string extraSorting = null);
-
     }
 }

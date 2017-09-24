@@ -50,7 +50,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                     }
                     columns.Add($"{name} {type}{len} {nullable}");
                 }
-                var sql = "CREATE TABLE dbo.[" + tableName + "] (Id uniqueidentifier NOT NULL, " + string.Join(", ", columns) + ") ON [PRIMARY] TEXTIMAGE_ON[PRIMARY]";
+                var sql = "CREATE TABLE dbo.[" + tableName + "] (Id uniqueidentifier NOT NULL, " + string.Join(", ", columns) + ")";
                 connection.Execute(sql);
                 sql = $"ALTER TABLE dbo.[{tableName}] ADD CONSTRAINT\tPK_{tableName} PRIMARY KEY CLUSTERED (Id)" +
                        $" WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]";
@@ -79,7 +79,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
 
         private void Update(T subj)
         {
-            var props = subj.GetType().GetProperties();
+            var props = subj.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
             var pp = new ExpandoObject() as IDictionary<string, Object>;
             List<string> items = new List<string>();
             foreach (var prop in props)
@@ -157,7 +157,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
 
         public T[] Select(string query=null, object param = null, int? top=null)
         {
-            query = "select " + (top==null ? "": ("TOP " + top.Value)) + " [" + typeof(T).Name + "].* from [" + typeof(T).Name + "] " + query;
+            if (!(query??"").StartsWith("select")) query = "select " + (top==null ? "": ("TOP " + top.Value)) + " [" + typeof(T).Name + "].* from [" + typeof(T).Name + "] (nolock) " + query;
             var result = Open().Query<T>(query, param).ToArray();
             DeserializeProps(result);
             return result;
@@ -165,7 +165,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
 
         public  PageData<T> SelectPage(string query, PagingArgs paging, dynamic param = null, string sortingAlias = null, string extraSorting = null)
         {
-            query = "select * from[" + typeof(T).Name + "] " + query;
+            if (!(query ?? "").StartsWith("select")) query = "select * from[" + typeof(T).Name + "] (nolock)" + query;
             using (var c = Open())
             {
                 if (string.IsNullOrWhiteSpace(paging.Sort))
@@ -210,7 +210,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
         private void DeserializeProps(T[] items)
         {
             if (items.Length == 0 || !(items[0] is IWithEmbededProperty)) return;
-            var allprops = typeof(T).GetProperties();
+            var allprops = typeof(T).GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
             var props = allprops.Where(p =>
             {
                 var customAttribute = p.GetCustomAttribute<DBField>();

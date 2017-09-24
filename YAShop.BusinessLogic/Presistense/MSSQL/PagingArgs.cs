@@ -1,6 +1,6 @@
 namespace YAShop.BusinessLogic.Presistense.MSSQL
 {
-    public struct PagingArgs
+    public class PagingArgs
     {
         public const int DefaultRowsPerPage = 10;
 

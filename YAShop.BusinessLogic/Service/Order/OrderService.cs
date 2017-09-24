@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Bson;
 using YAShop.BusinessLogic.DomainModel;
 
-namespace YAShop.BusinessLogic.Service
+namespace YAShop.BusinessLogic.Service.Order
 {
 
     public class OrderService : AbstractService
     {
         private int counter = 0;
 
-        public Guid CreateAndSave(Order order)
+        public Guid CreateAndSave(DomainModel.Order order)
         {
             order.State = OrderState.Created;
             order.Date = DateTime.Now;
@@ -33,9 +28,9 @@ namespace YAShop.BusinessLogic.Service
             return 0;
         }
 
-        public Order GetOrder(Cart cart)
+        public DomainModel.Order GetOrder(DomainModel.Cart cart)
         {
-            var order = new Order();
+            var order = new DomainModel.Order();
             foreach (var cartItem in cart.Items)
             {
                 var item = new OrderItem

@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using YAShop.BusinessLogic.Presistense;
@@ -19,5 +20,14 @@ namespace YAShop.BusinessLogic.DomainModel
         public string Description { get; set; }
         [DBField(SqlDbType.NVarChar,512,true)]
         public string Image { get; set; }
+        [DBField(SqlDbType.UniqueIdentifier, 0, true)]
+        public Guid? CategoryId { get; set; }
+
+        public Category Category
+        {
+            get { return CategoryId==null ? null: Registry.Current.Data.Categories.Find(CategoryId.Value); }
+            set { CategoryId = value?.Id; }
+        }
+
     }
 }

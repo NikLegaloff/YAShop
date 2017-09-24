@@ -3,6 +3,7 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
+using Newtonsoft.Json;
 
 namespace YAShop.BusinessLogic.Presistense
 {
@@ -12,8 +13,9 @@ namespace YAShop.BusinessLogic.Presistense
         {
             Id = Guid.Empty;
         }
-
+        
         public int __RowsTotal { get; set; }
+        
 
         [BsonId(IdGenerator = typeof(GuidGenerator))]
         public Guid Id { get; set; }
