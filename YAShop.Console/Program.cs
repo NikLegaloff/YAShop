@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using YAShop.BusinessLogic;
 using YAShop.BusinessLogic.Bus.Products;
+using YAShop.BusinessLogic.DomainModel;
+using YAShop.BusinessLogic.Presistense.MSSQL;
 
 
 namespace YAShop.ConsoleApp
@@ -10,22 +13,25 @@ namespace YAShop.ConsoleApp
         static void Main(string[] args)
         {
             Registry.Init(new ProgrCommonInfrProvider());
-
-            
-            var cartService = Registry.Current.Services.Cart;
-            var products = Registry.Current.Data.Products.Select(product => true);
-            var now = DateTime.Now;
-
-            for (int i = 0; i < 1000000; i++)
+            var orders = Registry.Current.Data.Orders.SelectPage(" where state=1",new PagingArgs {RowsPerPage = 100,Page = 1,Sort = "Number",SortDir = SortDir.ASC});
+            DateTime now = DateTime.Now;
+            foreach (var order1 in orders.Rows)
             {
-                Registry.Current.Bus.Execute(new AddProductToCartCommand { SKU = products[0].SKU, Title = products[0].Title, QTY = 1 });
+                Registry.Current.Data.Orders.Save(order1);
             }
             Console.WriteLine(DateTime.Now.Subtract(now).TotalMilliseconds);
             Console.ReadLine();
             return;
+            var products = Registry.Current.Data.Products.Select();
+
+
+
+
+            var cartService = Registry.Current.Services.Cart;
+
             cartService.Add(products[0].SKU, products[0].Title, 1);
             cartService.Add(products[1].SKU, products[1].Title, 1);
-
+            
             var order = Registry.Current.Services.Order.GetOrder(cartService.GetCart());
             Registry.Current.Services.Order.CreateAndSave(order);
             System.Console.WriteLine(order.Total + "$");

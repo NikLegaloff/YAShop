@@ -10,11 +10,13 @@ namespace YAShop.BusinessLogic.Presistense
     {
         public DomainObject()
         {
-            Id = ObjectId.Empty;
+            Id = Guid.Empty;
         }
 
-        [BsonId]
-        public ObjectId Id { get; set; }
+        public int __RowsTotal { get; set; }
+
+        [BsonId(IdGenerator = typeof(GuidGenerator))]
+        public Guid Id { get; set; }
 
         public override string ToString()
         {

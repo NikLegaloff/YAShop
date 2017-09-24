@@ -13,7 +13,7 @@ namespace YAShop.BusinessLogic.Service
     {
         private int counter = 0;
 
-        public ObjectId CreateAndSave(Order order)
+        public Guid CreateAndSave(Order order)
         {
             order.State = OrderState.Created;
             order.Date = DateTime.Now;
