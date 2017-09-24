@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Sprut.MyShop.Domain;
+using Sprut.MyShop.Infrastructure.EFDatabase;
 
 namespace Sprut.MyShop.Infrastructure
 {
     public class SqlDataProviderExecutor<T> : IDataProvider<T> where T : DomainObject
     {
+        EFContext db = new EFContext();
         public T Find(Guid id)
         {
             throw new NotImplementedException();
@@ -21,8 +23,9 @@ namespace Sprut.MyShop.Infrastructure
             throw new NotImplementedException();
         }
 
-        public List<T> Select(string query, dynamic param)
+        public List<T> Select(string query=null, dynamic param=null)
         {
+            
             throw new NotImplementedException();
         }
     }

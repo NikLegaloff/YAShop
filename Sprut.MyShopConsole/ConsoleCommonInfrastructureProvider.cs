@@ -19,7 +19,7 @@ namespace Sprut.MyShopConsole
         }
 
 
-        private Dictionary<string, object> _identityMap { get; } = new Dictionary<string, object>();
+        private Dictionary<Guid, object> _identityMap { get; } = new Dictionary<Guid, object>();
         public IDictionary IdentityMap => _identityMap;
     }
 }

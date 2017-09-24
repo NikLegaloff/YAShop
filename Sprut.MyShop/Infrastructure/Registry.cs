@@ -24,7 +24,9 @@ namespace Sprut.MyShop.Infrastructure
         }
 
         // replace InMemoryDataProviderExecutor to SqlDataProviderExecutor after implementation
-        public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new InMemoryDataProviderExecutor<T>();
+        //public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new InMemoryDataProviderExecutor<T>();
+        public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new SqlDataProviderExecutor<T>();
+
 
         public Registry(ICommonInfrastructureProvider commonInfrastructureProvider)
         {
