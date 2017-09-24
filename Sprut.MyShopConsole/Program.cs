@@ -15,7 +15,7 @@ namespace Sprut.MyShopConsole
         {
             Registry.Init(new ConsoleCommonInfrastructureProvider());
 
-            Registry.Current.Products.Save(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
+            //Registry.Current.Products.Save(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
             string order = null;
 
 
@@ -48,77 +48,77 @@ namespace Sprut.MyShopConsole
                             Console.WriteLine(product.SKU + "\t " + product.Title + "\t " + product.Price.ToString("0.00")+"\t "+product.Descripton);
                         };
                         break;
-                    case "2":
-                        Console.Write("Enter SKU for Baying:");
-                        var sku=Console.ReadLine();
-                        Console.Write("Enter Qty:");
-                        var qty = Convert.ToInt16(Console.ReadLine());
-                        CartProviders.Current.Cart.AddInCart(sku, qty);
-                        break;
-                    case "3":
-                        Cart cart = CartProviders.Current.Cart.GetCart();
-                        Console.WriteLine("SKU \t Title \t\t Qty \t Price (1Qty) \t Total price");
+                    //case "2":
+                    //    Console.Write("Enter SKU for Baying:");
+                    //    var sku=Console.ReadLine();
+                    //    Console.Write("Enter Qty:");
+                    //    var qty = Convert.ToInt16(Console.ReadLine());
+                    //    //CartProviders.Current.Cart.AddInCart(sku, qty);
+                    //    break;
+                    //case "3":
+                    //    //Cart cart = CartProviders.Current.Cart.GetCart();
+                    //    Console.WriteLine("SKU \t Title \t\t Qty \t Price (1Qty) \t Total price");
 
-                        foreach (var item in cart.Items)
-                        {
-                            Console.WriteLine(item.SKU + " \t " + item.Title + "\t " 
-                                + item.Qty+" \t"+item.Price+"\t\t "+item.Price*item.Qty);
+                    //    foreach (var item in cart.Items)
+                    //    {
+                    //        Console.WriteLine(item.SKU + " \t " + item.Title + "\t " 
+                    //            + item.Qty+" \t"+item.Price+"\t\t "+item.Price*item.Qty);
 
 
-                        }
-                        Console.WriteLine("Total: " + cart.Items.Sum(s => s.Price * s.Qty));
-                        break;
-                    case "4":
-                        Console.Write("Enter SKU for Delete:");
-                        var sku_del = Console.ReadLine();
-                        CartProviders.Current.Cart.DelFromCart(sku_del);
-                        break;
-                    case "5":
-                        order = OrderProviders.Current.Order.StartOrder(CartProviders.Current.Cart.GetCart());
-                        break;
-                    case "6":
-                        var torder = OrderProviders.Current.Order.GetOrder(order);
-                        Console.WriteLine("Order number: " + torder.Number + ", date: " + torder.Date + ", state:" + torder.State);
-                        Console.WriteLine("SKU \tTitle \t\tQty \tPrice");
-                        foreach(var item in torder.Items)
-                        {
-                            Console.WriteLine(item.SKU + "\t" + item.Title + "\t" + item.Qty + "\t" + item.Price);
-                        }
-                        Console.WriteLine("Total: " + torder.Items.Sum(s => s.Price * s.Qty));
-                        break;
-                    case "7":
-                        var product2 = Registry.Current.Products.Get("S1");
-                        Console.WriteLine("SKU \t Title \t\t Price \t Description");
-                        Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
-                        break;
-                    case "8":
-                        Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
-                        break;
-                    case "9":
-                            //для теста добавления в базу, по идее нужно с представления возвращать данные для добавления
-                            var xlArray = Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
+                    //    }
+                    //    Console.WriteLine("Total: " + cart.Items.Sum(s => s.Price * s.Qty));
+                    //    break;
+                    //case "4":
+                    //    Console.Write("Enter SKU for Delete:");
+                    //    var sku_del = Console.ReadLine();
+                    //    //CartProviders.Current.Cart.DelFromCart(sku_del);
+                    //    break;
+                    //case "5":
+                    //    //order = OrderProviders.Current.Order.StartOrder(CartProviders.Current.Cart.GetCart());
+                    //    break;
+                    //case "6":
+                    //    //var torder = OrderProviders.Current.Order.GetOrder(order);
+                    //    Console.WriteLine("Order number: " + torder.Number + ", date: " + torder.Date + ", state:" + torder.State);
+                    //    Console.WriteLine("SKU \tTitle \t\tQty \tPrice");
+                    //    foreach(var item in torder.Items)
+                    //    {
+                    //        Console.WriteLine(item.SKU + "\t" + item.Title + "\t" + item.Qty + "\t" + item.Price);
+                    //    }
+                    //    Console.WriteLine("Total: " + torder.Items.Sum(s => s.Price * s.Qty));
+                    //    break;
+                    //case "7":
+                    //    var product2 = Registry.Current.Products.Get("S1");
+                    //    Console.WriteLine("SKU \t Title \t\t Price \t Description");
+                    //    Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
+                    //    break;
+                    //case "8":
+                    //    //Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
+                    //    break;
+                    //case "9":
+                    //        //для теста добавления в базу, по идее нужно с представления возвращать данные для добавления
+                    //        //var xlArray = Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
                             
-                            for (int i = 1; i < xlArray.GetLength(0); i++)
-                            {
-                            Product _product_temp = new Product();
-                            _product_temp.SKU = xlArray[i, 0];
-                                _product_temp.Title = xlArray[i, 1];
-                                _product_temp.Price = Decimal.Parse(xlArray[i, 2]);
-                                _product_temp.Qty = Int16.Parse(xlArray[i, 3]);
-                                _product_temp.Image = xlArray[i, 4];
-                                _product_temp.Descripton = xlArray[i, 5];
-                                //_product.CategoryId = Guid.Parse(xlArray[i, 6]); не решено с категорией
+                    //        for (int i = 1; i < xlArray.GetLength(0); i++)
+                    //        {
+                    //        Product _product_temp = new Product();
+                    //        _product_temp.SKU = xlArray[i, 0];
+                    //            _product_temp.Title = xlArray[i, 1];
+                    //            _product_temp.Price = Decimal.Parse(xlArray[i, 2]);
+                    //            _product_temp.Qty = Int16.Parse(xlArray[i, 3]);
+                    //            _product_temp.Image = xlArray[i, 4];
+                    //            _product_temp.Descripton = xlArray[i, 5];
+                    //            //_product.CategoryId = Guid.Parse(xlArray[i, 6]); не решено с категорией
 
-                                Registry.Current.Products.Add(_product_temp);
-                            }
-                            break;
-                     case "10":
-                        var categorytree = CategoryProviders.Current.Category.GetTree();
-                        foreach(var cat in categorytree)
-                        {
-                            Console.WriteLine(cat.Name + "\t" + cat.Id);
-                        }
-                        break;
+                    //            //Registry.Current.Products.Add(_product_temp);
+                    //        }
+                    //        break;
+                    // case "10":
+                    //    //var categorytree = CategoryProviders.Current.Category.GetTree();
+                    //    //foreach(var cat in categorytree)
+                    //    {
+                    //        Console.WriteLine(cat.Name + "\t" + cat.Id);
+                    //    }
+                    //    break;
 
 
                 }
