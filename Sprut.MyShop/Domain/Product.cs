@@ -3,12 +3,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sprut.MyShop.Infrastructure;
-using System.Data.Entity;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Sprut.MyShop.Domain
 {
     public class Product : DomainObject
     {
+        [BsonId]
         public string SKU { get; set; }
         public string Title { get; set; }
         public decimal Price { get; set; }

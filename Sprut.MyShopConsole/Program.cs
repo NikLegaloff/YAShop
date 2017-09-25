@@ -18,7 +18,7 @@ namespace Sprut.MyShopConsole
             //Registry.Current.Products.Save(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
             string order = null;
 
-
+            Registry.Current.Products.Save(new Product());
 
             string select = null;
             do {
