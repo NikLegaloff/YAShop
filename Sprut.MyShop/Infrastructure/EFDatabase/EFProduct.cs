@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace Sprut.MyShop.Domain
 {
-    public class Product : DomainObject
+    public class EFProduct : DbContext
     {
         public string SKU { get; set; }
         public string Title { get; set; }
