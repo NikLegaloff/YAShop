@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 using MongoDB.Driver;
 using Sprut.MyShop.Domain;
 
-namespace Sprut.MyShop.Infrastructure.Providers
+namespace Sprut.MyShop.Infrastructure
 {
-    public class MongoDataProvider<T> : IDataProvider<T> where T : DomainObject, new()
+    public class MongoDataProviderExecutor<T> : IDataProvider<T> where T : DomainObject
     {
         private static IMongoDatabase _db;
         private IMongoCollection<T> _collection;
@@ -25,7 +25,8 @@ namespace Sprut.MyShop.Infrastructure.Providers
 
         public void Save(T subj)
         {
-            bool isNew = subj.Id == Guid.Empty;
+            var isNew = _collection.AsQueryable().FirstOrDefault(doc => doc.Id == subj.Id);
+            //bool isNew = subj.Id == Guid.Empty;
             if (isNew)
             {
                 subj.Id = Guid.NewGuid();
@@ -49,12 +50,12 @@ namespace Sprut.MyShop.Infrastructure.Providers
 
         public void Delete(T subj)
         {
-            throw new NotImplementedException();
+            _collection.DeleteOne(doc => doc.Id == subj.Id);
         }
 
         public List<T> Select(string query, dynamic param)
         {
-            throw new NotImplementedException();
+            return _collection.AsQueryable().ToList();
         }
     }
 }

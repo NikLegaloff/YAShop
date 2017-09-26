@@ -3,7 +3,7 @@ using Sprut.MyShop.Domain;
 
 namespace Sprut.MyShop.Infrastructure.Providers
 {
-    public class ProductDataProvider : IDataProvider<Product>
+    public class ProductDataProvider : DataProvider<Product>
     {
         public ProductDataProvider(IDataProvider<Product> executor) : base(executor) { }
 

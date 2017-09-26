@@ -1,6 +1,8 @@
 using System;
 using Sprut.MyShop.Domain;
 using Sprut.MyShop.Infrastructure.Providers;
+using Sprut.MyShop.Infrastructure;
+
 
 namespace Sprut.MyShop.Infrastructure
 {
@@ -25,7 +27,7 @@ namespace Sprut.MyShop.Infrastructure
 
         // replace InMemoryDataProviderExecutor to SqlDataProviderExecutor after implementation
         //public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new InMemoryDataProviderExecutor<T>();
-        public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new SqlDataProviderExecutor<T>();
+        public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new MongoDataProviderExecutor<T>().Init();
 
 
         public Registry(ICommonInfrastructureProvider commonInfrastructureProvider)
