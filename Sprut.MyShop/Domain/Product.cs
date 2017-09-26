@@ -17,7 +17,7 @@ namespace Sprut.MyShop.Domain
         public string Image { get; set; }
         public string Descripton { get; set; }
         public Guid CategoryId { get; set; }
-        public Category Category => Registry.Current.Categories.Find(CategoryId);
+        //public Category Category => Registry.Current.Categories.Find(CategoryId);
 
 
     }

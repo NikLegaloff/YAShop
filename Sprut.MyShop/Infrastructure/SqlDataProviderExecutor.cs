@@ -17,14 +17,7 @@ namespace Sprut.MyShop.Infrastructure
 
         public async void Save(T subj)
         {
-
-            string connectionString = ConfigurationManager.ConnectionStrings["MongoDb"].ConnectionString;
-            MongoClient client = new MongoClient(connectionString);
-            IMongoDatabase database = client.GetDatabase("YAShopDB");
-            var collection = database.GetCollection<Product>("product");
-            var testProduct1 = new Product{SKU="SKU1",Title="SK1Title",Price = 12,Descripton="SK1Description",Qty = 21};
-            await collection.InsertOneAsync(testProduct1);
-            
+            throw new NotImplementedException();
         }
 
         public void Delete(T subj)
@@ -34,13 +27,7 @@ namespace Sprut.MyShop.Infrastructure
 
         public List<T> Select(string query=null, dynamic param=null)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["MongoDb"].ConnectionString;
-            MongoClient client = new MongoClient(connectionString);
-            IMongoDatabase database = client.GetDatabase("YAShopDB");
-            var collection = database.GetCollection<Product>("product");
-            var filter = new BsonDocument();
-            var products = collection.Find(filter).ToList();
-            return products;
+            throw new NotImplementedException();
         }
     }
 }

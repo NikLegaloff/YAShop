@@ -61,6 +61,7 @@
     <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Infrastructure\ICommonInfrastructureProvider.cs" />
+    <Compile Include="Infrastructure\Providers\MongoDataProvider.cs" />
     <Compile Include="Infrastructure\Registry.cs" />
     <Compile Include="Domain\Cart.cs" />
     <Compile Include="Domain\Product.cs" />
@@ -105,7 +106,9 @@
     <Folder Include="Cart\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

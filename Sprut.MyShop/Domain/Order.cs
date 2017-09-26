@@ -11,7 +11,7 @@ namespace Sprut.MyShop.Domain
         Created, Paid, Shipped, Delivered
     }
 
-    public class Order
+    public class Order : DomainObject
     {
         public string Number { get; set; }
         public List<OrderItem> Items { get; set; }
