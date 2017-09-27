@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Sprut.MyShop;
+using Sprut.MyShop.Domain;
+using Sprut.MyShop.Infrastructure;
 using Sprut.StoreAdmin.Models;
 
 namespace Sprut.StoreAdmin.Controllers
@@ -14,7 +16,7 @@ namespace Sprut.StoreAdmin.Controllers
 
         public ActionResult Index(FilterViewModels _filter)
         {
-            List<Product> products = DataProviders.Current.Products.GetAll().ToList();
+            List<Product> products = Registry.Current.Products.Select().ToList();
 
             if (_filter.Name != null)
             {
@@ -42,7 +44,8 @@ namespace Sprut.StoreAdmin.Controllers
             }
 
             ViewBag.Products = products;
-            ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
+            //TODO: implement it in another place, not Index()
+            //ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
             return View(_filter);
         }
 
@@ -60,7 +63,7 @@ namespace Sprut.StoreAdmin.Controllers
             }
             else
             {
-                product = DataProviders.Current.Products.Get(sku);
+                product = Registry.Current.Products.FindBySKU(sku);
                 ViewBag.Action = "Изменить";
             }
             return View("Edit", product);
@@ -68,12 +71,12 @@ namespace Sprut.StoreAdmin.Controllers
         [HttpPost]
         public ActionResult Edit(Product product)
         {
-            DataProviders.Current.Products.Add(product);
+            Registry.Current.Products.Save(product);
             return Redirect("Index");
         }
         public ActionResult DeleteProduct(string sku)
         {
-            DataProviders.Current.Products.Delete(sku);
+            Registry.Current.Products.Delete(Registry.Current.Products.FindBySKU(sku));
             return Redirect("Index");
 
         }
@@ -81,17 +84,23 @@ namespace Sprut.StoreAdmin.Controllers
         [HttpGet]
         public ActionResult ImportXLS()
         {
-            var xlArray = DataProviders.Current.Products.ImportFromExcel("d:\\temp\\MyShopTest.xlsx");
+            //TODO: implement it in another place, not Index()
+
+            /*
+            var xlArray = Registry.Current.Products.ImportFromExcel("d:\\temp\\MyShopTest.xlsx");
             ViewBag.xlArray = xlArray;
             ViewBag.xlArrayRows = xlArray.GetLength(0);
             ViewBag.xlArrayCols = xlArray.GetLength(1);
+            */
             return View();
         }
         [HttpPost]
         public ActionResult ImportXLS(string temp)
         {
+            //TODO: implement it in another place, not Index()
+            /*
             //для теста добавления в базу, по идее нужно с представления возвращать данные для добавления
-            var xlArray = DataProviders.Current.Products.ImportFromExcel("d:\\temp\\MyShopTest.xlsx");
+            var xlArray = Registry.Current.Products.ImportFromExcel("d:\\temp\\MyShopTest.xlsx");
             for(int i = 1; i < xlArray.GetLength(0); i++)
             {
                 Product _product_temp = new Product();
@@ -103,14 +112,14 @@ namespace Sprut.StoreAdmin.Controllers
                 _product_temp.Descripton = xlArray[i, 5];
                 //_product.CategoryId = Guid.Parse(xlArray[i, 6]); не решено с категорией
 
-                DataProviders.Current.Products.Add(_product_temp);
-            }
+                Registry.Current.Products.Save(_product_temp);
+            }*/
             return Redirect("Index");
         }
 
         public ActionResult Category()
         {
-            ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
+          //  ViewBag.Categorys = Registry.Current.Categories.GetTree();
             return View();
         }
 
@@ -134,15 +143,15 @@ namespace Sprut.StoreAdmin.Controllers
             else
             {
 
-                _category = CategoryProviders.Current.Category.Get(_parse);
+                _category = Registry.Current.Categories.Find(_parse);
                 ViewBag.Action = "Изменить";
             }
             return View("CatEdit", _category);
         }
         [HttpPost]
-        public ActionResult CatEdit(Category Category)
+        public ActionResult CatEdit(Category category)
         {
-            CategoryProviders.Current.Category.Add(Category);
+            Registry.Current.Categories.Save(category);
             return Redirect("Category");
         }
 
