@@ -88,9 +88,9 @@ namespace Sprut.MyShopConsole
                     //    Console.WriteLine("Total: " + torder.Items.Sum(s => s.Price * s.Qty));
                     //    break;
                     case "7":
-                        var product2 = Registry.Current.Products.Get("S1");
+                        //var product2 = Registry.Current.Products.Get("S1");
                         Console.WriteLine("SKU \t Title \t\t Price \t Description");
-                        Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
+                        //Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
                         break;
                     //case "8":
                     //    //Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");

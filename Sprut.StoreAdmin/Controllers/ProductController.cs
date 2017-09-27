@@ -76,7 +76,7 @@ namespace Sprut.StoreAdmin.Controllers
         }
         public ActionResult DeleteProduct(string sku)
         {
-            Registry.Current.Products.Delete(Registry.Current.Products.FindBySKU(sku));
+            //Registry.Current.Products.Delete(Registry.Current.Products.FindBySKU(sku));
             return Redirect("Index");
 
         }

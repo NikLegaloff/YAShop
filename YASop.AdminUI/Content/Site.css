@@ -20,5 +20,40 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    width: 100%;
+}
+
+
+.ft table {
+        width: 100%;
+    }
+
+.ft thead,.ft tbody,.ft tr,.ft td,.ft th { display: block; }
+
+.ft tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.ft thead th {
+    height: 30px;
+
+    /*text-align: left;*/
+}
+
+.ft tbody {
+    height: 120px;
+    overflow-y: auto;
+}
+
+thead {
+    /* fallback */
+}
+
+
+.ft tbody td,.ft thead th {
+    width: 19.2%;
+    float: left;
 }

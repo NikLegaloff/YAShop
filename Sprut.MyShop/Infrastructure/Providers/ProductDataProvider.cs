@@ -12,5 +12,9 @@ namespace Sprut.MyShop.Infrastructure.Providers
             return Select(" where CategoryId=@categoryId", new { categoryId = category.Id });
         }
 
+        public Product FindBySKU(string sku)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

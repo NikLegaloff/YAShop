@@ -46,7 +46,13 @@ namespace Sprut.MyShop.Infrastructure
 
         public List<T> Select(string query, dynamic param)
         {
-            return _efContext.Database.SqlQuery<T>(query, new []{new ObjectParameter("Name", "any value"), }).ToList();
+            List<object> ppp = new List<object>();
+            Type type = param.GetType();
+            foreach (var p in type.GetProperties())
+            {
+                ppp.Add(new ObjectParameter(p.Name, p.GetValue(param)));
+            }
+            return _efContext.Database.SqlQuery<T>(query, ppp.ToArray()).ToList();
         }
         public T Find(Guid id)
         {
