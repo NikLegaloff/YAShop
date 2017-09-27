@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -23,17 +24,12 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Save(T subj)
         {
-            var efTable = _efContext.Set(typeof(T));
+            var efTable = _efContext.Set<T>();
             bool isNew = subj.Id == Guid.Empty;
             if (isNew)
             {
                 subj.Id = Guid.NewGuid();
                 efTable.Add(subj);
-            }
-            else
-            {
-                var subjFind = efTable.Find(subj.Id);
-                subjFind = subj;
             }
             _efContext.SaveChanges();
         }
@@ -50,29 +46,12 @@ namespace Sprut.MyShop.Infrastructure
 
         public List<T> Select(string query, dynamic param)
         {
-            // why one line????
-            var efTable = _efContext.Set(typeof(T));
-            var list = efTable.AsQueryable();
-            List<T> returnList = new List<T>();
-            foreach (var s in list)
-            {
-                returnList.Add((T)s);
-            }
-            return returnList;
+            return _efContext.Database.SqlQuery<T>(query, new []{new ObjectParameter("Name", "any value"), }).ToList();
         }
         public T Find(Guid id)
         {
-            var efTable = _efContext.Set(typeof(T));
-            var subj = efTable.Find(id);
-            return (T)subj;
+            return _efContext.Set<T>().Find(id);
         }
 
-        public T Find(string sku)
-        {
-            var efTable = _efContext.Set(typeof(T));
-            var subj = efTable.Where(c => c.SKU == sku).FirstOrDefault();
-            efTable;
-            return (T)subj;
-        }
     }
 }
