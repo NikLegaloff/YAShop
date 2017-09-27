@@ -41,12 +41,15 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Delete(T subj)
         {
-            throw new NotImplementedException();
+            _efContext.Database.ExecuteSqlCommand("DELETE FROM " + subj.GetType().Name + "s where id='" + subj.Id + "'");
+            _efContext.SaveChanges();
         }
 
         public List<T> Select(string query, dynamic param)
         {
-            return _efContext.Database.SqlQuery<T>(query, new []{new ObjectParameter("Name", "any value"), }).ToList();
+            //new[]{new ObjectParameter("Name", "any value")
+            //return _efContext.Database.SqlQuery<T>(query, , }).ToList();
+            return _efContext.Database.SqlQuery<T>(query).ToList();
         }
         public T Find(Guid id)
         {

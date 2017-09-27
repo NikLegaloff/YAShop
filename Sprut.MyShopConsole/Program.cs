@@ -35,18 +35,19 @@ namespace Sprut.MyShopConsole
                 Console.WriteLine("8. Import from Excel");
                 Console.WriteLine("9. Add from Excel");
                 Console.WriteLine("10. Build Category Tree");
+                Console.WriteLine("11. Delete SKU");
                 Console.WriteLine("0. Exit");
                 select=Console.ReadLine();
 
                 switch (select)
                 {
                     case "1":
-                        var allProducts = Registry.Current.Products.Select();
-                        Console.WriteLine("id\tSKU \t Title \t\t Price \t Description");
+                        var allProducts = Registry.Current.Products.GetList();
+                        Console.WriteLine("SKU \t Title \t\t Price \t Description");
                         foreach (var product in allProducts)
                         {
                             
-                            Console.WriteLine(product.Id+"\t"+product.SKU + "\t " + product.Title + "\t " + product.Price.ToString("0.00")+"\t "+product.Descripton);
+                            Console.WriteLine(product.SKU + "\t " + product.Title + "\t " + product.Price.ToString("0.00")+"\t "+product.Descripton);
                         };
                         break;
                     //case "2":
@@ -88,7 +89,7 @@ namespace Sprut.MyShopConsole
                     //    Console.WriteLine("Total: " + torder.Items.Sum(s => s.Price * s.Qty));
                     //    break;
                     case "7":
-                        var product2 = Registry.Current.Products.Get("S1");
+                        var product2 = Registry.Current.Products.GetProduct("NewSKu1");
                         Console.WriteLine("SKU \t Title \t\t Price \t Description");
                         Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
                         break;
@@ -98,7 +99,7 @@ namespace Sprut.MyShopConsole
                     //case "9":
                     //        //для теста добавления в базу, по идее нужно с представления возвращать данные для добавления
                     //        //var xlArray = Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
-                            
+
                     //        for (int i = 1; i < xlArray.GetLength(0); i++)
                     //        {
                     //        Product _product_temp = new Product();
@@ -120,6 +121,11 @@ namespace Sprut.MyShopConsole
                     //        Console.WriteLine(cat.Name + "\t" + cat.Id);
                     //    }
                     //    break;
+                    case "11":
+                        Console.WriteLine("Delete SKU:");
+                        var skufordel = Console.ReadLine();
+                        Registry.Current.Products.DeleteProduct(skufordel);
+                        break;
 
 
                 }

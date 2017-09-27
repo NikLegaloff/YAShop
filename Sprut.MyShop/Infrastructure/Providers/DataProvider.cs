@@ -5,35 +5,6 @@ using Sprut.MyShop.Domain;
 
 namespace Sprut.MyShop.Infrastructure.Providers
 {
-    //public class DataProviders
-    //{
-    //    public DataProviders()
-    //    {
-    //        Orders = GetDataProvider<Order>();
-    //        Products = GetDataProvider<Product>();
-    //        Categories = GetDataProvider<Category>();
-    //        InitData();
-    //    }
-
-    //    private void InitData()
-    //    {
-
-    //    }
-
-    //    private IDataProvider<T> GetDataProvider<T>() where T : DomainObject, new()
-    //    {
-    //        return new MongoDataProvider<T>().Init();
-    //    }
-
-    //    public IDataProvider<Order> Orders { get; private set; }
-    //    public IDataProvider<Product> Products { get; private set; }
-    //    public IDataProvider<Category> Categories { get; private set; }
-    //}
-
-
-
-
-
     public class DataProvider<T> : IDataProvider<T> where T : DomainObject
     {
         private readonly IDataProvider<T> _executor;
