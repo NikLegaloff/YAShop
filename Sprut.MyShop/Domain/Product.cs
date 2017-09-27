@@ -10,7 +10,6 @@ namespace Sprut.MyShop.Domain
 {
     public class Product : DomainObject
     {
-        [BsonId][BsonElement("Id")]
         public string SKU { get; set; }
         public string Title { get; set; }
         public decimal Price { get; set; }

@@ -15,8 +15,9 @@ namespace Sprut.MyShopConsole
         {
             Registry.Init(new ConsoleCommonInfrastructureProvider());
 
-            Registry.Current.Products.Save(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
-            string order = null;
+            //Registry.Current.Products.Save(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
+            
+            //string order = null;
 
 
 
@@ -41,11 +42,11 @@ namespace Sprut.MyShopConsole
                 {
                     case "1":
                         var allProducts = Registry.Current.Products.Select();
-                        Console.WriteLine("SKU \t Title \t\t Price \t Description");
+                        Console.WriteLine("id\tSKU \t Title \t\t Price \t Description");
                         foreach (var product in allProducts)
                         {
                             
-                            Console.WriteLine(product.SKU + "\t " + product.Title + "\t " + product.Price.ToString("0.00")+"\t "+product.Descripton);
+                            Console.WriteLine(product.Id+"\t"+product.SKU + "\t " + product.Title + "\t " + product.Price.ToString("0.00")+"\t "+product.Descripton);
                         };
                         break;
                     //case "2":
@@ -86,11 +87,11 @@ namespace Sprut.MyShopConsole
                     //    }
                     //    Console.WriteLine("Total: " + torder.Items.Sum(s => s.Price * s.Qty));
                     //    break;
-                    //case "7":
-                    //    var product2 = Registry.Current.Products.Get("S1");
-                    //    Console.WriteLine("SKU \t Title \t\t Price \t Description");
-                    //    Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
-                    //    break;
+                    case "7":
+                        var product2 = Registry.Current.Products.Get("S1");
+                        Console.WriteLine("SKU \t Title \t\t Price \t Description");
+                        Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
+                        break;
                     //case "8":
                     //    //Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
                     //    break;

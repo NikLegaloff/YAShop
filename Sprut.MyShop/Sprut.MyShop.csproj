@@ -64,8 +64,10 @@
   <ItemGroup>
     <Compile Include="Domain\DomainObject.cs" />
     <Compile Include="Domain\Category.cs" />
+    <Compile Include="Domain\EFContext.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Infrastructure\ICommonInfrastructureProvider.cs" />
+    <Compile Include="Infrastructure\EFDataProviderExecutor.cs" />
     <Compile Include="Infrastructure\MongoDataProviderExecutor.cs" />
     <Compile Include="Infrastructure\Registry.cs" />
     <Compile Include="Domain\Cart.cs" />
