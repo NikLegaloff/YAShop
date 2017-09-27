@@ -56,7 +56,7 @@ namespace Sprut.MyShop.Infrastructure
         }
         public T Find(Guid id)
         {
-            return _efContext.Set<T>().Find(id);
+            return _efContext.Set<T>().Find(new object[] {new ObjectParameter("Id", id)});
         }
 
     }
