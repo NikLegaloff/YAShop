@@ -11,5 +11,6 @@ namespace Sprut.MyShop.Infrastructure.Providers
         {
             return Select(" where CategoryId=@categoryId", new { categoryId = category.Id });
         }
+
     }
 }

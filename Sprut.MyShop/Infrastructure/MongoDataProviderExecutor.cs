@@ -25,8 +25,7 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Save(T subj)
         {
-            var isNew = _collection.AsQueryable().FirstOrDefault(doc => doc.Id == subj.Id);
-            //bool isNew = subj.Id == Guid.Empty;
+            bool isNew = subj.Id == Guid.Empty;
             if (isNew)
             {
                 subj.Id = Guid.NewGuid();

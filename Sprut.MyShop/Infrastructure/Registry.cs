@@ -33,7 +33,8 @@ namespace Sprut.MyShop.Infrastructure
         public Registry(ICommonInfrastructureProvider commonInfrastructureProvider)
         {
             CommonInfrastructureProvider = commonInfrastructureProvider;
-            Products=new ProductDataProvider(GetExecutor<Product>());
+            //Products=new ProductDataProvider(GetExecutor<Product>());
+            Products = new ProductDataProvider(new EfDataProviderExecutor<Product>().Init());
             Categories = new CategoryDataProvider(GetExecutor<Category>());
         }
 
