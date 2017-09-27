@@ -25,7 +25,8 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Save(T subj)
         {
-            bool isNew = subj.Id == Guid.Empty;
+            var isNew = _collection.AsQueryable().FirstOrDefault(doc => doc.Id == subj.Id);
+            //bool isNew = subj.Id == Guid.Empty;
             if (isNew)
             {
                 subj.Id = Guid.NewGuid();
@@ -54,7 +55,7 @@ namespace Sprut.MyShop.Infrastructure
 
         public List<T> Select(string query, dynamic param)
         {
-            return _collection.AsQueryable().ToList();
+            throw new NotImplementedException();
         }
     }
 }
