@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -23,17 +24,12 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Save(T subj)
         {
-            var efTable = _efContext.Set(typeof(T));
+            var efTable = _efContext.Set<T>();
             bool isNew = subj.Id == Guid.Empty;
             if (isNew)
             {
                 subj.Id = Guid.NewGuid();
                 efTable.Add(subj);
-            }
-            else
-            {
-                var subjFind = efTable.Find(subj.Id);
-                subjFind = subj;
             }
             _efContext.SaveChanges();
         }
@@ -45,28 +41,12 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Delete(T subj)
         {
-            throw new NotImplementedException();
+            _efContext.Database.ExecuteSqlCommand("DELETE FROM " + subj.GetType().Name + "s where id='" + subj.Id + "'");
+            _efContext.SaveChanges();
         }
 
         public List<T> Select(string query, dynamic param)
         {
-<<<<<<< HEAD
-            // why one line????
-            var efTable = _efContext.Set(typeof(T));
-            var list = efTable.AsQueryable();
-            List<T> returnList = new List<T>();
-            foreach (var s in list)
-            {
-                returnList.Add((T)s);
-            }
-            return returnList;
-        }
-        public T Find(Guid id)
-        {
-            var efTable = _efContext.Set(typeof(T));
-            var subj = efTable.Find(id);
-            return (T)subj;
-=======
             //new[]{new ObjectParameter("Name", "any value")
             //return _efContext.Database.SqlQuery<T>(query, , }).ToList();
             return _efContext.Database.SqlQuery<T>(query).ToList();
@@ -74,15 +54,7 @@ namespace Sprut.MyShop.Infrastructure
         public T Find(Guid id)
         {
             return _efContext.Set<T>().Find(id);
->>>>>>> parent of 98dbada... Merge branch 'master' of https://github.com/NikLegaloff/YAShop
         }
 
-        public T Find(string sku)
-        {
-            var efTable = _efContext.Set(typeof(T));
-            var subj = efTable.Where(c => c.SKU == sku).FirstOrDefault();
-            efTable;
-            return (T)subj;
-        }
     }
 }
