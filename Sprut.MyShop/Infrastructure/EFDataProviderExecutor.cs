@@ -53,9 +53,9 @@ namespace Sprut.MyShop.Infrastructure
         {
             // allow to call with query = " where SKU=@sku" or " join category on product.CategoryId=Category.Id where ..." or full sql like "select Product.* from ..."
             if (!(query ?? "").StartsWith("select")) query = "select [" + typeof(T).Name + "].* from [" + typeof(T).Name + "] " + (query ?? "");
-            
+
             //this working  return _efContext.Database.SqlQuery<T>(query, new SqlParameter("sku","NewSKu1")).ToList();
-            
+
             if (param == null)
             {
                 return _efContext.Database.SqlQuery<T>(query).ToList();
