@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -24,12 +23,17 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Save(T subj)
         {
-            var efTable = _efContext.Set<T>();
+            var efTable = _efContext.Set(typeof(T));
             bool isNew = subj.Id == Guid.Empty;
             if (isNew)
             {
                 subj.Id = Guid.NewGuid();
                 efTable.Add(subj);
+            }
+            else
+            {
+                var subjFind = efTable.Find(subj.Id);
+                subjFind = subj;
             }
             _efContext.SaveChanges();
         }
@@ -41,30 +45,34 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Delete(T subj)
         {
-            _efContext.Database.ExecuteSqlCommand("DELETE FROM " + subj.GetType().Name + "s where id='" + subj.Id + "'");
-            _efContext.SaveChanges();
+            throw new NotImplementedException();
         }
 
         public List<T> Select(string query, dynamic param)
         {
-<<<<<<< HEAD
-            //new[]{new ObjectParameter("Name", "any value")
-            //return _efContext.Database.SqlQuery<T>(query, , }).ToList();
-            return _efContext.Database.SqlQuery<T>(query).ToList();
-=======
-            List<object> ppp = new List<object>();
-            Type type = param.GetType();
-            foreach (var p in type.GetProperties())
+            // why one line????
+            var efTable = _efContext.Set(typeof(T));
+            var list = efTable.AsQueryable();
+            List<T> returnList = new List<T>();
+            foreach (var s in list)
             {
-                ppp.Add(new ObjectParameter(p.Name, p.GetValue(param)));
+                returnList.Add((T)s);
             }
-            return _efContext.Database.SqlQuery<T>(query, ppp.ToArray()).ToList();
->>>>>>> 7a26487f3718ef600bb6d64216d7b4f5912c01c1
+            return returnList;
         }
         public T Find(Guid id)
         {
-            return _efContext.Set<T>().Find(new object[] {new ObjectParameter("Id", id)});
+            var efTable = _efContext.Set(typeof(T));
+            var subj = efTable.Find(id);
+            return (T)subj;
         }
 
+        public T Find(string sku)
+        {
+            var efTable = _efContext.Set(typeof(T));
+            var subj = efTable.Where(c => c.SKU == sku).FirstOrDefault();
+            efTable;
+            return (T)subj;
+        }
     }
 }
