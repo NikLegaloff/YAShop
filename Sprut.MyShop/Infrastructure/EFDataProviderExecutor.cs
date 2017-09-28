@@ -41,12 +41,14 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Delete(T subj)
         {
-            _efContext.Database.ExecuteSqlCommand("DELETE FROM " + subj.GetType().Name + "s where id='" + subj.Id + "'");
+            _efContext.Database.ExecuteSqlCommand("delete from [" + subj.GetType().Name + "] where Id='" + subj.Id + "'");
             _efContext.SaveChanges();
         }
 
         public List<T> Select(string query, dynamic param)
         {
+            // allow to call with query = " where SKU=@sku" or " join category on product.CategoryId=Category.Id where ..." or full sql like "select Product.* from ..."
+            if (!(query ?? "").StartsWith("select")) query = "select [" + typeof(T).Name + "].* from [" + typeof(T).Name + "] " + (query??"");
             //new[]{new ObjectParameter("Name", "any value")
             //return _efContext.Database.SqlQuery<T>(query, , }).ToList();
             return _efContext.Database.SqlQuery<T>(query).ToList();

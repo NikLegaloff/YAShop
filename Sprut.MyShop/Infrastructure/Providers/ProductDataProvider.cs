@@ -14,27 +14,30 @@ namespace Sprut.MyShop.Infrastructure.Providers
             return Select(" where CategoryId=@categoryId", new { categoryId = category.Id });
         }
 
-        public List<Product> GetList()
-        {
-            //var param = new List<ObjectParameter>();
-            //param.Add(new ObjectParameter("name","value"));
-
-            //ObjectParameter[] param = new[]{new ObjectParameter("Name", "any value")};
-            //System.Data.SqlClient.SqlParameter param = new System.Data.SqlClient.SqlParameter("@name", "%Samsung%");
-            return Select("SELECT * FROM Products");
-        }
-
         public Product GetProduct(string sku)
         {
-            var sql = "SELECT * FROM Products WHERE SKU='" + sku + "'";
-            return Select(sql).First();
+            var sql = "SELECT * FROM Products WHERE SKU=@sku";
+           // danger code, possible sql injection 
+            // var sql = "SELECT * FROM Products WHERE SKU='" + sku + "'";
+            return Select(sql,new {sku}).First();
         }
 
-        public void DeleteProduct(string sku)
-        {
-            var subj = Registry.Current.Products.GetProduct(sku);
-            Registry.Current.Products.Delete(subj);
-        }
+        // needless
+        /*   public void DeleteProduct(string sku)
+           {
+               var subj = Registry.Current.Products.GetProduct(sku);
+               Registry.Current.Products.Delete(subj);
+           }
+                   public List<Product> GetList()
+           {
+               //var param = new List<ObjectParameter>();
+               //param.Add(new ObjectParameter("name","value"));
 
+               //ObjectParameter[] param = new[]{new ObjectParameter("Name", "any value")};
+               //System.Data.SqlClient.SqlParameter param = new System.Data.SqlClient.SqlParameter("@name", "%Samsung%");
+               return Select("SELECT * FROM Products");
+           }
+
+        */
     }
 }

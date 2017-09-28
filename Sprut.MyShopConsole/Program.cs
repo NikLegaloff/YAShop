@@ -42,7 +42,7 @@ namespace Sprut.MyShopConsole
                 switch (select)
                 {
                     case "1":
-                        var allProducts = Registry.Current.Products.GetList();
+                        var allProducts = Registry.Current.Products.Select();
                         Console.WriteLine("SKU \t Title \t\t Price \t Description");
                         foreach (var product in allProducts)
                         {
@@ -124,7 +124,7 @@ namespace Sprut.MyShopConsole
                     case "11":
                         Console.WriteLine("Delete SKU:");
                         var skufordel = Console.ReadLine();
-                        Registry.Current.Products.DeleteProduct(skufordel);
+                        Registry.Current.Products.Delete(Registry.Current.Products.GetProduct(skufordel));
                         break;
 
 

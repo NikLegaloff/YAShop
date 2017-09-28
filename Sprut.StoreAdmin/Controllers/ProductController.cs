@@ -63,7 +63,7 @@ namespace Sprut.StoreAdmin.Controllers
             }
             else
             {
-                product = Registry.Current.Products.FindBySKU(sku);
+                product = Registry.Current.Products.GetProduct(sku);
                 ViewBag.Action = "Изменить";
             }
             return View("Edit", product);
@@ -76,7 +76,7 @@ namespace Sprut.StoreAdmin.Controllers
         }
         public ActionResult DeleteProduct(string sku)
         {
-            Registry.Current.Products.Delete(Registry.Current.Products.FindBySKU(sku));
+            Registry.Current.Products.Delete(Registry.Current.Products.GetProduct(sku));
             return Redirect("Index");
 
         }
