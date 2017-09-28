@@ -5,6 +5,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Sprut.MyShop.Domain;
@@ -62,7 +63,13 @@ namespace Sprut.MyShop.Infrastructure
             }
             else
             {
-            return _efContext.Database.SqlQuery<T>(query, (SqlParameter)param ).ToList();
+                var resultSqlQuery= _efContext.Database.SqlQuery<T>(query, param);
+                var queryResult = new List<T>();
+                foreach (var product in resultSqlQuery)
+                {
+                    queryResult.Add(product);
+                }
+                return queryResult;
             }
         }
         public T Find(Guid id)

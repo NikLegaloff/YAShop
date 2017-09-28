@@ -35,11 +35,14 @@ namespace Sprut.MyShop.Infrastructure
             CommonInfrastructureProvider = commonInfrastructureProvider;
             //Products=new ProductDataProvider(GetExecutor<Product>());
             Products = new ProductDataProvider(new EfDataProviderExecutor<Product>().Init());
+            Carts = new CartDataProvider();
             Categories = new CategoryDataProvider(GetExecutor<Category>());
         }
 
         public ProductDataProvider Products;
+        public CartDataProvider Carts;
         public CategoryDataProvider Categories;
+        
 
 
     }
