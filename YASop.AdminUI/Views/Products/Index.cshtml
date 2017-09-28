@@ -10,7 +10,6 @@
             LoadPage();
         });
 
-
         function LoadPage() {
             $("#sTotal").html(" - loading...");
             $.getJSON("/Products/Select?RowsPerPage=20&Page=1&Sort=SKU&Keyword=" + $("#tbTitle").val() + "&CategoryId=" + $("#ddlCategories").val(),
