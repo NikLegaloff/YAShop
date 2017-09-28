@@ -6,8 +6,6 @@ namespace Sprut.MyShop.Infrastructure
     {
         object GetFromSession(string key);
         void PutInSession(string key, object subj);
-
         IDictionary IdentityMap { get; }
-
     }
 }

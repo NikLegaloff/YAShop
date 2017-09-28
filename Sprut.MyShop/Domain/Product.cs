@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Sprut.MyShop.Infrastructure;
 using System.Data.Entity;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Sprut.MyShop.Domain
 {
