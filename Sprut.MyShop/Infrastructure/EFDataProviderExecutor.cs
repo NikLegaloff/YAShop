@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
@@ -57,19 +58,21 @@ namespace Sprut.MyShop.Infrastructure
 
             //this working  return _efContext.Database.SqlQuery<T>(query, new SqlParameter("sku","NewSKu1")).ToList();
 
+
+
             if (param == null)
             {
                 return _efContext.Database.SqlQuery<T>(query).ToList();
             }
             else
             {
-                var resultSqlQuery= _efContext.Database.SqlQuery<T>(query, param);
-                var queryResult = new List<T>();
-                foreach (var product in resultSqlQuery)
+                var pp = new List<SqlParameter>();
+                foreach (var property in param.GetType().GetProperties())
                 {
-                    queryResult.Add(product);
+                    pp.Add(new SqlParameter(property.Name, property.GetValue(param)));
                 }
-                return queryResult;
+                return _efContext.Database.SqlQuery<T>(query,pp.ToArray()).ToList(); ;
+                
             }
         }
         public T Find(Guid id)
