@@ -17,11 +17,13 @@ namespace Sprut.MyShop.Infrastructure.Providers
 
         public Product GetProduct(string sku)
         {
-            var param = new SqlParameter("sku", sku);
-            const string sql = "select * from Product WHERE SKU=@sku";
+            List<SqlParameter> param = new List<SqlParameter>();
+            param.Add(new SqlParameter("sku1", sku));
+
+            const string sql = "select * from Product WHERE SKU=@sku1";
            // danger code, possible sql injection 
             // var sql = "SELECT * FROM Products WHERE SKU='" + sku + "'";
-            return Select(sql, param).First();
+            return Select(sql, param.ToArray()).First();
         }
 
         // needless

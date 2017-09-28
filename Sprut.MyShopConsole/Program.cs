@@ -50,31 +50,32 @@ namespace Sprut.MyShopConsole
                             Console.WriteLine(product.SKU + "\t " + product.Title + "\t " + product.Price.ToString("0.00")+"\t "+product.Descripton);
                         };
                         break;
-                    //case "2":
-                    //    Console.Write("Enter SKU for Baying:");
-                    //    var sku=Console.ReadLine();
-                    //    Console.Write("Enter Qty:");
-                    //    var qty = Convert.ToInt16(Console.ReadLine());
-                    //    //CartProviders.Current.Cart.AddInCart(sku, qty);
-                    //    break;
-                    //case "3":
-                    //    //Cart cart = CartProviders.Current.Cart.GetCart();
-                    //    Console.WriteLine("SKU \t Title \t\t Qty \t Price (1Qty) \t Total price");
-
-                    //    foreach (var item in cart.Items)
-                    //    {
-                    //        Console.WriteLine(item.SKU + " \t " + item.Title + "\t " 
-                    //            + item.Qty+" \t"+item.Price+"\t\t "+item.Price*item.Qty);
-
-
-                    //    }
-                    //    Console.WriteLine("Total: " + cart.Items.Sum(s => s.Price * s.Qty));
-                    //    break;
-                    //case "4":
-                    //    Console.Write("Enter SKU for Delete:");
-                    //    var sku_del = Console.ReadLine();
-                    //    //CartProviders.Current.Cart.DelFromCart(sku_del);
-                    //    break;
+                    case "2":
+                        Console.Write("Enter SKU for Baying:");
+                        var sku = Console.ReadLine();
+                        Console.Write("Enter Qty:");
+                        var qty = Convert.ToInt16(Console.ReadLine());
+                        var title = Registry.Current.Products.GetProduct(sku).Title;
+                        Registry.Current.Carts.Add(sku,title,qty);
+                        break;
+                    case "3":
+                        Cart cart = Registry.Current.Carts.GetCart();
+                        Console.WriteLine("SKU \t Title \t\t Qty \t Price (1 Qty) \t Total price");
+                        decimal summary = 0;
+                        foreach (var item in cart.Items)
+                        {
+                            var itemPrice = Registry.Current.Products.GetProduct(item.SKU).Price;
+                            Console.WriteLine(item.SKU + " \t " + item.Title + "\t "
+                                + item.Qty + " \t" + itemPrice + "\t\t " + itemPrice * item.Qty);
+                            summary += itemPrice * item.Qty;
+                        }
+                        Console.WriteLine("Total: " + summary);
+                        break;
+                    case "4":
+                        Console.Write("Enter SKU for Delete:");
+                        var skuDel = Console.ReadLine();
+                        Registry.Current.Carts.Remove(skuDel);
+                        break;
                     //case "5":
                     //    //order = OrderProviders.Current.Order.StartOrder(CartProviders.Current.Cart.GetCart());
                     //    break;
