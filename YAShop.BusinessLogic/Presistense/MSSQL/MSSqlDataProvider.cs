@@ -40,7 +40,6 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                     var type = attr.DBType.ToString();
                     var nullable = attr.Nullable ? "NULL" : "NOT NULL";
                     var name = prop.Name;
-                    
                     var len = attr.Len > 0 ? "(" + attr.Len +")" : "";
                     if (attr.DBType == SqlDbType.Decimal) len = "(9, 2)";
                     if (attr.InJson)

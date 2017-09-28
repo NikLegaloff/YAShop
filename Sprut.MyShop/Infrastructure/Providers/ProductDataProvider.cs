@@ -14,7 +14,6 @@ namespace Sprut.MyShop.Infrastructure.Providers
             return Select(" where CategoryId=@categoryId", new { categoryId = category.Id });
         }
 
-<<<<<<< HEAD
         public List<Product> GetList()
         {
             //var param = new List<ObjectParameter>();
@@ -37,11 +36,5 @@ namespace Sprut.MyShop.Infrastructure.Providers
             Registry.Current.Products.Delete(subj);
         }
 
-=======
-        public Product FindBySKU(string sku)
-        {
-            throw new System.NotImplementedException();
-        }
->>>>>>> 7a26487f3718ef600bb6d64216d7b4f5912c01c1
     }
 }

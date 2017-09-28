@@ -50,6 +50,7 @@ namespace Sprut.MyShop.Infrastructure
 
         public List<T> Select(string query, dynamic param)
         {
+<<<<<<< HEAD
             // why one line????
             var efTable = _efContext.Set(typeof(T));
             var list = efTable.AsQueryable();
@@ -65,6 +66,15 @@ namespace Sprut.MyShop.Infrastructure
             var efTable = _efContext.Set(typeof(T));
             var subj = efTable.Find(id);
             return (T)subj;
+=======
+            //new[]{new ObjectParameter("Name", "any value")
+            //return _efContext.Database.SqlQuery<T>(query, , }).ToList();
+            return _efContext.Database.SqlQuery<T>(query).ToList();
+        }
+        public T Find(Guid id)
+        {
+            return _efContext.Set<T>().Find(id);
+>>>>>>> parent of 98dbada... Merge branch 'master' of https://github.com/NikLegaloff/YAShop
         }
 
         public T Find(string sku)

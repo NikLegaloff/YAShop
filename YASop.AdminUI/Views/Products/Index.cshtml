@@ -1,74 +1,33 @@
-﻿@using YAShop.BusinessLogic
-@model dynamic
+﻿@model dynamic
 @{
     ViewBag.Title = "Products";
 }
 @section scripts
 {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             LoadPage();
         });
 
-
-        function LoadPage() {
-            $("#sTotal").html(" - loading...");
-            $.getJSON("/Products/Select?RowsPerPage=20&Page=1&Sort=SKU&Keyword=" + $("#tbTitle").val() + "&CategoryId=" + $("#ddlCategories").val(),
-                function(data) {
-                    var items = [];
-                    $.each(data.Rows,
-                        function(key, val) {
-                            items.push(GetRow(val));
-                        });
-                    $("#dg").html(items.join(" "));
-                    $("#sTotal").html(" - total " + data.TotalRows + " ");
-
-                });
+        function  LoadPage() {
+            $.json();
         }
-
-        function GetRow(data) {
-            var str = "<tr>";
-            str += "<td class='filterable-cell'><input type='checkbox' value='" + data.Id + "'/></td>";
-            str += "<td class='filterable-cell'>" + data.SKU + "</td>";
-            str += "<td class='filterable-cell'>" + data.Title + "</td>";
-            str += "<td class='filterable-cell'>" + data.Category + "</td>";
-            str += "<td class='filterable-cell'>" + data.Price + "</td>";
-            str += "<td class='filterable-cell'>" + data.QTY + "</td>";
-            str += "<td class='filterable-cell'><a href='/Product/Edit/" + data.Id + "'>Edit</a></td>";
-            str += "</tr>";
-            return str;
-        }
-
     </script>
 }
-<h2>Products <span id="sTotal"></span></h2>
+<h2>Products</h2>
 <div class="row">
     <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-4"><input type="text" class="input-sm" style="width: 100%;" placeholder="SKU or Title" id="tbTitle" /></div>
-            <div class="col-md-2">
-                <select class="input-sm"  id="ddlCategories">
-                    <option></option>
-                    @Html.Raw(string.Join("\n", Registry.Current.Services.Category.GetPlanarTree().Select(i => "<option value='" + i.Id + "'>" + i.FullName + "</option>")));
-                </select>
-            </div>
-            <div class="col-md-1"><button type="button" class="btn-primary btn" onclick="LoadPage()" ><i class='glyphicon glyphicon-search'></i></button></div>
-        </div>
-        <div class="ft">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <td></td>
-                        <td>SKU</td>
-                        <td>Title</td>
-                        <td>Category</td>
-                        <td>Price</td>
-                        <td>QTY</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody id="dg"></tbody>
-            </table>
-        </div>
+        <table class="table table-responsive">
+            <thead><tr>
+                <td></td>
+                <td>SKU</td>
+                <td>Name</td>
+                <td>Category</td>
+                <td>Price</td>
+                <td>QTY</td>
+                <td></td>
+            </tr></thead>
+            <tbody id="dg"></tbody>
+        </table>
     </div>
 </div>

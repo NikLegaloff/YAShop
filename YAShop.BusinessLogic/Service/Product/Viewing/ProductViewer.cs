@@ -18,7 +18,7 @@ namespace YAShop.BusinessLogic.Service.Product.Viewing
             var query = "select Product.Id, Product.SKU, Product.Title, Product.Image, Product.QTY, Product.Price, Category.[Name] Category from Product left join [dbo].[Category] on Product.CategoryId=Category.Id where 1=1 ";
             if (!string.IsNullOrWhiteSpace(_filter.Keyword))
             {
-                query += " and (Product.SKU = @Keyword or Product.Title like @Keyword +'%')";
+                query += " and (Product.SKU = @Keyword or Product.Title like '%' + @Keyword )";
                 param.Keyword = _filter.Keyword;
             }
             if (_filter.CategoryId != null)

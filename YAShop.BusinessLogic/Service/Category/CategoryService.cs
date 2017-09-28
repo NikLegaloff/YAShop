@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace YAShop.BusinessLogic.Service.Category
@@ -9,23 +8,6 @@ namespace YAShop.BusinessLogic.Service.Category
         public List<CategoryTreeItem> GetTree()
         {
             return new CategoryTreeBuilder(Registry.Current.Data.Categories.Select(" order by name")).Build();
-        }
-        public List<CategoryTreeItem> GetPlanarTree()
-        {
-            var tree = new CategoryTreeBuilder(Registry.Current.Data.Categories.Select(" order by name")).Build();
-            var list = new List<CategoryTreeItem>();
-            AddItems(list, tree);
-            return list;
-        }
-
-        private void AddItems(List<CategoryTreeItem> list, List<CategoryTreeItem> tree)
-        {
-            foreach (var categoryTreeItem in tree)
-            {
-                list.Add(categoryTreeItem);
-                if (categoryTreeItem.Childrens!=null) AddItems(list, categoryTreeItem.Childrens);
-                categoryTreeItem.Childrens = null;
-            }
         }
     }
 }
