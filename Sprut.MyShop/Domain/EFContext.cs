@@ -9,7 +9,7 @@ namespace Sprut.MyShop.Domain
 {
     public class EfContext : DbContext
     {
-        public EfContext() : base("YAShopDB") { }
+        public EfContext() : base("YAShopDBv1") { }
 
         public DbSet<Product> Product { get; set; }
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Sprut.MyShop.Domain;
 using System.Data.Entity.Core.Objects;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Sprut.MyShop.Infrastructure.Providers
@@ -16,10 +17,11 @@ namespace Sprut.MyShop.Infrastructure.Providers
 
         public Product GetProduct(string sku)
         {
-            var sql = "SELECT * FROM Products WHERE SKU=@sku";
+            var param = new SqlParameter("sku", sku);
+            const string sql = "select * from Product WHERE SKU=@sku";
            // danger code, possible sql injection 
             // var sql = "SELECT * FROM Products WHERE SKU='" + sku + "'";
-            return Select(sql,new {sku}).First();
+            return Select(sql, param).First();
         }
 
         // needless

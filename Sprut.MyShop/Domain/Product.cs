@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Sprut.MyShop.Domain
 {
+    [Table("Product")]
     public class Product : DomainObject
     {
         public string SKU { get; set; }
@@ -17,7 +19,7 @@ namespace Sprut.MyShop.Domain
         public string Image { get; set; }
         public string Descripton { get; set; }
         public Guid CategoryId { get; set; }
-        //public Category Category => Registry.Current.Categories.Find(CategoryId);
+        public Category Category => Registry.Current.Categories.Find(CategoryId);
 
 
     }
