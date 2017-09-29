@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sprut.MyShop.Domain
+namespace Sprut.MyShop
 {
     public class Cart
     {

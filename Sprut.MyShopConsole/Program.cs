@@ -15,14 +15,9 @@ namespace Sprut.MyShopConsole
         {
             Registry.Init(new ConsoleCommonInfrastructureProvider());
 
-<<<<<<< HEAD
-            Registry.Current.Products.Save(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
-            
-=======
             //Registry.Current.Products.Save(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
->>>>>>> 7fdb7a056ddb9b7fbfa32cd8140d71f80837dd82
             //string order = null;
-            var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", new {qty = 0, sku= "NewSKu1" });
+            //var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", new {qty = 0, sku= "NewSKu1" });
 
 
             string select = null;
