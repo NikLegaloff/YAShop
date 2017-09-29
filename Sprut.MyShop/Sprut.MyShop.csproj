@@ -59,6 +59,7 @@
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Infrastructure\ICommonInfrastructureProvider.cs" />
     <Compile Include="Infrastructure\EfDataProviderExecutor.cs" />
+    <Compile Include="Infrastructure\MongoDataProviderExecutor.cs" />
     <Compile Include="Infrastructure\Providers\CartDataProvider.cs" />
     <Compile Include="Infrastructure\Registry.cs" />
     <Compile Include="Domain\Cart.cs" />
