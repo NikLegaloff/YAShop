@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Sprut.MyShop.Domain;
@@ -53,16 +55,24 @@ namespace Sprut.MyShop.Infrastructure
         {
             // allow to call with query = " where SKU=@sku" or " join category on product.CategoryId=Category.Id where ..." or full sql like "select Product.* from ..."
             if (!(query ?? "").StartsWith("select")) query = "select [" + typeof(T).Name + "].* from [" + typeof(T).Name + "] " + (query ?? "");
-            
+
             //this working  return _efContext.Database.SqlQuery<T>(query, new SqlParameter("sku","NewSKu1")).ToList();
-            
+
+
+
             if (param == null)
             {
                 return _efContext.Database.SqlQuery<T>(query).ToList();
             }
             else
             {
-            return _efContext.Database.SqlQuery<T>(query, (SqlParameter)param ).ToList();
+                var pp = new List<SqlParameter>();
+                foreach (var property in param.GetType().GetProperties())
+                {
+                    pp.Add(new SqlParameter(property.Name, property.GetValue(param)));
+                }
+                return _efContext.Database.SqlQuery<T>(query,pp.ToArray()).ToList(); ;
+                
             }
         }
         public T Find(Guid id)

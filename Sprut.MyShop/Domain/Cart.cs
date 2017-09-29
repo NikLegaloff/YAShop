@@ -9,17 +9,27 @@ namespace Sprut.MyShop.Domain
     public class Cart
     {
         public List<CartItem> Items { get; set; }
-        public decimal Total => Items.Sum(s => s.Price * s.Qty);
 
-        
+        public Cart()
+        {
+            Items =new List<CartItem>();
+        }
     }
 
-   
+
     public class CartItem
     {
         public string SKU { get; set; }
         public string Title { get; set; }
         public int Qty { get; set; }
-        public decimal Price { get; set; }
+
+        public CartItem(){}
+
+        public CartItem(string sku, string title, int qty)
+        {
+            SKU = sku;
+            Title = title;
+            Qty = qty;
+        }
     }
 }
