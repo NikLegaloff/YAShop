@@ -60,6 +60,7 @@
     <Compile Include="Infrastructure\ICommonInfrastructureProvider.cs" />
     <Compile Include="Infrastructure\EfDataProviderExecutor.cs" />
     <Compile Include="Infrastructure\Providers\CartDataProvider.cs" />
+    <Compile Include="Infrastructure\Providers\OrderDataProvider.cs" />
     <Compile Include="Infrastructure\Registry.cs" />
     <Compile Include="Domain\Cart.cs" />
     <Compile Include="Domain\Product.cs" />
@@ -70,9 +71,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\Providers\DataProvider.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cart\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
