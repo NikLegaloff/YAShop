@@ -40,11 +40,7 @@ namespace Sprut.MyShop.Infrastructure.Providers
 
         public Order GetOrder(string number)
         {
-            List<SqlParameter> param = new List<SqlParameter>();
-            param.Add(new SqlParameter("number", number));
-
-            const string sql = "select * from Order WHERE Number=@number";
-            return Select(sql, param.ToArray()).First();
+            return Select("select * from Order WHERE Number=@number", new {number}).First();
         }
 
         public string GetNewOrderNumber()

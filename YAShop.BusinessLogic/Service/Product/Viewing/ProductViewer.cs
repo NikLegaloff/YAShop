@@ -15,8 +15,8 @@ namespace YAShop.BusinessLogic.Service.Product.Viewing
 
         public async Task<PageData<ProductViewRow>> SelectPage()
         {
-            dynamic param = new ExpandoObject();
             var query = "select Product.Id, Product.SKU, Product.Title, Product.Image, Product.QTY, Product.Price, Category.[Name] Category from Product left join [dbo].[Category] on Product.CategoryId=Category.Id where 1=1 ";
+            dynamic param = new ExpandoObject();
             if (!string.IsNullOrWhiteSpace(_filter.Keyword))
             {
                 query += " and (Product.SKU = @Keyword or Product.Title like '%' + @Keyword )";

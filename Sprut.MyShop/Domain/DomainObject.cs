@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sprut.MyShop.Domain
 {
@@ -9,7 +10,7 @@ namespace Sprut.MyShop.Domain
             Id=Guid.Empty;
 
         }
-
+        [Key]
         public Guid Id { get; set; }
     }
 }
