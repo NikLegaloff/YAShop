@@ -27,7 +27,7 @@ namespace Sprut.MyShop.Infrastructure
 
         // replace InMemoryDataProviderExecutor to SqlDataProviderExecutor after implementation
         //public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new InMemoryDataProviderExecutor<T>();
-        public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new MongoDataProviderExecutor<T>().Init();
+        //public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new MongoDataProviderExecutor<T>().Init();
 
 
         public Registry(ICommonInfrastructureProvider commonInfrastructureProvider)
@@ -36,11 +36,13 @@ namespace Sprut.MyShop.Infrastructure
             //Products=new ProductDataProvider(GetExecutor<Product>());
             Products = new ProductDataProvider(new EfDataProviderExecutor<Product>().Init());
             Carts = new CartDataProvider();
-            Categories = new CategoryDataProvider(GetExecutor<Category>());
+            Orders = new OrderDataProvider(new EfDataProviderExecutor<Order>().Init());
+            //Categories = new CategoryDataProvider(GetExecutor<Category>());
         }
 
         public ProductDataProvider Products;
         public CartDataProvider Carts;
+        public OrderDataProvider Orders;
         public CategoryDataProvider Categories;
         
 
