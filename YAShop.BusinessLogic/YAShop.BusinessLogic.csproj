@@ -86,7 +86,7 @@
     <Compile Include="Bus\AbstractCommandHandler.cs" />
     <Compile Include="DomainModel\Cart.cs" />
     <Compile Include="DomainModel\Category.cs" />
-    <Compile Include="Presistense\DBField.cs" />
+    <Compile Include="Presistense\MSSQL\DBField.cs" />
     <Compile Include="Presistense\DomainObject.cs" />
     <Compile Include="DomainModel\Order.cs" />
     <Compile Include="DomainModel\Product.cs" />
@@ -95,7 +95,6 @@
     <Compile Include="Presistense\DataProviders.cs" />
     <Compile Include="Presistense\IMDBDataProvider.cs" />
     <Compile Include="Presistense\IDataProvider.cs" />
-    <Compile Include="Presistense\MongoDataProvider.cs" />
     <Compile Include="Presistense\MSSQL\MSSqlDataProvider.cs" />
     <Compile Include="Presistense\MSSQL\PageData.cs" />
     <Compile Include="Presistense\MSSQL\PagedListItem.cs" />

@@ -65,21 +65,8 @@ namespace Sprut.MyShop.Infrastructure
             }
             else
             {
-                //var pp = new List<SqlParameter>();
-                //foreach (var property in param.GetType().GetProperties())
-                //{
-                //    pp.Add(new SqlParameter(property.Name, property.GetValue(param)));
-                //}
-                //return _efContext.Database.SqlQuery<T>(query,pp.ToArray()).ToList(); ;
-
-                var resultSqlQuery = _efContext.Database.SqlQuery<T>(query, param);
-                var queryResult = new List<T>();
-                foreach (var product in resultSqlQuery)
-                {
-                    queryResult.Add(product);
-                }
-                return queryResult;
-
+                var pp = ((Type)param.GetType()).GetProperties().Select(p=> new SqlParameter(p.Name, p.GetValue(param))).ToArray();
+                return _efContext.Database.SqlQuery<T>(query,pp).ToList(); ;
             }
         }
         public T Find(Guid id)

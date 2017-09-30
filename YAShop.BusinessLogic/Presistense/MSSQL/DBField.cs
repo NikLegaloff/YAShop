@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace YAShop.BusinessLogic.Presistense
+namespace YAShop.BusinessLogic.Presistense.MSSQL
 {
     public class DBField : Attribute
     {

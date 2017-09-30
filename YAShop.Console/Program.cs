@@ -15,7 +15,7 @@ namespace YAShop.ConsoleApp
         {
             Registry.Init(new ProgrCommonInfrProvider());
             DateTime now = DateTime.Now;
-            var cats = Registry.Current.Data.Categories.Select();
+            var cats = Registry.Current.Data.Categories.Select().Result;
             for (int i = 1; i <= 1000; i++)
             {
                 Registry.Current.Data.Products.Save(new Product

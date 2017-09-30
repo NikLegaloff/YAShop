@@ -8,7 +8,7 @@ namespace YAShop.BusinessLogic.Service.Order
     {
         private int counter = 0;
 
-        public Guid CreateAndSave(DomainModel.Order order)
+        public Guid Create(DomainModel.Order order)
         {
             order.State = OrderState.Created;
             order.Date = DateTime.Now;

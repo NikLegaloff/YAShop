@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using YAShop.BusinessLogic.Presistense;
+using YAShop.BusinessLogic.Presistense.MSSQL;
 
 namespace YAShop.BusinessLogic.DomainModel
 {

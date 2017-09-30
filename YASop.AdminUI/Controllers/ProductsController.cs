@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using YAShop.BusinessLogic;
@@ -16,12 +17,10 @@ namespace YASop.AdminUI.Controllers
         {
             return View();
         }
-        public ActionResult Select(ProductFilter filter)
+        public async Task<ActionResult> Select(ProductFilter filter)
         {
-            return Json(Registry.Current.Services.Product.SelectPage(filter),JsonRequestBehavior.AllowGet);
+            return Json(await Registry.Current.Services.Product.SelectPage(filter), JsonRequestBehavior.AllowGet);
         }
-
-
     }
 
     [Authorize]
