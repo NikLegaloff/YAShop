@@ -24,7 +24,7 @@ namespace Sprut.MyShop.Infrastructure.Providers
             {
                 var orderItem = new OrderItem
                 {
-                    SKU = item.SKU,
+                    Number = item.SKU,
                     Title = item.Title,
                     Qty = item.Qty,
                     Price = Registry.Current.Products.GetProduct(item.SKU).Price
