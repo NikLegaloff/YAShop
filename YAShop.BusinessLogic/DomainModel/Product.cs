@@ -3,6 +3,7 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using YAShop.BusinessLogic.Presistense;
+using YAShop.BusinessLogic.Presistense.MSSQL;
 
 namespace YAShop.BusinessLogic.DomainModel
 {
@@ -25,7 +26,7 @@ namespace YAShop.BusinessLogic.DomainModel
 
         public Category Category
         {
-            get { return CategoryId==null ? null: Registry.Current.Data.Categories.Find(CategoryId.Value); }
+            get { return CategoryId==null ? null: Registry.Current.Data.Categories.Find(CategoryId.Value).Result; }
             set { CategoryId = value?.Id; }
         }
 

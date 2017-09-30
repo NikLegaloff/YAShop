@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using YAShop.BusinessLogic.Presistense.MSSQL;
 using YAShop.BusinessLogic.Service.Product.Viewing;
 
@@ -6,28 +7,30 @@ namespace YAShop.BusinessLogic.Service.Product
 {
     public class ProductService : AbstractService
     {
-        public DomainModel.Product GetBySKU(string sku)
+        public async Task<DomainModel.Product> GetBySKU(string sku)
         {
-            var product = Registry.Current.Data.Products.Select(" where SKU=@sku", new {sku});
+            var product = await Registry.Current.Data.Products.Select(" where SKU=@sku", new {sku});
             if (product != null && product.Length > 0) return product[0];
             throw new Exception("Product with SKU: " + sku + " not found");
         }
 
         public decimal GetPrice(string sku, int? qty)
         {
-            return GetBySKU(sku).Price;
+            return GetBySKU(sku).Result.Price;
         }
 
-        public void Take(string sku, int qty)
+        public async Task<bool> Take(string sku, int qty)
         {
-            var p = GetBySKU(sku);
+            var p = await GetBySKU(sku);
+            if (p.QTY < qty) return false;
             p.QTY -= qty;
-            Registry.Current.Data.Products.Save(p);
+            await Registry.Current.Data.Products.Save(p);
+            return true;
         }
 
-        public PageData<ProductViewRow> SelectPage(ProductFilter filter)
+        public async Task<PageData<ProductViewRow>> SelectPage(ProductFilter filter)
         {
-            return new ProductViewer(filter).SelectPage();
+            return await new ProductViewer(filter).SelectPage();
         }
     }
 }

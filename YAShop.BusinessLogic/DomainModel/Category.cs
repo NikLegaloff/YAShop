@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using YAShop.BusinessLogic.Presistense;
+using YAShop.BusinessLogic.Presistense.MSSQL;
 
 namespace YAShop.BusinessLogic.DomainModel
 {

@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using Dapper;
 using Drapper;
 using Drapper.Configuration;
@@ -61,23 +62,23 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
             return this;
         }
 
-        public T Find(Guid id)
+        public async Task<T> Find(Guid id)
         {
             using (var sqlConnection = Open())
             {
-                var find = sqlConnection.QueryFirst<T>("select * from " + typeof(T).Name + " where Id='" + id + "'");
+                var find = await sqlConnection.QueryFirstAsync<T>("select * from " + typeof(T).Name + " where Id='" + id + "'");
                 DeserializeProps(new []{find});
                 return find;
             }
         }
 
-        public void Save(T subj)
+        public async Task Save(T subj)
         {
-            if (subj.Id == Guid.Empty) Insert(subj);
-            else Update(subj);
+            if (subj.Id == Guid.Empty) await Insert(subj);
+            else await Update(subj);
         }
 
-        private void Update(T subj)
+        private async Task Update(T subj)
         {
             var props = subj.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
             var pp = new ExpandoObject() as IDictionary<string, Object>;
@@ -113,12 +114,12 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                 }
             }
             var sql = "update [" + subj.GetType().Name + "] set " + string.Join(",", items.Select(i => i + "=@" + i)) + " where id='" + subj.Id + "'";
-            using (var sqlConnection = Open()) sqlConnection.Execute(sql, pp);
+            using (var sqlConnection = Open()) await sqlConnection.ExecuteAsync(sql, pp);
 
         }
 
         readonly Dictionary<string, PropertyInfo> _jsonProps = new Dictionary<string, PropertyInfo>();
-        private void Insert(T subj)
+        private async Task Insert(T subj)
         {
             subj.Id = Guid.NewGuid();
             var props = subj.GetType().GetProperties();
@@ -142,28 +143,25 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                 }
             }
             var sql = "insert into [" + subj.GetType().Name + "](" + string.Join(",",items) + ") values (" + string.Join(",", items.Select(i => "@" + i)) + ")";
-            using (var sqlConnection = Open()) sqlConnection.Execute(sql, pp);
+            using (var sqlConnection = Open()) await sqlConnection.ExecuteAsync(sql, pp);
         }
 
-        public List<T> Select(Expression<Func<T, bool>> filter)
+
+        public async Task Delete(T subj)
         {
-            return new List<T>();
+            using (var sqlConnection = Open()) await sqlConnection.ExecuteAsync("delete [" + subj.GetType().Name + "] where id='" + subj.Id +"'");
         }
 
-        public void Delete(T subj)
-        {
-            using (var sqlConnection = Open()) sqlConnection.Execute("delete [" + subj.GetType().Name + "] where id='" + subj.Id +"'");
-        }
-
-        public T[] Select(string query=null, object param = null, int? top=null)
+        public async Task<T[]> Select(string query=null, object param = null, int? top=null)
         {
             if (!(query??"").StartsWith("select")) query = "select " + (top==null ? "": ("TOP " + top.Value)) + " [" + typeof(T).Name + "].* from [" + typeof(T).Name + "] (nolock) " + query;
-            var result = Open().Query<T>(query, param).ToArray();
-            DeserializeProps(result);
-            return result;
+            var result = await Open().QueryAsync<T>(query, param);
+            var items = result.ToArray();
+            DeserializeProps(items);
+            return items;
         }
 
-        public  PageData<T> SelectPage(string query, PagingArgs paging, dynamic param = null, string sortingAlias = null, string extraSorting = null)
+        public async Task<PageData<T>> SelectPage(string query, PagingArgs paging, dynamic param = null, string sortingAlias = null, string extraSorting = null)
         {
             if (!(query ?? "").StartsWith("select")) query = "select * from[" + typeof(T).Name + "] (nolock)" + query;
             using (var c = Open())
@@ -194,11 +192,12 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
 
                 query = $@"select * from ( {query} ) as __Res where __RowNum between @__PagingFrom and @__PagingTo order by __RowNum";
 
-                T[] queryPage = c.Query<T>(query, (object)param).ToArray();
+                var queryRes = await c.QueryAsync<T>(query, (object)param);
+                var queryPage = queryRes.ToArray();
                 DeserializeProps(queryPage);
+
                 var firstRow = queryPage.FirstOrDefault();
                 var totalRows = firstRow?.__RowsTotal ?? 0;
-
                 return new PageData<T>
                 {
                     TotalRows = totalRows,
