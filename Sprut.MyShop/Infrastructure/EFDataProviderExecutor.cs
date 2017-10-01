@@ -74,5 +74,13 @@ namespace Sprut.MyShop.Infrastructure
             return _efContext.Set<T>().Find(id);
         }
 
+        //includ
+        public DbQuery<T> Includ(string includName)
+        {
+            return _efContext.Set<T>().Include(includName);
+        }
+
+        //load
+
     }
 }

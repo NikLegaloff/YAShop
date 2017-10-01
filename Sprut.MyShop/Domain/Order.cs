@@ -29,14 +29,14 @@ namespace Sprut.MyShop.Domain
     }
 
     [Table("OrderItem")]
-    public class OrderItem
+    public class OrderItem:DomainObject
     {
-        [Key]
-        [ForeignKey("Order")]
-        public string Number { get; set; }
+        public string SKU { get; set; }
         public string Title { get; set; }
         public int Qty { get; set; }
         public decimal Price { get; set; }
+
+        public Guid OrderId { get; set; }
         public Order Order { get; set; }
     }
 }

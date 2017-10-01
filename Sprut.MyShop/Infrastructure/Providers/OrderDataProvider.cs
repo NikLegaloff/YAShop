@@ -14,6 +14,7 @@ namespace Sprut.MyShop.Infrastructure.Providers
 
         public Guid CreateOrder(Cart cart)
         {
+            decimal total = 0;
             var order = new Order
             {
                 Number = GetNewOrderNumber(),
@@ -24,13 +25,16 @@ namespace Sprut.MyShop.Infrastructure.Providers
             {
                 var orderItem = new OrderItem
                 {
-                    Number = item.SKU,
+                    SKU = item.SKU,
                     Title = item.Title,
                     Qty = item.Qty,
-                    Price = Registry.Current.Products.GetProduct(item.SKU).Price
+                    Price = Registry.Current.Products.GetProduct(item.SKU).Price,
+                    Order = order
                 };
-                order.Items.Add(orderItem);
+                total += (item.Qty + orderItem.Price);
                 Registry.Current.Products.GetProduct(item.SKU).Qty -= item.Qty;
+                //Registry.Current.Orders.(orderItem);
+                Registry.Current.Orders.
             }
             Registry.Current.Orders.Save(order);
             Registry.Current.Carts.Clear();

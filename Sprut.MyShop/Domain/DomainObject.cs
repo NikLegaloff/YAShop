@@ -8,7 +8,6 @@ namespace Sprut.MyShop.Domain
         public DomainObject()
         {
             Id=Guid.Empty;
-
         }
         [Key]
         public Guid Id { get; set; }

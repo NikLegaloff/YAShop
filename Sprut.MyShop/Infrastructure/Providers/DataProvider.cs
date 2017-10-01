@@ -44,5 +44,6 @@ namespace Sprut.MyShop.Infrastructure.Providers
             return result;
         }
         private static IDictionary IdentityMap => Registry.Current.CommonInfrastructureProvider.IdentityMap;
+
     }
 }
