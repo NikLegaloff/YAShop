@@ -34,7 +34,7 @@ namespace Sprut.MyShopConsole
                 Console.WriteLine("3. View shoping cart");
                 Console.WriteLine("4. Delete from cart");
                 Console.WriteLine("5. Start order");
-                Console.WriteLine("6. View order");
+                Console.WriteLine("6. View orders");
                 Console.WriteLine("7. Info S1");
                 Console.WriteLine("8. Import from Excel");
                 Console.WriteLine("9. Add from Excel");
@@ -84,16 +84,16 @@ namespace Sprut.MyShopConsole
                         var orderGuid = Registry.Current.Orders.CreateOrder(Registry.Current.Carts.GetCart());
                         Console.WriteLine(orderGuid);
                         break;
-                    //case "6":
-                    //    //var torder = OrderProviders.Current.Order.GetOrder(order);
-                    //    Console.WriteLine("Order number: " + torder.Number + ", date: " + torder.Date + ", state:" + torder.State);
-                    //    Console.WriteLine("SKU \tTitle \t\tQty \tPrice");
-                    //    foreach(var item in torder.Items)
-                    //    {
-                    //        Console.WriteLine(item.SKU + "\t" + item.Title + "\t" + item.Qty + "\t" + item.Price);
-                    //    }
-                    //    Console.WriteLine("Total: " + torder.Items.Sum(s => s.Price * s.Qty));
-                    //    break;
+                    case "6":
+                        var order = Registry.Current.Orders.GetOrder("15210900");
+                        Console.WriteLine("Order number: " + order.Number + ", date: " + order.Date + ", state:" + order.State+",total:"+order.Total);
+                        Console.WriteLine("SKU \tTitle \t\tQty \tPrice");
+                        foreach (var item in order.Items)
+                        {
+                            Console.WriteLine(item.SKU + "\t" + item.Title + "\t" + item.Qty + "\t" + item.Price);
+                        }
+                        Console.WriteLine("Total: " + order.Items.Sum(s => s.Price * s.Qty));
+                        break;
                     case "7":
                         var product2 = Registry.Current.Products.GetProduct("NewSKu1");
                         Console.WriteLine("SKU \t Title \t\t Price \t Description");

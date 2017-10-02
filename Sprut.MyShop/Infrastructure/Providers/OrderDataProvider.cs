@@ -43,10 +43,11 @@ namespace Sprut.MyShop.Infrastructure.Providers
             return order.Id;
         }
 
-
         public Order GetOrder(string number)
         {
-            return Select("select * from Order WHERE Number=@number", new {number}).First();
+            var order = Select("WHERE Number=@number", new {number}).First();
+            order.Items = JsonConvert.DeserializeObject<List<OrderItem>>(order.ItemsJSON);
+            return order;
         }
 
         public string GetNewOrderNumber()
