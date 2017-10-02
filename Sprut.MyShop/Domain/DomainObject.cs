@@ -1,15 +1,16 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Sprut.MyShop.Domain
 {
+    [DataContract]
     public class DomainObject
     {
         public DomainObject()
         {
             Id=Guid.Empty;
         }
-        [Key]
         public Guid Id { get; set; }
     }
 }

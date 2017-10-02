@@ -19,25 +19,5 @@ namespace Sprut.MyShop.Infrastructure.Providers
         {
             return Select("select * from Product WHERE SKU=@sku", new {sku}).First();
         }
-
-        // needless
-        /*   public void DeleteProduct(string sku)
-           {
-               var subj = Registry.Current.Products.GetProduct(sku);
-               Registry.Current.Products.Delete(subj);
-           }
-                   public List<Product> GetList()
-           {
-               //var param = new List<ObjectParameter>();
-               //param.Add(new ObjectParameter("name","value"));
-
-               //ObjectParameter[] param = new[]{new ObjectParameter("Name", "any value")};
-               //System.Data.SqlClient.SqlParameter param = new System.Data.SqlClient.SqlParameter("@name", "%Samsung%");
-               return Select("SELECT * FROM Products");
-           }
-
-        */
-
-
     }
 }

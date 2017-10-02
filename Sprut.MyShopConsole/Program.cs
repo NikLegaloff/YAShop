@@ -15,11 +15,14 @@ namespace Sprut.MyShopConsole
         {
             Registry.Init(new ConsoleCommonInfrastructureProvider());
 
-            //Registry.Current.Products.Save(new Product {SKU = "NewSKu1", Title = "New title", Price = 111.11m});
+            //Registry.Current.Products.Save(new Product { SKU = "N1", Title = "New title 1", Price = 111m });
+            //Registry.Current.Products.Save(new Product { SKU = "N2", Title = "New title 2", Price = 222m });
+            //Registry.Current.Products.Save(new Product { SKU = "N3", Title = "New title 3", Price = 333m });
+            //Registry.Current.Products.Save(new Product { SKU = "N4", Title = "New title 4", Price = 444m });
 
             //string order = null;
 
-            var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", new {qty = 0, sku= "NewSKu1" });
+            //var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", new {qty = 0, sku= "NewSKu1" });
 
 
             string select = null;
@@ -44,11 +47,11 @@ namespace Sprut.MyShopConsole
                 {
                     case "1":
                         var allProducts = Registry.Current.Products.Select();
-                        Console.WriteLine("SKU \t Title \t\t Price \t Description");
+                        Console.WriteLine("SKU \t Title \t\t Price \t Description\tQty");
                         foreach (var product in allProducts)
                         {
                             
-                            Console.WriteLine(product.SKU + "\t " + product.Title + "\t " + product.Price.ToString("0.00")+"\t "+product.Descripton);
+                            Console.WriteLine(product.SKU + "\t " + product.Title + "\t " + product.Price.ToString("0.00")+"\t "+product.Descripton+"\t"+product.Qty);
                         };
                         break;
                     case "2":
@@ -77,9 +80,10 @@ namespace Sprut.MyShopConsole
                         var skuDel = Console.ReadLine();
                         Registry.Current.Carts.Remove(skuDel);
                         break;
-                    //case "5":
-                    //    //order = OrderProviders.Current.Order.StartOrder(CartProviders.Current.Cart.GetCart());
-                    //    break;
+                    case "5":
+                        var orderGuid = Registry.Current.Orders.CreateOrder(Registry.Current.Carts.GetCart());
+                        Console.WriteLine(orderGuid);
+                        break;
                     //case "6":
                     //    //var torder = OrderProviders.Current.Order.GetOrder(order);
                     //    Console.WriteLine("Order number: " + torder.Number + ", date: " + torder.Date + ", state:" + torder.State);

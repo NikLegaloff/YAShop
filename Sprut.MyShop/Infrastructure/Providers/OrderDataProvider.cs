@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using Sprut.MyShop.Domain;
 using System.Data.Entity.Core.Objects;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
+using Newtonsoft.Json;
 
 namespace Sprut.MyShop.Infrastructure.Providers
 {
@@ -14,7 +17,6 @@ namespace Sprut.MyShop.Infrastructure.Providers
 
         public Guid CreateOrder(Cart cart)
         {
-            decimal total = 0;
             var order = new Order
             {
                 Number = GetNewOrderNumber(),
@@ -29,13 +31,13 @@ namespace Sprut.MyShop.Infrastructure.Providers
                     Title = item.Title,
                     Qty = item.Qty,
                     Price = Registry.Current.Products.GetProduct(item.SKU).Price,
-                    Order = order
                 };
-                total += (item.Qty + orderItem.Price);
-                Registry.Current.Products.GetProduct(item.SKU).Qty -= item.Qty;
-                //Registry.Current.Orders.(orderItem);
-                Registry.Current.Orders.
+                order.Items.Add(orderItem);
+                var product = Registry.Current.Products.GetProduct(item.SKU);
+                product.Qty -= item.Qty;
+                Registry.Current.Products.Save(product);
             }
+            order.ItemsJSON = JsonConvert.SerializeObject(order.Items);
             Registry.Current.Orders.Save(order);
             Registry.Current.Carts.Clear();
             return order.Id;

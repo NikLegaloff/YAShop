@@ -36,6 +36,10 @@ namespace Sprut.MyShop.Infrastructure
                 subj.Id = Guid.NewGuid();
                 efTable.Add(subj);
             }
+            else
+            {
+                _efContext.Entry(subj).State = System.Data.Entity.EntityState.Modified;
+            }
             _efContext.SaveChanges();
         }
 
@@ -73,14 +77,5 @@ namespace Sprut.MyShop.Infrastructure
         {
             return _efContext.Set<T>().Find(id);
         }
-
-        //includ
-        public DbQuery<T> Includ(string includName)
-        {
-            return _efContext.Set<T>().Include(includName);
-        }
-
-        //load
-
     }
 }

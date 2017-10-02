@@ -13,7 +13,6 @@ namespace Sprut.MyShop.Domain
         public EfContext() : base("YAShopDBv1") { }
 
         public DbSet<Product> Product { get; set; }
-        public DbSet<OrderItem> Items { get; set; }
         public DbSet<Order> Order { get; set; }
         
     }

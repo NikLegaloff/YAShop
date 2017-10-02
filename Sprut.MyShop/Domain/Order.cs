@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace Sprut.MyShop.Domain
 {
@@ -16,10 +17,12 @@ namespace Sprut.MyShop.Domain
     public class Order : DomainObject
     {
         public string Number { get; set; }
-        //public List<OrderItem> Items { get; set; }
-        public virtual ICollection<OrderItem> Items { get; set; }
+        [NotMapped]
+        public List<OrderItem> Items { get; set; }
+        //public virtual List<OrderItem> Items { get; set; }
         public DateTime Date { get; set; }
         public OrderState State { get; set; }
+        public string ItemsJSON { get; set; }
         public decimal Total => Items.Sum(s => s.Price * s.Qty);
         
         public Order()
@@ -28,15 +31,16 @@ namespace Sprut.MyShop.Domain
         }
     }
 
-    [Table("OrderItem")]
+    [DataContract]
     public class OrderItem:DomainObject
     {
+        [DataMember]
         public string SKU { get; set; }
+        [DataMember]
         public string Title { get; set; }
+        [DataMember]
         public int Qty { get; set; }
+        [DataMember]
         public decimal Price { get; set; }
-
-        public Guid OrderId { get; set; }
-        public Order Order { get; set; }
     }
 }
