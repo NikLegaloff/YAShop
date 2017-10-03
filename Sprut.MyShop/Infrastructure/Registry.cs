@@ -37,8 +37,7 @@ namespace Sprut.MyShop.Infrastructure
             Products = new ProductDataProvider(new EfDataProviderExecutor<Product>().Init());
             Carts = new CartDataProvider();
             Orders = new OrderDataProvider(new EfDataProviderExecutor<Order>().Init());
-            
-            //Categories = new CategoryDataProvider(GetExecutor<Category>());
+            Categories = new CategoryDataProvider(new EfDataProviderExecutor<Category>().Init());
         }
 
         public ProductDataProvider Products;

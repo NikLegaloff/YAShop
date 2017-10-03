@@ -15,10 +15,25 @@ namespace Sprut.MyShopConsole
         {
             Registry.Init(new ConsoleCommonInfrastructureProvider());
 
-            //Registry.Current.Products.Save(new Product { SKU = "N1", Title = "New title 1", Price = 111m });
-            //Registry.Current.Products.Save(new Product { SKU = "N2", Title = "New title 2", Price = 222m });
-            //Registry.Current.Products.Save(new Product { SKU = "N3", Title = "New title 3", Price = 333m });
-            //Registry.Current.Products.Save(new Product { SKU = "N4", Title = "New title 4", Price = 444m });
+            //Insert test product in database
+
+            //Registry.Current.Products.Save(new Product { SKU = "N1", Title = "New title 1", Price = 111m, Qty = 111 });
+            //Registry.Current.Products.Save(new Product { SKU = "N2", Title = "New title 2", Price = 222m, Qty = 222 });
+            //Registry.Current.Products.Save(new Product { SKU = "N3", Title = "New title 3", Price = 333m, Qty = 333 });
+            //Registry.Current.Products.Save(new Product { SKU = "N4", Title = "New title 4", Price = 444m, Qty = 444 });
+
+            //Insert test category in database
+
+            //Registry.Current.Categories.Save(new Category { Name = "Cat1" });
+            //Registry.Current.Categories.Save(new Category { Name = "Cat2" });
+            //Registry.Current.Categories.Save(new Category { Name = "Cat3" });
+            //Registry.Current.Categories.Save(new Category { Name = "Cat4" });
+            //Registry.Current.Categories.Save(new Category { Name = "Cat5" });
+            //Registry.Current.Categories.Save(new Category { Name = "Cat6" });
+            //Registry.Current.Categories.Save(new Category { Name = "Cat7" });
+            //Registry.Current.Categories.Save(new Category { Name = "Cat8" });
+
+
 
             //string order = null;
 
@@ -120,13 +135,13 @@ namespace Sprut.MyShopConsole
                     //            //Registry.Current.Products.Add(_product_temp);
                     //        }
                     //        break;
-                    // case "10":
-                    //    //var categorytree = CategoryProviders.Current.Category.GetTree();
-                    //    //foreach(var cat in categorytree)
-                    //    {
-                    //        Console.WriteLine(cat.Name + "\t" + cat.Id);
-                    //    }
-                    //    break;
+                    case "10":
+                        var categorytree = Registry.Current.Categories.GetPlanarTree();
+                        foreach(var cat in categorytree)
+                        {
+                            Console.WriteLine(cat.FullName);
+                        }
+                        break;
                     case "11":
                         Console.WriteLine("Delete SKU:");
                         var skufordel = Console.ReadLine();
