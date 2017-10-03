@@ -15,6 +15,7 @@ namespace Sprut.MyShop.Infrastructure.Providers
         private int _counter = 0;
         public OrderDataProvider(IDataProvider<Order> executor) : base(executor) { }
 
+
         public Guid CreateOrder(Cart cart)
         {
             var order = new Order
@@ -37,7 +38,6 @@ namespace Sprut.MyShop.Infrastructure.Providers
                 product.Qty -= item.Qty;
                 Registry.Current.Products.Save(product);
             }
-            order.ItemsJSON = JsonConvert.SerializeObject(order.Items);
             Registry.Current.Orders.Save(order);
             Registry.Current.Carts.Clear();
             return order.Id;
@@ -46,13 +46,23 @@ namespace Sprut.MyShop.Infrastructure.Providers
         public Order GetOrder(string number)
         {
             var order = Select("WHERE Number=@number", new {number}).First();
-            order.Items = JsonConvert.DeserializeObject<List<OrderItem>>(order.ItemsJSON);
             return order;
         }
 
         public string GetNewOrderNumber()
         {
             return (((int)DateTime.Now.Subtract(new DateTime(2017, 9, 15)).TotalSeconds) * 10 + _counter++ % 10).ToString();
+        }
+
+        protected override void AfterLoad(Order order)
+        {
+            order.Items = JsonConvert.DeserializeObject<List<OrderItem>>(order.ItemsJSON); 
+        }
+
+        protected override void BeforeSave(Order order)
+        {
+            order.ItemsJSON=JsonConvert.SerializeObject(order.Items);
+
         }
     }
 }

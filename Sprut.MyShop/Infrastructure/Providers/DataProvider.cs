@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Sprut.MyShop.Domain;
 
 namespace Sprut.MyShop.Infrastructure.Providers
@@ -8,11 +9,10 @@ namespace Sprut.MyShop.Infrastructure.Providers
     public class DataProvider<T> : IDataProvider<T> where T : DomainObject
     {
         private readonly IDataProvider<T> _executor;
+        protected virtual void AfterLoad(T subj) { }
+        protected virtual void BeforeSave(T subj) { }
 
-        public DataProvider(IDataProvider<T> executor)
-        {
-            _executor = executor;
-        }
+        public DataProvider(IDataProvider<T> executor) { _executor = executor; }
 
         public T Find(Guid id)
         {
@@ -21,29 +21,50 @@ namespace Sprut.MyShop.Infrastructure.Providers
             {
                 subj = _executor.Find(id);
                 Registry.Current.CommonInfrastructureProvider.IdentityMap.Add(id.ToString(), subj);
+                AfterLoad(subj);
             }
             return subj;
         }
 
         public void Save(T subj)
         {
-            if (!IdentityMap.Contains(subj.Id)) IdentityMap.Add(subj.Id, subj);
+            BeforeSave(subj);
             _executor.Save(subj);
+            if (!IdentityMap.Contains(subj.Id)) IdentityMap.Add(subj.Id, subj); // save new in IdMap
         }
 
         public void Delete(T subj)
         {
-            if (IdentityMap.Contains(subj.Id)) IdentityMap.Remove(subj.Id);
+            if (IdentityMap.Contains(subj.Id)) IdentityMap.Remove(subj.Id); // remove from IdMap
             _executor.Delete(subj);
         }
 
         public List<T> Select(string query = null, dynamic param = null)
         {
-            var result = _executor.Select(query, param);
-            if (result != null) foreach (var subj in result) if (!IdentityMap.Contains(subj.Id)) IdentityMap.Add(subj.Id, subj);
-            return result;
+            var selected = _executor.Select(query, param);
+            if (selected != null) {
+                var result = new List<T>();
+                foreach (var subj in selected)
+                {
+                    
+                    if (!IdentityMap.Contains(subj.Id))
+                    {
+                        IdentityMap.Add(subj.Id, subj);
+                        result.Add(subj);
+                        AfterLoad(subj); // call it only for new loaded subjects
+                    }
+                    else
+                    {
+                        result = IdentityMap[subj.Id];
+                    }
+                }
+                return result;
+            }
+            return null;
+
         }
         private static IDictionary IdentityMap => Registry.Current.CommonInfrastructureProvider.IdentityMap;
+
 
     }
 }
