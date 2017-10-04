@@ -9,8 +9,8 @@ namespace Sprut.MyShop.Domain
 {
     public class EfContext : DbContext
     {
-        //public EfContext() : base("Data Source=.;Initial Catalog=YAShopDBv2;Integrated Security=True") { }
-        public EfContext() : base("YAShopDBv1") { }
+        public EfContext() : base("Data Source=SPR\\SQLEXPRESS;Initial Catalog=YAShopDBv1;Integrated Security=True") { }
+        //public EfContext() : base("d:\\Temp\\YAShopDBv1.mdf") { }
 
         public DbSet<Product> Product { get; set; }
         public DbSet<Order> Order { get; set; }

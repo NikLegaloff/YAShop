@@ -15,27 +15,29 @@ namespace Sprut.MyShopConsole
         {
             Registry.Init(new ConsoleCommonInfrastructureProvider());
 
-            //Insert test product in database
-
-            //Registry.Current.Products.Save(new Product { SKU = "N1", Title = "New title 1", Price = 111m, Qty = 111 });
-            //Registry.Current.Products.Save(new Product { SKU = "N2", Title = "New title 2", Price = 222m, Qty = 222 });
-            //Registry.Current.Products.Save(new Product { SKU = "N3", Title = "New title 3", Price = 333m, Qty = 333 });
-            //Registry.Current.Products.Save(new Product { SKU = "N4", Title = "New title 4", Price = 444m, Qty = 444 });
-
             //Insert test category in database
+            for (int i = 0; i < 100; i++)
+            {
+                Registry.Current.Categories.Save(new Category
+                {
+                    Name = "Cat #" + i
+                });
+            }
 
-            //Registry.Current.Categories.Save(new Category { Name = "Cat1" });
-            //Registry.Current.Categories.Save(new Category { Name = "Cat2" });
-            //Registry.Current.Categories.Save(new Category { Name = "Cat3" });
-            //Registry.Current.Categories.Save(new Category { Name = "Cat4" });
-            //Registry.Current.Categories.Save(new Category { Name = "Cat5" });
-            //Registry.Current.Categories.Save(new Category { Name = "Cat6" });
-            //Registry.Current.Categories.Save(new Category { Name = "Cat7" });
-            //Registry.Current.Categories.Save(new Category { Name = "Cat8" });
-
-
-
-            //string order = null;
+            //Insert test product in database
+            var cats = Registry.Current.Categories.Select();
+            for (int i = 0; i < 1000; i++)
+            {
+                Registry.Current.Products.Save(new Product
+                {
+                    SKU = "SK" + i,
+                    Title = "Title #" + i + " product",
+                    Descripton = "Description #" + i + " product",
+                    Price = (i + 1) * 100,
+                    Qty = i % 100,
+                    CategoryId = cats[i % 100].Id
+                });
+            }
 
             //var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", new {qty = 0, sku= "NewSKu1" });
 

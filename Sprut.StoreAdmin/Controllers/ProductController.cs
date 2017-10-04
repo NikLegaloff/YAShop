@@ -14,39 +14,41 @@ namespace Sprut.StoreAdmin.Controllers
     {
         readonly FilterViewModels _filter = new FilterViewModels();
 
-        public ActionResult Index(FilterViewModels _filter)
+        public ActionResult Index()
         {
-            List<Product> products = Registry.Current.Products.Select().ToList();
-
-            if (_filter.Name != null)
-            {
-                products = products.FindAll(p => p.Title.Contains(_filter.Name)==true);
-            }
-
-            switch (_filter.Sort)
-            {
-                case 1:
-                    products = products.OrderBy(p=>p.Price).ToList();
-                    break;
-                case 2:
-                    products = products.OrderByDescending(p => p.Price).ToList();
-                    break;
-            }
-
-            if (_filter.minPrice > 0)
-            {
-                products = products.FindAll(p => p.Price > _filter.minPrice);
-            }
-
-            if (_filter.maxPrice > 0)
-            {
-                products = products.FindAll(p => p.Price < _filter.maxPrice);
-            }
-
+            List<Product> products = Registry.Current.Products.Select();
             ViewBag.Products = products;
-            //TODO: implement it in another place, not Index()
-            //ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
-            return View(_filter);
+
+            //if (_filter.Name != null)
+            //{
+            //    products = products.FindAll(p => p.Title.Contains(_filter.Name)==true);
+            //}
+
+            //switch (_filter.Sort)
+            //{
+            //    case 1:
+            //        products = products.OrderBy(p=>p.Price).ToList();
+            //        break;
+            //    case 2:
+            //        products = products.OrderByDescending(p => p.Price).ToList();
+            //        break;
+            //}
+
+            //if (_filter.minPrice > 0)
+            //{
+            //    products = products.FindAll(p => p.Price > _filter.minPrice);
+            //}
+
+            //if (_filter.maxPrice > 0)
+            //{
+            //    products = products.FindAll(p => p.Price < _filter.maxPrice);
+            //}
+
+
+            ////TODO: implement it in another place, not Index()
+            ////ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
+
+            return View();
         }
 
   

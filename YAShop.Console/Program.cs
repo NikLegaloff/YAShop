@@ -15,6 +15,13 @@ namespace YAShop.ConsoleApp
         {
             Registry.Init(new ProgrCommonInfrProvider());
             DateTime now = DateTime.Now;
+            for (int i = 0; i < 100; i++)
+            {
+                Registry.Current.Data.Categories.Save(new Category
+                {
+                    Name = "Cat#" + i
+                });
+            }
             var cats = Registry.Current.Data.Categories.Select().Result;
             for (int i = 1; i <= 1000; i++)
             {

@@ -55,7 +55,7 @@ namespace Sprut.MyShop.Infrastructure.Providers
                     }
                     else
                     {
-                        result = IdentityMap[subj.Id];
+                        result.Add(IdentityMap[subj.Id]);
                     }
                 }
                 return result;
