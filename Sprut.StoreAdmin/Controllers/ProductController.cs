@@ -12,11 +12,23 @@ namespace Sprut.StoreAdmin.Controllers
 {
     public class ProductController : Controller
     {
-        readonly FilterViewModels _filter = new FilterViewModels();
+        readonly ProductViewModel pvModel = new ProductViewModel();
 
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(int? page)
         {
-            List<Product> products = Registry.Current.Products.Select();
+            if (page == null) pvModel.CurrentPage = 1;
+            var query = "";
+
+            ViewBag.Count = Registry.Current.Products.Select().Count;
+
+            //order;
+            query +=string.Concat(" ORDER BY ",pvModel.Order);
+
+            //offset-fetch
+            query += string.Concat(" OFFSET ", (pvModel.CurrentPage-1) * 10, " ROWS FETCH NEXT 10 ROWS ONLY");
+
+            List<Product> products = Registry.Current.Products.Select(query);
             ViewBag.Products = products;
 
             //if (_filter.Name != null)
@@ -48,7 +60,7 @@ namespace Sprut.StoreAdmin.Controllers
             ////TODO: implement it in another place, not Index()
             ////ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
 
-            return View();
+            return View(pvModel);
         }
 
   

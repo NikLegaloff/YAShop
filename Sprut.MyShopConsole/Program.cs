@@ -26,7 +26,7 @@ namespace Sprut.MyShopConsole
 
             //Insert test product in database
             var cats = Registry.Current.Categories.Select();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 200; i++)
             {
                 Registry.Current.Products.Save(new Product
                 {
