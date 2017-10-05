@@ -1,98 +1,76 @@
-﻿
+﻿@model Sprut.StoreAdmin.Models.ProductViewModel
+@using Sprut.MyShop.Infrastructure
+
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<a href="~/Product/ImportXLS">Импорт продуктов из файла Excel</a><br />
-<a href="~/Product/Edit">Добавить новый продукт</a><br />
-<a href="~/Product/Category">Работа с категориями</a><br />
-
-<div>
-    @*<h3>Фильтр</h3>
-
-
-    @using (Html.BeginForm("Filter"))
-    {
-        @Html.Label("Category")
-        <select name="category">
-            @foreach (var o in ViewBag.Categorys)
-            {
-                <option value="@o.Id">@o.Name</option>
-            }
-        </select>
-
-        <br/>
-
-        @Html.Label("Product name:")
-        @Html.EditorFor(m => m.Name)
-
-        <br/>
-
-        @Html.Label("Sort:")
-
-
-        @Html.DropDownListFor(m => m.Sort, new SelectList(
-            new List<Object>
-            {
-                new {value = 0, text = "No"},
-                new {value = 1, text = "Min->Max"},
-                new {value = 2, text = "Max->Min"}
-            },
-            "value",
-            "text",
-            2))
-
-        <br/>
-
-        @Html.Label("Price:")
-        @Html.EditorFor(m => m.minPrice)
-        @Html.Label(" to ")
-        @Html.EditorFor(m => m.maxPrice)
-
-
-        <input type="submit" value="Applay"/>
-    }*@
-</div>
-
-
-
-
-
-
-    <h2>ViewAllProduct</h2>
-
-    <table>
-        <tr>
-            <td>SKU</td>
-            <td>Title</td>
-            <td>Qty</td>
-            <td>Price</td>
-            <td>Image</td>
-            <td>Descripton</td>
-            <td>CategoryId</td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        @foreach (var p in ViewBag.Products)
-        {
+<br/>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Products list</h3>
+    </div>
+    <div class="panel-body">
+        <nav class="navbar navbar">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default">Add new product</button>
+                <button type="button" class="btn btn-default" data-toggle="collapse" href="#collapseFilter" aria-expanded="false">Filter</button>
+                <button type="button" class="btn btn-default">Import CSV</button>
+                <button type="button" class="btn btn-default">Export CSV</button>
+            </div>
+        </nav>
+        <div class="collapse" id="collapseFilter">
+            <div class="well">
+                ...
+            </div>
+        </div>
+        <table class="table table-hover">
             <tr>
-                <td>@p.SKU</td>
-                <td>@p.Title</td>
-                <td>@p.Qty</td>
-                <td>@p.Price</td>
-                <td>@p.Image</td>
-                <td>@p.Descripton</td>
-                <td>@p.CategoryId</td>
-                <td>@Html.ActionLink("Edit", "Edit", new { sku = p.SKU })</td>
-                <td>@Html.ActionLink("Delete", "DeleteProduct", new { sku = p.SKU })</td>
+                <td>SKU</td>
+                <td>Title</td>
+                <td>Qty</td>
+                <td>Price</td>
+                <td>Image</td>
+                <td>Descripton</td>
+                <td>Category</td>
+                <td></td>
             </tr>
 
+            @foreach (var p in ViewBag.Products)
+            {
+                <tr>
+                    <td>@p.SKU</td>
+                    <td>@p.Title</td>
+                    <td>@p.Qty</td>
+                    <td>@p.Price</td>
+                    <td>@p.Image</td>
+                    <td>@p.Descripton</td>
+                    <td>@Registry.Current.Categories.Find(p.CategoryId)</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new { sku = p.SKU }) @Html.ActionLink("Delete", "DeleteProduct", new { sku = p.SKU })</td>
+                </tr>
+            }
+        </table>
+        <nav aria-label="Page navigation" class="text-center">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                @for (var i = 0; i < ViewBag.Count/10; i++)
+                {
+                    <li><a href="#">@(i + 1)</a></li>
+                }
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 
-        }
-
-    </table>
+   
 
 
