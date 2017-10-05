@@ -1,9 +1,7 @@
 namespace YAShop.BusinessLogic.Bus.Products
 {
-    public class AddProductToCartCommand : ICommand
+    public class CancelOldNotPaidOrdersCommand : ICommand
     {
-        public string SKU { get; set; }
-        public string Title{ get; set; }
-        public int QTY{ get; set; }
+        public int MaxDurationHours{ get; set; }
     }
 }

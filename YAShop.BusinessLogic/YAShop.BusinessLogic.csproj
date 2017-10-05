@@ -81,12 +81,13 @@
   <ItemGroup>
     <Compile Include="Bus\CommandBus.cs" />
     <Compile Include="Bus\Products\AddProductToCartCommand.cs" />
-    <Compile Include="Bus\Products\AddProductToCartCommandHandler.cs" />
+    <Compile Include="Bus\Products\CancelOldNotPaidOrdersCommand.cs" />
     <Compile Include="Bus\ICommand.cs" />
     <Compile Include="Bus\AbstractCommandHandler.cs" />
     <Compile Include="BusinessException.cs" />
     <Compile Include="DomainModel\Cart.cs" />
     <Compile Include="DomainModel\Category.cs" />
+    <Compile Include="DomainModel\CommandDTO.cs" />
     <Compile Include="Presistense\MSSQL\DBField.cs" />
     <Compile Include="Presistense\DomainObject.cs" />
     <Compile Include="DomainModel\Order.cs" />

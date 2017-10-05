@@ -9,7 +9,7 @@ namespace YAShop.BusinessLogic.Service.Order
     {
         private int counter = 0;
 
-        public async void Cancel(DomainModel.Order order)
+        public async Task Cancel(DomainModel.Order order)
         {
             if (order.State==OrderState.Shipped || order.State==OrderState.Delivered) throw new BusinessException("Unable to cancel order in state " + order.State);
             foreach (var item in order.Items)

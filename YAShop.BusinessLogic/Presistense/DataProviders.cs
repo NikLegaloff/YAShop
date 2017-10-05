@@ -10,6 +10,7 @@ namespace YAShop.BusinessLogic.Presistense
             Orders = GetDataProvider<Order>();
             Products = GetDataProvider<Product>();
             Categories = GetDataProvider<Category>();
+            Commands= GetDataProvider<CommandDTO>();
             InitData();
         }
 
@@ -26,5 +27,6 @@ namespace YAShop.BusinessLogic.Presistense
         public IDataProvider<Order> Orders { get; private set; }
         public IDataProvider<Product> Products { get; private set; }
         public IDataProvider<Category> Categories { get; private set; }
+        public IDataProvider<CommandDTO> Commands{ get; private set; }
     }
 }

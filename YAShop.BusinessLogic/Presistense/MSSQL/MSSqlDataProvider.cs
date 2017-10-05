@@ -16,23 +16,41 @@ using YAShop.BusinessLogic.DomainModel;
 
 namespace YAShop.BusinessLogic.Presistense.MSSQL
 {
-    public class MSSqlDataProvider<T> : IDataProvider<T> where T : DomainObject, new()
+    public class MSSqlDb
     {
-        SqlConnection Open()
+        public static SqlConnection Open()
         {
             var connection = new SqlConnection("Data Source=.;Initial Catalog=YAShop;Integrated Security=True");
             connection.Open();
             return connection;
         }
+
+        public static async Task Execute(string sql, object param=null)
+        {
+            using (var db = Open())
+            {
+                await db.ExecuteAsync(sql,param);
+            }
+        }
+        public static async Task<T> ExecuteScalar<T>(string sql, object param = null)
+        {
+            using (var db = Open())
+            {
+                return await db.ExecuteScalarAsync<T>(sql,param);
+            }
+        }
+    }
+    public class MSSqlDataProvider<T> : IDataProvider<T> where T : DomainObject, new()
+    {
         public IDataProvider<T> Init()
         {
             var tableName = typeof(T).Name;
-            using (var connection = Open())
+            using (var connection = MSSqlDb.Open())
             {
                 var tid = connection.ExecuteScalar<int?>("select OBJECT_ID('" + tableName + "')");
                 if (tid != null) return this;
                 var props = typeof(T).GetProperties();
-            
+                bool withNtext = false;
                 var columns = new List<string>();
                 foreach (var prop in props)
                 {
@@ -49,9 +67,15 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                         len = "";
                         name += "JSON";
                     }
+                    if (attr.DBType == SqlDbType.NText)
+                    {
+                        withNtext = true;
+                        len = "";
+                    }
                     columns.Add($"{name} {type}{len} {nullable}");
                 }
                 var sql = "CREATE TABLE dbo.[" + tableName + "] (Id uniqueidentifier NOT NULL, " + string.Join(", ", columns) + ")";
+                if (withNtext) sql += " ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]";
                 connection.Execute(sql);
                 sql = $"ALTER TABLE dbo.[{tableName}] ADD CONSTRAINT\tPK_{tableName} PRIMARY KEY CLUSTERED (Id)" +
                        $" WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]";
@@ -64,7 +88,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
 
         public async Task<T> Find(Guid id)
         {
-            using (var sqlConnection = Open())
+            using (var sqlConnection = MSSqlDb.Open())
             {
                 var find = await sqlConnection.QueryFirstAsync<T>("select * from " + typeof(T).Name + " where Id='" + id + "'");
                 DeserializeProps(new []{find});
@@ -114,7 +138,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                 }
             }
             var sql = "update [" + subj.GetType().Name + "] set " + string.Join(",", items.Select(i => i + "=@" + i)) + " where id='" + subj.Id + "'";
-            using (var sqlConnection = Open()) await sqlConnection.ExecuteAsync(sql, pp);
+            using (var sqlConnection = MSSqlDb.Open()) await sqlConnection.ExecuteAsync(sql, pp);
 
         }
 
@@ -131,6 +155,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                 var attr = prop.GetCustomAttribute<DBField>();
                 if (attr == null) continue;
                 var value = prop.GetValue(subj);
+                if (value==null) continue;
                 if (attr.InJson)
                 {
                     pp.Add(prop.Name + "JSON", JsonConvert.SerializeObject(value));
@@ -143,28 +168,31 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                 }
             }
             var sql = "insert into [" + subj.GetType().Name + "](" + string.Join(",",items) + ") values (" + string.Join(",", items.Select(i => "@" + i)) + ")";
-            using (var sqlConnection = Open()) await sqlConnection.ExecuteAsync(sql, pp);
+            using (var sqlConnection = MSSqlDb.Open()) await sqlConnection.ExecuteAsync(sql, pp);
         }
 
 
         public async Task Delete(T subj)
         {
-            using (var sqlConnection = Open()) await sqlConnection.ExecuteAsync("delete [" + subj.GetType().Name + "] where id='" + subj.Id +"'");
+            using (var sqlConnection = MSSqlDb.Open()) await sqlConnection.ExecuteAsync("delete [" + subj.GetType().Name + "] where id='" + subj.Id +"'");
         }
 
         public async Task<T[]> Select(string query=null, object param = null, int? top=null)
         {
             if (!(query??"").StartsWith("select")) query = "select " + (top==null ? "": ("TOP " + top.Value)) + " [" + typeof(T).Name + "].* from [" + typeof(T).Name + "] (nolock) " + query;
-            var result = await Open().QueryAsync<T>(query, param);
-            var items = result.ToArray();
-            DeserializeProps(items);
-            return items;
+            using (var sqlConnection = MSSqlDb.Open())
+            {
+                var result = await sqlConnection.QueryAsync<T>(query, param);
+                var items = result.ToArray();
+                DeserializeProps(items);
+                return items;
+            }
         }
 
         public async Task<PageData<T>> SelectPage(string query, PagingArgs paging, dynamic param = null, string sortingAlias = null, string extraSorting = null)
         {
             if (!(query ?? "").StartsWith("select")) query = "select * from[" + typeof(T).Name + "] (nolock)" + query;
-            using (var c = Open())
+            using (var c = MSSqlDb.Open())
             {
                 if (string.IsNullOrWhiteSpace(paging.Sort))
                     throw new InvalidOperationException("Sort field is empty");
