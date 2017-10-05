@@ -13,7 +13,7 @@ namespace YAShop.BusinessLogic.DomainModel
     }
     public enum OrderState
     {
-        Created, Paid, Shipped, Delivered
+        Created, Paid, Shipped, Delivered, Cancelled
     }
 
     public class Order : DomainObject, IWithEmbededProperty
@@ -36,7 +36,7 @@ namespace YAShop.BusinessLogic.DomainModel
         [DBField(SqlDbType.NText)]
         public string DeliveryOptions { get; set; }
 
-        [DBField(SqlDbType.NVarChar, 0, false, true, typeof(List<OrderItem>))]
+        [DBField(SqlDbType.NVarChar, 0, nullable: false,inJson: true,type: typeof(List<OrderItem>))]
         public List<OrderItem> Items { get; set; }
         private string ItemsJSON { get; set; }
 
