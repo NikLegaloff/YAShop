@@ -84,6 +84,7 @@
     <Compile Include="Bus\Products\AddProductToCartCommandHandler.cs" />
     <Compile Include="Bus\ICommand.cs" />
     <Compile Include="Bus\AbstractCommandHandler.cs" />
+    <Compile Include="BusinessException.cs" />
     <Compile Include="DomainModel\Cart.cs" />
     <Compile Include="DomainModel\Category.cs" />
     <Compile Include="Presistense\MSSQL\DBField.cs" />
