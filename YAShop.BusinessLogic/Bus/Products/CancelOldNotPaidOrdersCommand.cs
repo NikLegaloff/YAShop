@@ -1,9 +1,14 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using YAShop.BusinessLogic.DomainModel;
 
 namespace YAShop.BusinessLogic.Bus.Products
 {
+    public class CancelOldNotPaidOrdersCommand : ICommand
+    {
+        public int MaxDurationHours { get; set; }
+    }
     public class CancelOldNotPaidOrdersCommandHandler : AbstractCommandHandler<CancelOldNotPaidOrdersCommand>
     {
         public CancelOldNotPaidOrdersCommandHandler(Guid dtoId) : base(dtoId){}
@@ -20,7 +25,7 @@ namespace YAShop.BusinessLogic.Bus.Products
                 }
             }
             else await Status("No orders to cancel");
-            
+            Thread.Sleep(100+new Random().Next(200));
             return true;
         }
     }

@@ -17,23 +17,43 @@ namespace YAShop.ConsoleApp
         static  void Main(string[] args)
         {
             Registry.Init(new ProgrCommonInfrProvider());
-            DateTime now = DateTime.Now;
-            foreach (var command in Registry.Current.Data.Commands.Select().Result) Registry.Current.Data.Commands.Delete(command);
-            
 
-            for (int i = 1; i <= 10; i++) Registry.Current.Bus.Invoke(new CancelOldNotPaidOrdersCommand { MaxDurationHours = i }).Wait();
-            Console.ReadLine();
+            DateTime now = DateTime.Now;
+            Console.WriteLine("* - clear commands");
+            Console.WriteLine("0 - start commands processing");
+            Console.WriteLine("1-10 - invoke N commands");
             do
             {
-                bool result = new CommandExecutor().TakeOneAndExecute().Result;
-                // if nothing processed
-                if (!result) Thread.Sleep(2000); // then sleep 2 sec
-                
+                var c = Console.ReadLine();
+                switch (c)
+                {
+                    case "0":
+                        ProcessCommands();
+                        break;
+                    case "*":
+                        foreach (var command in Registry.Current.Data.Commands.Select().Result) Registry.Current.Data.Commands.Delete(command);
+                        break;
+                    default:
+                        for (int i = 0; i < int.Parse(c); i++)
+                        {
+                            Registry.Current.Bus.Invoke(new CancelOldNotPaidOrdersCommand {MaxDurationHours = 2}).Wait();
+                        }
+                        break;
+                }
             } while (true);
-
             Console.WriteLine(DateTime.Now.Subtract(now).TotalMilliseconds);
             Console.ReadLine();
 
+        }
+
+        private static void ProcessCommands()
+        {
+            do
+            {
+                bool result = new CommandExecutor(Console.WriteLine).TakeOneAndExecute().Result;
+                // if nothing processed
+                if (!result) Thread.Sleep(200); // then sleep 2 sec
+            } while (true);
         }
 
         private static void CreateInventoryAndCategories()
