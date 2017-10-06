@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Sprut.MyShop;
 using Sprut.MyShop.Domain;
 using Sprut.MyShop.Infrastructure;
@@ -14,51 +15,62 @@ namespace Sprut.StoreAdmin.Controllers
     {
         readonly ProductViewModel pvModel = new ProductViewModel();
 
-        [HttpGet]
         public ActionResult Index(int? page)
         {
-            if (page == null) pvModel.CurrentPage = 1;
+            //change filter field on Model
+            pvModel.CategoryId = Request.Form["fCategory"];
+            pvModel.Name = Request.Form["fName"];
+            pvModel.MinPrice = Request.Form["fPriceMin"];
+            pvModel.MaxPrice = Request.Form["fPriceMax"];
+            pvModel.Order = !Request.Form["fSort"].IsNullOrWhiteSpace() ? Request.Form["fSort"] : "SKU";
+
+            if (page == null)
+            {
+                pvModel.CurrentPage = 1;
+            }
+            else
+            {
+                pvModel.CurrentPage = (int)page;
+            }
+
             var query = "";
 
-            ViewBag.Count = Registry.Current.Products.Select().Count;
+            if (!pvModel.CategoryId.IsNullOrWhiteSpace() | !pvModel.Name.IsNullOrWhiteSpace() | !pvModel.MinPrice.IsNullOrWhiteSpace() | !pvModel.MaxPrice.IsNullOrWhiteSpace() )
+            {
+                query += " WHERE ";
+            }
 
+            //category :TODO
+
+            //name
+            if(!pvModel.Name.IsNullOrWhiteSpace()) query += string.Concat("Title LIKE '%", pvModel.Name, "%'");
+
+            //price min
+            if (!pvModel.MinPrice.IsNullOrWhiteSpace())
+            {
+                if (query.Contains("Title")) query += " AND ";
+                query += string.Concat("Price >", pvModel.MinPrice);
+            }
+
+            //price max
+            if (!pvModel.MaxPrice.IsNullOrWhiteSpace())
+            {
+                if (query.Contains("Price >")) query += " AND ";
+                query += string.Concat("Price <", pvModel.MaxPrice, " ");
+            }
+
+            List<Product> products = Registry.Current.Products.Select(query);
+            ViewBag.Count = products.Count;
+            products.Clear();
+            
             //order;
-            query +=string.Concat(" ORDER BY ",pvModel.Order);
+            query += string.Concat(" ORDER BY ",pvModel.Order);
 
             //offset-fetch
             query += string.Concat(" OFFSET ", (pvModel.CurrentPage-1) * 10, " ROWS FETCH NEXT 10 ROWS ONLY");
 
-            List<Product> products = Registry.Current.Products.Select(query);
+            products = Registry.Current.Products.Select(query);
             ViewBag.Products = products;
-
-            //if (_filter.Name != null)
-            //{
-            //    products = products.FindAll(p => p.Title.Contains(_filter.Name)==true);
-            //}
-
-            //switch (_filter.Sort)
-            //{
-            //    case 1:
-            //        products = products.OrderBy(p=>p.Price).ToList();
-            //        break;
-            //    case 2:
-            //        products = products.OrderByDescending(p => p.Price).ToList();
-            //        break;
-            //}
-
-            //if (_filter.minPrice > 0)
-            //{
-            //    products = products.FindAll(p => p.Price > _filter.minPrice);
-            //}
-
-            //if (_filter.maxPrice > 0)
-            //{
-            //    products = products.FindAll(p => p.Price < _filter.maxPrice);
-            //}
-
-
-            ////TODO: implement it in another place, not Index()
-            ////ViewBag.Categorys = CategoryProviders.Current.Category.GetTree();
 
             return View(pvModel);
         }
@@ -66,108 +78,6 @@ namespace Sprut.StoreAdmin.Controllers
   
 
 
-        [HttpGet]
-        public ActionResult Edit(string sku)
-        {
-            Product product;
-            if (sku==null)
-            {
-                product = new Product();
-                ViewBag.Action = "Добавить";
-            }
-            else
-            {
-                product = Registry.Current.Products.GetProduct(sku);
-                ViewBag.Action = "Изменить";
-            }
-            return View("Edit", product);
-        }
-        [HttpPost]
-        public ActionResult Edit(Product product)
-        {
-            Registry.Current.Products.Save(product);
-            return Redirect("Index");
-        }
-        public ActionResult DeleteProduct(string sku)
-        {
-            Registry.Current.Products.Delete(Registry.Current.Products.GetProduct(sku));
-            return Redirect("Index");
-
-        }
-
-        [HttpGet]
-        public ActionResult ImportXLS()
-        {
-            //TODO: implement it in another place, not Index()
-
-            /*
-            var xlArray = Registry.Current.Products.ImportFromExcel("d:\\temp\\MyShopTest.xlsx");
-            ViewBag.xlArray = xlArray;
-            ViewBag.xlArrayRows = xlArray.GetLength(0);
-            ViewBag.xlArrayCols = xlArray.GetLength(1);
-            */
-            return View();
-        }
-        [HttpPost]
-        public ActionResult ImportXLS(string temp)
-        {
-            //TODO: implement it in another place, not Index()
-            /*
-            //для теста добавления в базу, по идее нужно с представления возвращать данные для добавления
-            var xlArray = Registry.Current.Products.ImportFromExcel("d:\\temp\\MyShopTest.xlsx");
-            for(int i = 1; i < xlArray.GetLength(0); i++)
-            {
-                Product _product_temp = new Product();
-                _product_temp.SKU = xlArray[i, 0];
-                _product_temp.Title = xlArray[i, 1];
-                _product_temp.Price = Decimal.Parse(xlArray[i, 2]);
-                _product_temp.Qty = Int16.Parse(xlArray[i, 3]);
-                _product_temp.Image = xlArray[i, 4];
-                _product_temp.Descripton = xlArray[i, 5];
-                //_product.CategoryId = Guid.Parse(xlArray[i, 6]); не решено с категорией
-
-                Registry.Current.Products.Save(_product_temp);
-            }*/
-            return Redirect("Index");
-        }
-
-        public ActionResult Category()
-        {
-          //  ViewBag.Categorys = Registry.Current.Categories.GetTree();
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult CatEdit(string guid, string act)
-        {
-            Category _category;
-
-            Guid _parse;
-            Guid.TryParse(guid, out _parse);
-
-            if (act == "new")
-            {
-                _category = new Category()
-                {
-                    Id = Guid.NewGuid(),
-                    ParentId = _parse
-                };
-                ViewBag.Action = "Добавить";
-            }
-            else
-            {
-
-                _category = Registry.Current.Categories.Find(_parse);
-                ViewBag.Action = "Изменить";
-            }
-            return View("CatEdit", _category);
-        }
-        [HttpPost]
-        public ActionResult CatEdit(Category category)
-        {
-            Registry.Current.Categories.Save(category);
-            return Redirect("Category");
-        }
 
     }
 }

@@ -5,7 +5,7 @@
     ViewBag.Title = "Index";
 }
 
-<br/>
+<br />
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Products list</h3>
@@ -21,7 +21,36 @@
         </nav>
         <div class="collapse" id="collapseFilter">
             <div class="well">
-                ...
+                <form method="post" class="form-horizontal">
+
+                    <label for="fCategory">Category</label>
+                    <select class="form-control" id="fCategory" name="fCategory">
+                        @foreach (var c in Registry.Current.Categories.GetPlanarTree())
+                        {
+                            <option value=@c.Id.ToString() @if (c.Id.ToString() == Model.CategoryId) { @Html.Raw("selected")  }>@c.FullName</option>
+                        }
+                    </select>
+
+                    <label for="fName">Product name</label>
+                    <input class="form-control" id="fName" name="fName" value=@Model.Name>
+
+                    <label for="fCategory">Sort by</label>
+                    <select class="form-control" id="fSort" name="fSort">
+                        <option value="SKU" @if (Model.Order == "SKU") { @Html.Raw("selected") }>SKU</option>
+                        <option value="Title" @if (Model.Order == "Title") { @Html.Raw("selected") }>Title</option>
+                        <option value="Price" @if (Model.Order == "Price") { @Html.Raw("selected") }>Price</option>
+                        <option value="Qty" @if (Model.Order == "Qty") { @Html.Raw("selected") }>Qty</option>
+                    </select>
+
+                    <label for="fPriceMin">Product price min</label>
+                    <input class="form-control" id="fPriceMin" name="fPriceMin" type="number" value=@Model.MinPrice>
+                    <label for="fPriceMax">Product price max</label>
+                    <input class="form-control" id="fPriceMax" name="fPriceMax" type="number" value=@Model.MaxPrice>
+
+
+                    <button type="submit" class="btn btn-default">Apply</button>
+                    <button type="reset" class="btn btn-default">Reset</button>
+                </form>
             </div>
         </div>
         <table class="table table-hover">
@@ -50,6 +79,7 @@
                 </tr>
             }
         </table>
+        @*bad working in filter mod*@
         <nav aria-label="Page navigation" class="text-center">
             <ul class="pagination">
                 <li>
@@ -57,9 +87,9 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                @for (var i = 0; i < ViewBag.Count/10; i++)
+                @for (var i = 0; i < ViewBag.Count / 10; i++)
                 {
-                    <li><a href="#">@(i + 1)</a></li>
+                    <li>@Html.ActionLink((i + 1).ToString(), "Index", new { page = i + 1 })</li>
                 }
                 <li>
                     <a href="#" aria-label="Next">
@@ -71,6 +101,11 @@
     </div>
 </div>
 
-   
+
+
+
+
+
+
 
 
