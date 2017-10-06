@@ -7,19 +7,24 @@ namespace YAShop.ConsoleApp
 {
     public class ProgrCommonInfrProvider : ICommonInfrastructureProvider
     {
-        readonly Dictionary<string, object> session = new Dictionary<string, object>();
         public object GetFromSession(string key)
         {
-            return session.ContainsKey(key) ? session[key] : null;
+            throw new NotImplementedException();
         }
 
         public void PutInSession(string key, object subj)
         {
-            if (session.ContainsKey(key)) session[key] = subj; else session.Add(key, subj);
+            throw new NotImplementedException();
         }
 
 
-        Dictionary<string, object> _identityMap { get; } = new Dictionary<string, object>();
-        public IDictionary IdentityMap => _identityMap;
+
+        public IDictionary IdentityMap
+        {
+            get
+            {
+                return new Hashtable();
+            }
+        }
     }
 }

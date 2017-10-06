@@ -8,6 +8,10 @@ namespace YAShop.BusinessLogic.Bus.Products
     public class CancelOldNotPaidOrdersCommand : ICommand
     {
         public int MaxDurationHours { get; set; }
+        public override string ToString()
+        {
+            return "CancelOldNotPaidOrders(" + MaxDurationHours + ")";
+        }
     }
     public class CancelOldNotPaidOrdersCommandHandler : AbstractCommandHandler<CancelOldNotPaidOrdersCommand>
     {
@@ -25,7 +29,7 @@ namespace YAShop.BusinessLogic.Bus.Products
                 }
             }
             else await Status("No orders to cancel");
-            Thread.Sleep(100+new Random().Next(200));
+            Thread.Sleep(200+new Random().Next(400));
             return true;
         }
     }
