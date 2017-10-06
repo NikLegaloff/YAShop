@@ -20,7 +20,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
     {
         public static SqlConnection Open()
         {
-            var connection = new SqlConnection("Data Source=.;Initial Catalog=YAShop;Integrated Security=True");
+            var connection = new SqlConnection("Data Source=.;Initial Catalog=YAShop;Persist Security Info=True;User ID=sa;Password=Password1");
             connection.Open();
             return connection;
         }

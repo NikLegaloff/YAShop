@@ -80,7 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bus\CommandBus.cs" />
-    <Compile Include="Bus\Products\CancelOldNotPaidOrdersCommand.cs" />
+    <Compile Include="Bus\Commands\Products\CancelOldNotPaidOrdersCommand.cs" />
+    <Compile Include="Bus\Commands\Products\PingCommand.cs" />
     <Compile Include="Bus\ICommand.cs" />
     <Compile Include="Bus\AbstractCommandHandler.cs" />
     <Compile Include="BusinessException.cs" />

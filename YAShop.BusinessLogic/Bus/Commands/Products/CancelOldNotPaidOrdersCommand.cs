@@ -3,10 +3,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using YAShop.BusinessLogic.DomainModel;
 
-namespace YAShop.BusinessLogic.Bus.Products
+namespace YAShop.BusinessLogic.Bus.Commands
 {
     public class CancelOldNotPaidOrdersCommand : ICommand
     {
+        public CancelOldNotPaidOrdersCommand(int maxDurationHours)
+        {
+            MaxDurationHours = maxDurationHours;
+        }
+
+        public CancelOldNotPaidOrdersCommand()
+        {
+        }
+
         public int MaxDurationHours { get; set; }
         public override string ToString()
         {

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using YAShop.BusinessLogic;
 using YAShop.BusinessLogic.Bus;
-using YAShop.BusinessLogic.Bus.Products;
+using YAShop.BusinessLogic.Bus.Commands;
 using YAShop.BusinessLogic.DomainModel;
-using YAShop.BusinessLogic.Presistense.MSSQL;
-using YAShop.BusinessLogic.Service.Category;
 
 
 namespace YAShop.ConsoleApp
@@ -22,11 +18,15 @@ namespace YAShop.ConsoleApp
             Console.WriteLine("* - clear commands");
             Console.WriteLine("0 - start commands processing");
             Console.WriteLine("1-10 - invoke N commands");
+            Console.WriteLine("(enter) - run api console");
             do
             {
                 var c = Console.ReadLine();
                 switch (c)
                 {
+                    case "":
+                        RunConsole();
+                        break;
                     case "0":
                         ProcessCommands();
                         break;
@@ -44,6 +44,28 @@ namespace YAShop.ConsoleApp
             Console.WriteLine(DateTime.Now.Subtract(now).TotalMilliseconds);
             Console.ReadLine();
 
+        }
+        // консоль пользует клиента
+        // и вот как это работает
+        // запустим исполнителя и консольку в режиме клиента
+        private static void RunConsole()
+        {
+            Console.Clear();
+            Console.Write("API URL(http://localhost:9004/):");
+            var url = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(url)) url = "http://localhost:9004/";
+            var client = new CommandApiClient(url);
+            bool exit = false;
+            Console.WriteLine("");
+            do
+            {
+                Console.Write(">>");
+                var str = Console.ReadLine();
+                if (str == "exit") return;
+                var res = client.ExecuteCommand(str);
+                Console.WriteLine(res);
+
+            } while (true);
         }
 
         private static void ProcessCommands()

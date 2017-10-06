@@ -25,6 +25,7 @@ namespace YAShop.BusinessLogic.Bus
             Guid takeId =Guid.NewGuid();
             await MSSqlDb.Execute("update CommandDTO set TakeId='" + takeId + "', StartedDate=GetDate() where id in (select top 1 Id from CommandDTO where takeid is null order by createddate)");
             var list = await Registry.Current.Data.Commands.Select(" where takeid='" + takeId + "'");
+            await MSSqlDb.Execute("update CommandDTO set state=1 where takeid='" + takeId + "'");
             if (list == null || list.Length == 0) return false;
             var commandDTO = list[0];
             try
@@ -32,6 +33,7 @@ namespace YAShop.BusinessLogic.Bus
                 var o = JsonConvert.DeserializeObject(commandDTO.BodyJSON,new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All});
                 commandName = o.ToString();
                 var command = (ICommand)o;
+                _logger(commandName + "\tstarted");
                 var res = await Execute(command, commandDTO.Id);
                 await MSSqlDb.Execute("update CommandDTO set state=" + (res? 2:3) + ", EndedDate=GetDate() where id='" + commandDTO.Id + "'");
                 _logger(commandName + "\t" + (res ? "success" : "faill"));
@@ -60,6 +62,7 @@ namespace YAShop.BusinessLogic.Bus
     }
     public class CommandBus
     {
+        public static string BusSecret = "12349df238u822ed2903ur";
         public CommandBus()
         {
         }

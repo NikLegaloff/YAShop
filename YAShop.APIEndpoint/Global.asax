@@ -1,0 +1,1 @@
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="YAShop.APIEndpoint.WebApiApplication" Language="C#" %>
