@@ -17,7 +17,7 @@ namespace Sprut.MyShop.Domain
             {
                 
                 if (Environment.MachineName == "KOT") return "Data Source=.;Initial Catalog=YAShopDBv1;Persist Security Info=True;User ID=sa;Password=Password1";
-                return "Data Source==SPR\\SQLEXPRESS;Initial Catalog=YAShopDBv1;Integrated Security=True";
+                return "Data Source=SPR\\SQLEXPRESS;Initial Catalog=YAShopDBv1;Integrated Security=True";
             }
         }
 

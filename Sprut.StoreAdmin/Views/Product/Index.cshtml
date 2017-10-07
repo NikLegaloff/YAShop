@@ -1,5 +1,6 @@
 ﻿@model Sprut.StoreAdmin.Models.ProductViewModel
 @using Sprut.MyShop.Infrastructure
+@using Sprut.StoreAdmin.Models
 
 @{
     ViewBag.Title = "Index";
@@ -21,32 +22,23 @@
         </nav>
         <div class="collapse" id="collapseFilter">
             <div class="well">
-                <form method="post" class="form-horizontal">
-
-                    <label for="fCategory">Category</label>
-                    <select class="form-control" id="fCategory" name="fCategory">
-                        @foreach (var c in Registry.Current.Categories.GetPlanarTree())
-                        {
-                            <option value=@c.Id.ToString() @if (c.Id.ToString() == Model.CategoryId) { @Html.Raw("selected")  }>@c.FullName</option>
-                        }
-                    </select>
-
-                    <label for="fName">Product name</label>
-                    <input class="form-control" id="fName" name="fName" value=@Model.Name>
-
-                    <label for="fCategory">Sort by</label>
-                    <select class="form-control" id="fSort" name="fSort">
-                        <option value="SKU" @if (Model.Order == "SKU") { @Html.Raw("selected") }>SKU</option>
-                        <option value="Title" @if (Model.Order == "Title") { @Html.Raw("selected") }>Title</option>
-                        <option value="Price" @if (Model.Order == "Price") { @Html.Raw("selected") }>Price</option>
-                        <option value="Qty" @if (Model.Order == "Qty") { @Html.Raw("selected") }>Qty</option>
-                    </select>
-
-                    <label for="fPriceMin">Product price min</label>
-                    <input class="form-control" id="fPriceMin" name="fPriceMin" type="number" value=@Model.MinPrice>
-                    <label for="fPriceMax">Product price max</label>
-                    <input class="form-control" id="fPriceMax" name="fPriceMax" type="number" value=@Model.MaxPrice>
-
+                <form class="form-horizontal" name="m">
+                    
+                    @Html.HiddenFor(m=>m.CurrentPage, 1)
+                    @Html.Label("FilterCategoryId","Category")
+                    @Html.DropDownListFor(m=>m.FilterCategoryId, (SelectList)Model.CategorySelectList,Model.FilterCategoryId,new{@class="form-control"})
+                    @Html.Label("FilterTitle","Product name contains")
+                    @Html.EditorFor(m=>m.FilterTitle,new{@class="form-control"})
+                    @Html.Label("FilterSort","Sort by")
+                    @Html.DropDownListFor(m=>m.FilterSort,new SelectList(new string[] {"SKU","Title","Price","Qty"}),Model.FilterSort,new{@class="form-control"})
+                    @Html.RadioButtonFor(m=>m.FilterSortDirection,0) 
+                    <span>Up</span>
+                    @Html.RadioButtonFor(m => m.FilterSortDirection, 1)
+                    <span>Down</span>
+                    @Html.Label("FilterMinPrice","Minimal product price")
+                    @Html.EditorFor(m=>m.FilterMinPrice,new{@class="form-control"})
+                    @Html.Label("FilterMaxPrice","Maximal product price")
+                    @Html.EditorFor(m=>m.FilterMaxPrice,new{@class="form-control"})
 
                     <button type="submit" class="btn btn-default">Apply</button>
                     <button type="reset" class="btn btn-default">Reset</button>
