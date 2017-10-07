@@ -15,14 +15,14 @@ namespace Sprut.StoreAdmin.Models
         public SelectList CategorySelectList;
 
         //filter
-        public string FilterSort;
-        public int FilterSortDirection;
-        public string FilterCategoryId;
-        public string FilterTitle;
-        public string FilterMinPrice;
-        public string FilterMaxPrice;
+        public string FilterSort { get;set; }
+        public int FilterSortDirection { get; set; }
+        public string FilterCategoryId { get; set; }
+        public string FilterTitle { get; set; }
+        public string FilterMinPrice { get; set; }
+        public string FilterMaxPrice { get; set; }
 
-        
+
         public ProductViewModel()
         {
             CurrentPage = 1;
