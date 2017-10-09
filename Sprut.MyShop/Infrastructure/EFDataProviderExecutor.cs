@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using Sprut.MyShop.Domain;
@@ -44,12 +45,14 @@ namespace Sprut.MyShop.Infrastructure
             //this working  return _efContext.Database.SqlQuery<T>(query, new SqlParameter("sku","NewSKu1")).ToList();
 
 
-            if (param == null)
-                return _efContext.Database.SqlQuery<T>(query).ToList();
-            var pp =
-                ((Type) param.GetType()).GetProperties()
-                .Select(p => new SqlParameter(p.Name, p.GetValue(param)))
-                .ToArray();
+            if (param == null) return _efContext.Database.SqlQuery<T>(query).ToList();
+            
+            SqlParameter[] pp;
+            if (param is ExpandoObject)
+                pp = ((ExpandoObject) param).Select(p => new SqlParameter(p.Key, p.Value)).ToArray();
+            else
+                pp = ((Type)param.GetType()).GetProperties().Select(p => new SqlParameter(p.Name, p.GetValue(param))).ToArray();
+
             return _efContext.Database.SqlQuery<T>(query, pp).ToList();
             ;
         }
