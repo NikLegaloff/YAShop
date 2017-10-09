@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,29 +18,38 @@ namespace Sprut.MyShopConsole
         {
             Registry.Init(new ConsoleCommonInfrastructureProvider());
 
-            //Insert test category in database
-            for (int i = 0; i < 100; i++)
-            {
-                Registry.Current.Categories.Save(new Category
-                {
-                    Name = "Cat #" + i
-                });
-            }
+            ////Insert test category in database
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    Registry.Current.Categories.Save(new Category
+            //    {
+            //        Name = "Cat #" + i
+            //    });
+            //}
 
-            //Insert test product in database
-            var cats = Registry.Current.Categories.Select();
-            for (int i = 0; i < 200; i++)
-            {
-                Registry.Current.Products.Save(new Product
-                {
-                    SKU = "SK" + i,
-                    Title = "Title #" + i + " product",
-                    Descripton = "Description #" + i + " product",
-                    Price = (i + 1) * 100,
-                    Qty = i % 100,
-                    CategoryId = cats[i % 100].Id
-                });
-            }
+            ////Insert test product in database
+            //var cats = Registry.Current.Categories.Select();
+            //for (int i = 0; i < 200; i++)
+            //{
+            //    Registry.Current.Products.Save(new Product
+            //    {
+            //        SKU = "SK" + i,
+            //        Title = "Title #" + i + " product",
+            //        Descripton = "Description #" + i + " product",
+            //        Price = (i + 1) * 100,
+            //        Qty = i % 100,
+            //        CategoryId = cats[i % 100].Id
+            //    });
+            //}
+
+            var param = new Dictionary<string,object>();
+            param.Add("qty",3);
+            param.Add("sku","sk1");
+
+            dynamic a = param.ToArray();
+
+
+            var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", param);
 
             //var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", new {qty = 0, sku= "NewSKu1" });
 

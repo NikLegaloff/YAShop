@@ -21,7 +21,7 @@ namespace Sprut.StoreAdmin.Controllers
         {
             _pvModel.CurrentPage = model.CurrentPage;
             List<string> conditions = new List<string>();
-            dynamic param = new ExpandoObject();
+            dynamic param= new ExpandoObject();
 
             //delete
             var query = "";
@@ -35,14 +35,14 @@ namespace Sprut.StoreAdmin.Controllers
             if (!_pvModel.FilterCategoryId.IsNullOrWhiteSpace())
             {
                 conditions.Add($"CategoryId=@CategoryId");
-                param.CategoryId = _pvModel.FilterCategoryId;
+                //param.CategoryId = _pvModel.FilterCategoryId;
             }
 
             //name
             if (!_pvModel.FilterTitle.IsNullOrWhiteSpace())
             {
                 conditions.Add($"Title=@Title");
-                param.Title = _pvModel.FilterTitle;
+                //param.Title = _pvModel.FilterTitle;
             }
 
             //price min
