@@ -17,11 +17,9 @@ namespace Sprut.StoreAdmin.Models
 
         //filter
         public string FilterSort { get;set; }
-        public int FilterSortDirection { get; set; }
+        public string FilterSortDirection { get; set; }
         public string FilterCategoryId { get; set; }
         public string FilterTitle { get; set; }
-        public string FilterMinPrice { get; set; }
-        public string FilterMaxPrice { get; set; }
         public string FilterDescription { get; set; }
 
 

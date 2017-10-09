@@ -42,15 +42,6 @@ namespace Sprut.MyShopConsole
             //    });
             //}
 
-            var param = new Dictionary<string,object>();
-            param.Add("qty",3);
-            param.Add("sku","sk1");
-
-            dynamic a = param.ToArray();
-
-
-            var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", param);
-
             //var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", new {qty = 0, sku= "NewSKu1" });
 
 

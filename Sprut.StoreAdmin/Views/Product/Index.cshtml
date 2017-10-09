@@ -23,20 +23,28 @@
             <div class="well">
                 <form class="form-inline" id="filter">
                     @Html.HiddenFor(m => m.CurrentPage, new{id="CurrentPage"})
+                    @Html.HiddenFor(m => m.FilterSort, new { id = "FilterSort" })
+                    @Html.HiddenFor(m => m.FilterSortDirection, new { id = "FilterSortDirection" })
                     @Html.EditorFor(m => m.FilterTitle, new{ HtmlAttributes = new{@class="form-control",placeholder="Title"}})
                     @Html.DropDownListFor(m => m.FilterCategoryId, (SelectList) Model.CategorySelectList,"Choose category...", new { @class = "form-control"} )
                     @Html.EditorFor(m => m.FilterDescription, new{ HtmlAttributes = new{@class="form-control",placeholder="Description"}})
 
                     <button type="submit" class="btn btn-default">Filter</button>
-                    <button type="reset" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <a href="#" onclick="reset()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                 </form>
 
         </div>
         <table class="table table-hover">
             <tr>
                 <td>SKU</td>
-                <td>Title</td>
-                <td>Qty</td>
+                <td>Title
+                    <a href="#" onclick="sort('Title','0')"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+                    <a href="#" onclick="sort('Title','1')"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+                </td>
+                <td>Qty
+                    <a href="#" onclick="sort('Qty','0')"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+                    <a href="#" onclick="sort('Qty','1')"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+                </td>
                 <td>Price</td>
                 <td>Image</td>
                 <td>Descripton</td>
@@ -88,16 +96,36 @@
 </div>
 
 
-}
+
 @section scripts
 {
     <script>
+        $(document).ready(function() {
+            $("#CurrentPage").val(1);
+        });
+
         function goto(page) {
             if (page == 0) { page = 1 };
             if (page > @ViewBag.Count) { page =@ViewBag.Count};
             $("#CurrentPage").val(page);
             $("#filter").submit();
         };
+
+        function reset() {
+            $("#FilterTitle").val(null);
+            $("#FilterCategoryId").val(null);
+            $("#FilterDescription").val(null);
+            $("#filter").submit();
+        };
+
+        function sort(col,dir) {
+            if (col == "Title") { $("#FilterSort").val("Title") };
+            if (col == "Qty") { $("#FilterSort").val("Qty") };
+            if (dir == "0") { $("#FilterSortDirection").val("0") };
+            if (dir == "1") { $("#FilterSortDirection").val("1") };
+            $("#filter").submit();
+        }
+
     </script>
 }
 
