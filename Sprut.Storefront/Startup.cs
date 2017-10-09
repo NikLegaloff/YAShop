@@ -1,7 +1,9 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using Sprut.Storefront;
 
-[assembly: OwinStartupAttribute(typeof(Sprut.Storefront.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
+
 namespace Sprut.Storefront
 {
     public partial class Startup

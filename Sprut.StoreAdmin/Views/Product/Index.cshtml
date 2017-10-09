@@ -1,12 +1,11 @@
-﻿@model Sprut.StoreAdmin.Models.ProductViewModel
-@using Sprut.MyShop.Infrastructure
-@using Sprut.StoreAdmin.Models
+﻿@using Sprut.MyShop.Infrastructure
+@model Sprut.StoreAdmin.Models.ProductViewModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-<br />
+<br/>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Products list</h3>
@@ -23,22 +22,22 @@
         <div class="collapse" id="collapseFilter">
             <div class="well">
                 <form class="form-horizontal" name="m">
-                    
-                    @Html.HiddenFor(m=>m.CurrentPage, 1)
-                    @Html.Label("FilterCategoryId","Category")
-                    @Html.DropDownListFor(m=>m.FilterCategoryId, (SelectList)Model.CategorySelectList,Model.FilterCategoryId,new{@class="form-control"})
-                    @Html.Label("FilterTitle","Product name contains")
-                    @Html.EditorFor(m=>m.FilterTitle,new{@class="form-control"})
-                    @Html.Label("FilterSort","Sort by")
-                    @Html.DropDownListFor(m=>m.FilterSort,new SelectList(new string[] {"SKU","Title","Price","Qty"}),Model.FilterSort,new{@class="form-control"})
-                    @Html.RadioButtonFor(m=>m.FilterSortDirection,0) 
+
+                    @Html.HiddenFor(m => m.CurrentPage, 1)
+                    @Html.Label("FilterCategoryId", "Category")
+                    @Html.DropDownListFor(m => m.FilterCategoryId, Model.CategorySelectList, Model.FilterCategoryId, new {@class = "form-control"})
+                    @Html.Label("FilterTitle", "Product name contains")
+                    @Html.EditorFor(m => m.FilterTitle, new {@class = "form-control"})
+                    @Html.Label("FilterSort", "Sort by")
+                    @Html.DropDownListFor(m => m.FilterSort, new SelectList(new[] {"SKU", "Title", "Price", "Qty"}), Model.FilterSort, new {@class = "form-control"})
+                    @Html.RadioButtonFor(m => m.FilterSortDirection, 0)
                     <span>Up</span>
                     @Html.RadioButtonFor(m => m.FilterSortDirection, 1)
                     <span>Down</span>
-                    @Html.Label("FilterMinPrice","Minimal product price")
-                    @Html.EditorFor(m=>m.FilterMinPrice,new{@class="form-control"})
-                    @Html.Label("FilterMaxPrice","Maximal product price")
-                    @Html.EditorFor(m=>m.FilterMaxPrice,new{@class="form-control"})
+                    @Html.Label("FilterMinPrice", "Minimal product price")
+                    @Html.EditorFor(m => m.FilterMinPrice, new {@class = "form-control"})
+                    @Html.Label("FilterMaxPrice", "Maximal product price")
+                    @Html.EditorFor(m => m.FilterMaxPrice, new {@class = "form-control"})
 
                     <button type="submit" class="btn btn-default">Apply</button>
                     <button type="reset" class="btn btn-default">Reset</button>
@@ -67,7 +66,7 @@
                     <td>@p.Image</td>
                     <td>@p.Descripton</td>
                     <td>@Registry.Current.Categories.Find(p.CategoryId)</td>
-                    <td>@Html.ActionLink("Edit", "Edit", new { sku = p.SKU }) @Html.ActionLink("Delete", "DeleteProduct", new { sku = p.SKU })</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new {sku = p.SKU}) @Html.ActionLink("Delete", "DeleteProduct", new {sku = p.SKU})</td>
                 </tr>
             }
         </table>
@@ -81,7 +80,7 @@
                 </li>
                 @for (var i = 0; i < ViewBag.Count / 10; i++)
                 {
-                    <li>@Html.ActionLink((i + 1).ToString(), "Index", new { page = i + 1 })</li>
+                    <li>@Html.ActionLink((i + 1).ToString(), "Index", new {page = i + 1})</li>
                 }
                 <li>
                     <a href="#" aria-label="Next">
@@ -92,12 +91,3 @@
         </nav>
     </div>
 </div>
-
-
-
-
-
-
-
-
-

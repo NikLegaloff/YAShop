@@ -5,13 +5,15 @@
 
 <h2>CatEdit</h2>
 
-@if (ViewBag.Action=="Изменить")
+@if (ViewBag.Action == "Изменить")
 {
-    @Html.Label("Редактирование выбранной категории");
+    @Html.Label("Редактирование выбранной категории")
+    ;
 }
 else
 {
-    @Html.Label("Добавление новой категории");
+    @Html.Label("Добавление новой категории")
+    ;
 }
 
 @using (Html.BeginForm())
@@ -21,6 +23,5 @@ else
     <p>Name @Html.EditorFor(m => m.Name)</p>
 
 
-    <input type="submit" value="@ViewBag.Action" />
-
+    <input type="submit" value="@ViewBag.Action"/>
 }

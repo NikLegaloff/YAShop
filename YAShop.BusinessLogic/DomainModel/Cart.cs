@@ -11,12 +11,15 @@ namespace YAShop.BusinessLogic.DomainModel
             QTY = qty;
         }
 
-        public CartItem() { }
+        public CartItem()
+        {
+        }
 
         public string SKU { get; set; }
         public string Title { get; set; }
         public int QTY { get; set; }
     }
+
     public class Cart
     {
         public Cart()

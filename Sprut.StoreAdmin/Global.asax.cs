@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -10,7 +7,8 @@ using Sprut.MyShop.Infrastructure;
 
 namespace Sprut.StoreAdmin
 {
-    public class WebCommonInfrastructureProvider : ICommonInfrastructureProvider {
+    public class WebCommonInfrastructureProvider : ICommonInfrastructureProvider
+    {
         public object GetFromSession(string key)
         {
             return HttpContext.Current.Session[key];
@@ -23,7 +21,8 @@ namespace Sprut.StoreAdmin
 
         public IDictionary IdentityMap => HttpContext.Current.Items;
     }
-    public class MvcApplication : System.Web.HttpApplication
+
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {

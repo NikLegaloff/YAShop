@@ -9,14 +9,14 @@ namespace YAShop.JobExecutor
     public class JobExecutorService
     {
         private static readonly int NumberOfThreads = 4;
-
-        Task[] _tasks ;
         private bool _stopAll;
+
+        private Task[] _tasks;
 
         public void Start()
         {
-            List<Task> tasks = new List<Task>();
-            for (int i = 0; i < NumberOfThreads; i++)
+            var tasks = new List<Task>();
+            for (var i = 0; i < NumberOfThreads; i++)
             {
                 var task = new Task(ProcessJobs, i);
                 tasks.Add(task);
@@ -28,20 +28,24 @@ namespace YAShop.JobExecutor
 
         private void ProcessJobs<T>(T i)
         {
-            Console.WriteLine("Thread #" + i + " started" );
+            Console.WriteLine("Thread #" + i + " started");
             do
             {
                 var threadId = Thread.CurrentThread.ManagedThreadId;
-                bool result = new CommandExecutor(s => Console.WriteLine(threadId + "\t" + DateTime.Now +"\t"+ s)).TakeOneAndExecute().Result;
+                var result =
+                    new CommandExecutor(s => Console.WriteLine(threadId + "\t" + DateTime.Now + "\t" + s))
+                        .TakeOneAndExecute().Result;
                 ProgrCommonInfrProvider.ResetIdentityMap(threadId);
-                if (!result) Thread.Sleep(NumberOfThreads*2000); // if nothing processed then sleep 2 sec * # of threads
+                if (!result)
+                    Thread.Sleep(NumberOfThreads * 2000); // if nothing processed then sleep 2 sec * # of threads
             } while (!_stopAll);
         }
+
         public void Stop()
         {
             _stopAll = true;
             Console.WriteLine("Wating 5 min for all tasks");
-            Task.WaitAll(_tasks,5*60*1000);
+            Task.WaitAll(_tasks, 5 * 60 * 1000);
         }
     }
 }

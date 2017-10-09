@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -26,7 +23,8 @@ namespace YAShop.APIEndpoint
 
         public IDictionary IdentityMap => HttpContext.Current.Items;
     }
-    public class WebApiApplication : System.Web.HttpApplication
+
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {

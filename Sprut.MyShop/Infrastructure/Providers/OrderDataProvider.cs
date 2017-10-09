@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
-using Sprut.MyShop.Domain;
-using System.Data.Entity.Core.Objects;
-using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Json;
 using Newtonsoft.Json;
+using Sprut.MyShop.Domain;
 
 namespace Sprut.MyShop.Infrastructure.Providers
 {
     public class OrderDataProvider : DataProvider<Order>
     {
-        private int _counter = 0;
-        public OrderDataProvider(IDataProvider<Order> executor) : base(executor) { }
+        private int _counter;
+
+        public OrderDataProvider(IDataProvider<Order> executor) : base(executor)
+        {
+        }
 
 
         public Guid CreateOrder(Cart cart)
@@ -31,7 +30,7 @@ namespace Sprut.MyShop.Infrastructure.Providers
                     SKU = item.SKU,
                     Title = item.Title,
                     Qty = item.Qty,
-                    Price = Registry.Current.Products.GetProduct(item.SKU).Price,
+                    Price = Registry.Current.Products.GetProduct(item.SKU).Price
                 };
                 order.Items.Add(orderItem);
                 var product = Registry.Current.Products.GetProduct(item.SKU);
@@ -51,18 +50,18 @@ namespace Sprut.MyShop.Infrastructure.Providers
 
         public string GetNewOrderNumber()
         {
-            return (((int)DateTime.Now.Subtract(new DateTime(2017, 9, 15)).TotalSeconds) * 10 + _counter++ % 10).ToString();
+            return
+                ((int) DateTime.Now.Subtract(new DateTime(2017, 9, 15)).TotalSeconds * 10 + _counter++ % 10).ToString();
         }
 
         protected override void AfterLoad(Order order)
         {
-            order.Items = JsonConvert.DeserializeObject<List<OrderItem>>(order.ItemsJSON); 
+            order.Items = JsonConvert.DeserializeObject<List<OrderItem>>(order.ItemsJSON);
         }
 
         protected override void BeforeSave(Order order)
         {
-            order.ItemsJSON=JsonConvert.SerializeObject(order.Items);
-
+            order.ItemsJSON = JsonConvert.SerializeObject(order.Items);
         }
     }
 }

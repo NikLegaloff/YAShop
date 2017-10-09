@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Sprut.MyShop.Domain;
 
 namespace Sprut.MyShop.Infrastructure.Providers
@@ -9,14 +8,17 @@ namespace Sprut.MyShop.Infrastructure.Providers
     public class DataProvider<T> : IDataProvider<T> where T : DomainObject
     {
         private readonly IDataProvider<T> _executor;
-        protected virtual void AfterLoad(T subj) { }
-        protected virtual void BeforeSave(T subj) { }
 
-        public DataProvider(IDataProvider<T> executor) { _executor = executor; }
+        public DataProvider(IDataProvider<T> executor)
+        {
+            _executor = executor;
+        }
+
+        private static IDictionary IdentityMap => Registry.Current.CommonInfrastructureProvider.IdentityMap;
 
         public T Find(Guid id)
         {
-            var subj = (T)IdentityMap[id.ToString()];
+            var subj = (T) IdentityMap[id.ToString()];
             if (subj == null)
             {
                 subj = _executor.Find(id);
@@ -42,11 +44,10 @@ namespace Sprut.MyShop.Infrastructure.Providers
         public List<T> Select(string query = null, dynamic param = null)
         {
             var selected = _executor.Select(query, param);
-            if (selected != null) {
+            if (selected != null)
+            {
                 var result = new List<T>();
                 foreach (var subj in selected)
-                {
-                    
                     if (!IdentityMap.Contains(subj.Id))
                     {
                         IdentityMap.Add(subj.Id, subj);
@@ -57,14 +58,17 @@ namespace Sprut.MyShop.Infrastructure.Providers
                     {
                         result.Add(IdentityMap[subj.Id]);
                     }
-                }
                 return result;
             }
             return null;
-
         }
-        private static IDictionary IdentityMap => Registry.Current.CommonInfrastructureProvider.IdentityMap;
 
+        protected virtual void AfterLoad(T subj)
+        {
+        }
 
+        protected virtual void BeforeSave(T subj)
+        {
+        }
     }
 }

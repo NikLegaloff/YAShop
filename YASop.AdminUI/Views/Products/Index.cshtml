@@ -12,7 +12,10 @@
 
         function LoadPage() {
             $("#sTotal").html(" - loading...");
-            $.getJSON("/Products/Select?RowsPerPage=20&Page=1&Sort=SKU&Keyword=" + $("#tbTitle").val() + "&CategoryId=" + $("#ddlCategories").val(),
+            $.getJSON("/Products/Select?RowsPerPage=20&Page=1&Sort=SKU&Keyword=" +
+                $("#tbTitle").val() +
+                "&CategoryId=" +
+                $("#ddlCategories").val(),
                 function(data) {
                     var items = [];
                     $.each(data.Rows,
@@ -40,31 +43,39 @@
 
     </script>
 }
-<h2>Products <span id="sTotal"></span></h2>
+<h2>
+    Products <span id="sTotal"></span>
+</h2>
 <div class="row">
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-4"><input type="text" class="input-sm" style="width: 100%;" placeholder="SKU or Title" id="tbTitle" /></div>
+            <div class="col-md-4">
+                <input type="text" class="input-sm" style="width: 100%;" placeholder="SKU or Title" id="tbTitle"/>
+            </div>
             <div class="col-md-2">
                 <select class="input-sm" id="ddlCategories">
                     <option></option>
                     @Html.Raw(string.Join("\n", Registry.Current.Services.Category.GetPlanarTree().Select(i => "<option value='" + i.Id + "'>" + i.FullName + "</option>")));
                 </select>
             </div>
-            <div class="col-md-1"><button type="button" class="btn-primary btn" onclick="LoadPage()"><i class='glyphicon glyphicon-search'></i></button></div>
+            <div class="col-md-1">
+                <button type="button" class="btn-primary btn" onclick="LoadPage()">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </div>
         </div>
         <div class="ft">
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <td></td>
-                        <td>SKU</td>
-                        <td>Title</td>
-                        <td>Category</td>
-                        <td>Price</td>
-                        <td>QTY</td>
-                        <td></td>
-                    </tr>
+                <tr>
+                    <td></td>
+                    <td>SKU</td>
+                    <td>Title</td>
+                    <td>Category</td>
+                    <td>Price</td>
+                    <td>QTY</td>
+                    <td></td>
+                </tr>
                 </thead>
                 <tbody id="dg"></tbody>
             </table>

@@ -15,7 +15,8 @@ namespace YAShop.BusinessLogic.Service.Product.Viewing
 
         public async Task<PageData<ProductViewRow>> SelectPage()
         {
-            var query = "select Product.Id, Product.SKU, Product.Title, Product.Image, Product.QTY, Product.Price, Category.[Name] Category from Product left join [dbo].[Category] on Product.CategoryId=Category.Id where 1=1 ";
+            var query =
+                "select Product.Id, Product.SKU, Product.Title, Product.Image, Product.QTY, Product.Price, Category.[Name] Category from Product left join [dbo].[Category] on Product.CategoryId=Category.Id where 1=1 ";
             dynamic param = new ExpandoObject();
             if (!string.IsNullOrWhiteSpace(_filter.Keyword))
             {
@@ -27,7 +28,7 @@ namespace YAShop.BusinessLogic.Service.Product.Viewing
                 query += " and Product.CategoryId=@CategoryId";
                 param.CategoryId = _filter.CategoryId;
             }
-            return await new MSSqlDataProvider<ProductViewRow>().SelectPage(query, _filter,param);
+            return await new MSSqlDataProvider<ProductViewRow>().SelectPage(query, _filter, param);
         }
     }
 }

@@ -5,12 +5,15 @@
 
 <h2>EditProduct</h2>
 
-@if (Model.SKU!=null) {
-    @Html.Label("Редактирование выбранного SKU");
+@if (Model.SKU != null)
+{
+    @Html.Label("Редактирование выбранного SKU")
+    ;
 }
 else
 {
-    @Html.Label("Добавление нового SKU");
+    @Html.Label("Добавление нового SKU")
+    ;
 }
 
 @using (Html.BeginForm())
@@ -24,7 +27,5 @@ else
     <p>Category @Html.EditorFor(m => m.CategoryId)</p>
 
 
-    <input type="submit" value="@ViewBag.Action" />
-
+    <input type="submit" value="@ViewBag.Action"/>
 }
-

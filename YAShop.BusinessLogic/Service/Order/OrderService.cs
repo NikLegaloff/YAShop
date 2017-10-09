@@ -4,21 +4,20 @@ using YAShop.BusinessLogic.DomainModel;
 
 namespace YAShop.BusinessLogic.Service.Order
 {
-
     public class OrderService : AbstractService
     {
-        private int counter = 0;
+        private int counter;
 
         public async Task Cancel(DomainModel.Order order)
         {
-            if (order.State==OrderState.Shipped || order.State==OrderState.Delivered) throw new BusinessException("Unable to cancel order in state " + order.State);
+            if (order.State == OrderState.Shipped || order.State == OrderState.Delivered)
+                throw new BusinessException("Unable to cancel order in state " + order.State);
             foreach (var item in order.Items)
-            {
                 await Registry.Current.Services.Product.Take(item.SKU, -item.QTY);
-            }
-            order.State=OrderState.Cancelled;
+            order.State = OrderState.Cancelled;
             await Registry.Current.Data.Orders.Save(order);
         }
+
         public async Task<Guid> Create(DomainModel.Order order)
         {
             order.State = OrderState.Created;
@@ -47,7 +46,6 @@ namespace YAShop.BusinessLogic.Service.Order
                     Title = cartItem.Title,
                     QTY = cartItem.QTY,
                     Price = Registry.Current.Services.Product.GetPrice(cartItem.SKU, cartItem.QTY)
-
                 };
                 order.Items.Add(item);
             }
@@ -57,7 +55,8 @@ namespace YAShop.BusinessLogic.Service.Order
 
         public string GetNewOrderNumber()
         {
-            return (((int)DateTime.Now.Subtract(new DateTime(2017, 9, 15)).TotalSeconds) * 10 + counter++ % 10).ToString();
+            return
+                ((int) DateTime.Now.Subtract(new DateTime(2017, 9, 15)).TotalSeconds * 10 + counter++ % 10).ToString();
         }
     }
 }

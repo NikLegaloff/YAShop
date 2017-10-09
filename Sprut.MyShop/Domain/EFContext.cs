@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sprut.MyShop.Domain
 {
     public class EfContext : DbContext
     {
-        public EfContext() : base(GetConnectionString) { }
+        public EfContext() : base(GetConnectionString)
+        {
+        }
 
         private static string GetConnectionString
         {
             get
             {
-                
-                if (Environment.MachineName == "KOT") return "Data Source=.;Initial Catalog=YAShopDBv1;Persist Security Info=True;User ID=sa;Password=Password1";
+                if (Environment.MachineName == "KOT")
+                    return
+                        "Data Source=.;Initial Catalog=YAShopDBv1;Persist Security Info=True;User ID=sa;Password=Password1";
                 return "Data Source=SPR\\SQLEXPRESS;Initial Catalog=YAShopDBv1;Integrated Security=True";
             }
         }
@@ -26,6 +25,5 @@ namespace Sprut.MyShop.Domain
         public DbSet<Product> Product { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Category> Category { get; set; }
-        
     }
 }

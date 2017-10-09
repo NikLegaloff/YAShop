@@ -1,15 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 
 namespace YAShop.BusinessLogic.Infrastr
 {
     public interface ICommonInfrastructureProvider
     {
+        IDictionary IdentityMap { get; }
         object GetFromSession(string key);
         void PutInSession(string key, object subj);
-
-        IDictionary IdentityMap { get; }
-
     }
 }

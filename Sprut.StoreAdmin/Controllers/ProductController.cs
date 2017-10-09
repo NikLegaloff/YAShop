@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
-using Sprut.MyShop;
-using Sprut.MyShop.Domain;
 using Sprut.MyShop.Infrastructure;
 using Sprut.StoreAdmin.Models;
 
@@ -13,7 +7,7 @@ namespace Sprut.StoreAdmin.Controllers
 {
     public class ProductController : Controller
     {
-        readonly ProductViewModel _pvModel = new ProductViewModel();
+        private readonly ProductViewModel _pvModel = new ProductViewModel();
 
         public ActionResult Index(ProductViewModel m)
         {
@@ -35,15 +29,15 @@ namespace Sprut.StoreAdmin.Controllers
 
             var query = "";
 
-            if (!_pvModel.FilterCategoryId.IsNullOrWhiteSpace() | !_pvModel.FilterTitle.IsNullOrWhiteSpace() | !_pvModel.FilterMinPrice.IsNullOrWhiteSpace() | !_pvModel.FilterMaxPrice.IsNullOrWhiteSpace() )
-            {
+            if (!_pvModel.FilterCategoryId.IsNullOrWhiteSpace() | !_pvModel.FilterTitle.IsNullOrWhiteSpace() |
+                !_pvModel.FilterMinPrice.IsNullOrWhiteSpace() | !_pvModel.FilterMaxPrice.IsNullOrWhiteSpace())
                 query += " WHERE ";
-            }
 
             //category :TODO
 
             //name
-            if(!_pvModel.FilterTitle.IsNullOrWhiteSpace()) query += string.Concat("Title LIKE '%", _pvModel.FilterTitle, "%'");
+            if (!_pvModel.FilterTitle.IsNullOrWhiteSpace())
+                query += string.Concat("Title LIKE '%", _pvModel.FilterTitle, "%'");
 
             //price min
             if (!_pvModel.FilterMinPrice.IsNullOrWhiteSpace())
@@ -59,15 +53,15 @@ namespace Sprut.StoreAdmin.Controllers
                 query += string.Concat("Price <", _pvModel.FilterMaxPrice, " ");
             }
 
-            List<Product> products = Registry.Current.Products.Select(query);
+            var products = Registry.Current.Products.Select(query);
             ViewBag.Count = products.Count;
             products.Clear();
-            
+
             //order;
-            query += string.Concat(" ORDER BY ",_pvModel.FilterSort);
+            query += string.Concat(" ORDER BY ", _pvModel.FilterSort);
 
             //offset-fetch
-            query += string.Concat(" OFFSET ", (_pvModel.CurrentPage-1) * 10, " ROWS FETCH NEXT 10 ROWS ONLY");
+            query += string.Concat(" OFFSET ", (_pvModel.CurrentPage - 1) * 10, " ROWS FETCH NEXT 10 ROWS ONLY");
 
             products = Registry.Current.Products.Select(query);
             ViewBag.Products = products;
@@ -79,13 +73,8 @@ namespace Sprut.StoreAdmin.Controllers
             //    //if(c.Name==pvModel.FilterCategoryId) pvModel.CategorySelectList.Add(new SelectListItem { Text = c.FullName, Value = c.Name, Selected = true});
             //    pvModel.CategorySelectList.Add(new SelectListItem{Text = c.FullName, Value = c.Name});
             //}
-            
+
             return View(_pvModel);
         }
-
-  
-
-
-
     }
 }

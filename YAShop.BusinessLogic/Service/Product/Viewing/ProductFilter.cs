@@ -5,7 +5,7 @@ namespace YAShop.BusinessLogic.Service.Product.Viewing
 {
     public class ProductFilter : PagingArgs
     {
-        public string Keyword{ get; set; }
-        public Guid? CategoryId{ get; set; }
+        public string Keyword { get; set; }
+        public Guid? CategoryId { get; set; }
     }
 }

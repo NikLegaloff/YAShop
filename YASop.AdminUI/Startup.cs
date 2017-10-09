@@ -1,7 +1,9 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using YASop.AdminUI;
 
-[assembly: OwinStartupAttribute(typeof(YASop.AdminUI.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
+
 namespace YASop.AdminUI
 {
     public partial class Startup

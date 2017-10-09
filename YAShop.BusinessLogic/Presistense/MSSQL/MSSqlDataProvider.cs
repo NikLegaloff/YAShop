@@ -4,13 +4,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Dynamic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using Dapper;
-using Drapper;
-using Drapper.Configuration;
-using MongoDB.Bson;
 using Newtonsoft.Json;
 using YAShop.BusinessLogic.DomainModel;
 
@@ -20,28 +16,34 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
     {
         public static SqlConnection Open()
         {
-            var connection = new SqlConnection("Data Source=.;Initial Catalog=YAShop;Persist Security Info=True;User ID=sa;Password=Password1");
+            var connection =
+                new SqlConnection(
+                    "Data Source=.;Initial Catalog=YAShop;Persist Security Info=True;User ID=sa;Password=Password1");
             connection.Open();
             return connection;
         }
 
-        public static async Task Execute(string sql, object param=null)
+        public static async Task Execute(string sql, object param = null)
         {
             using (var db = Open())
             {
-                await db.ExecuteAsync(sql,param);
+                await db.ExecuteAsync(sql, param);
             }
         }
+
         public static async Task<T> ExecuteScalar<T>(string sql, object param = null)
         {
             using (var db = Open())
             {
-                return await db.ExecuteScalarAsync<T>(sql,param);
+                return await db.ExecuteScalarAsync<T>(sql, param);
             }
         }
     }
+
     public class MSSqlDataProvider<T> : IDataProvider<T> where T : DomainObject, new()
     {
+        private readonly Dictionary<string, PropertyInfo> _jsonProps = new Dictionary<string, PropertyInfo>();
+
         public IDataProvider<T> Init()
         {
             var tableName = typeof(T).Name;
@@ -50,16 +52,16 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                 var tid = connection.ExecuteScalar<int?>("select OBJECT_ID('" + tableName + "')");
                 if (tid != null) return this;
                 var props = typeof(T).GetProperties();
-                bool withNtext = false;
+                var withNtext = false;
                 var columns = new List<string>();
                 foreach (var prop in props)
                 {
                     var attr = prop.GetCustomAttribute<DBField>();
-                    if (attr==null) continue;
+                    if (attr == null) continue;
                     var type = attr.DBType.ToString();
                     var nullable = attr.Nullable ? "NULL" : "NOT NULL";
                     var name = prop.Name;
-                    var len = attr.Len > 0 ? "(" + attr.Len +")" : "";
+                    var len = attr.Len > 0 ? "(" + attr.Len + ")" : "";
                     if (attr.DBType == SqlDbType.Decimal) len = "(9, 2)";
                     if (attr.InJson)
                     {
@@ -74,12 +76,13 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                     }
                     columns.Add($"{name} {type}{len} {nullable}");
                 }
-                var sql = "CREATE TABLE dbo.[" + tableName + "] (Id uniqueidentifier NOT NULL, " + string.Join(", ", columns) + ")";
+                var sql = "CREATE TABLE dbo.[" + tableName + "] (Id uniqueidentifier NOT NULL, " +
+                          string.Join(", ", columns) + ")";
                 if (withNtext) sql += " ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]";
                 connection.Execute(sql);
                 sql = $"ALTER TABLE dbo.[{tableName}] ADD CONSTRAINT\tPK_{tableName} PRIMARY KEY CLUSTERED (Id)" +
-                       $" WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]";
-                
+                      $" WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]";
+
                 connection.Execute(sql);
             }
 
@@ -90,8 +93,9 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
         {
             using (var sqlConnection = MSSqlDb.Open())
             {
-                var find = await sqlConnection.QueryFirstAsync<T>("select * from " + typeof(T).Name + " where Id='" + id + "'");
-                DeserializeProps(new []{find});
+                var find =
+                    await sqlConnection.QueryFirstAsync<T>("select * from " + typeof(T).Name + " where Id='" + id + "'");
+                DeserializeProps(new[] {find});
                 return find;
             }
         }
@@ -102,84 +106,20 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
             else await Update(subj);
         }
 
-        private async Task Update(T subj)
-        {
-            var props = subj.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
-            var pp = new ExpandoObject() as IDictionary<string, Object>;
-            List<string> items = new List<string>();
-            foreach (var prop in props)
-            {
-                var attr = prop.GetCustomAttribute<DBField>();
-                if (attr == null) continue;
-                var value = prop.GetValue(subj);
-                if (attr.InJson)
-                {
-                    var newJson = JsonConvert.SerializeObject(value);
-
-                    PropertyInfo jsonProp;
-                    if (_jsonProps.ContainsKey(prop.Name)) jsonProp = _jsonProps[prop.Name];
-                    else
-                    {
-                        jsonProp = props.FirstOrDefault(p => p.Name == prop.Name + "JSON");
-                        _jsonProps.Add(prop.Name,jsonProp);
-                    }
-
-                    var oldJson = (string) jsonProp.GetValue(subj);
-                    // do not update same value
-                    if (oldJson==newJson) continue;
-                    
-                    pp.Add(prop.Name + "JSON", newJson);
-                    items.Add(prop.Name + "JSON");
-                }
-                else
-                {
-                    pp.Add(prop.Name, value);
-                    items.Add(prop.Name);
-                }
-            }
-            var sql = "update [" + subj.GetType().Name + "] set " + string.Join(",", items.Select(i => i + "=@" + i)) + " where id='" + subj.Id + "'";
-            using (var sqlConnection = MSSqlDb.Open()) await sqlConnection.ExecuteAsync(sql, pp);
-
-        }
-
-        readonly Dictionary<string, PropertyInfo> _jsonProps = new Dictionary<string, PropertyInfo>();
-        private async Task Insert(T subj)
-        {
-            subj.Id = Guid.NewGuid();
-            var props = subj.GetType().GetProperties();
-            var pp = new ExpandoObject() as IDictionary<string, Object>; 
-            pp.Add("Id", subj.Id);
-            List<string> items = new List<string> {"Id"};
-            foreach (var prop in props)
-            {
-                var attr = prop.GetCustomAttribute<DBField>();
-                if (attr == null) continue;
-                var value = prop.GetValue(subj);
-                if (value==null) continue;
-                if (attr.InJson)
-                {
-                    pp.Add(prop.Name + "JSON", JsonConvert.SerializeObject(value));
-                    items.Add(prop.Name + "JSON");
-                }
-                else
-                {
-                    pp.Add(prop.Name, value);
-                    items.Add(prop.Name);
-                }
-            }
-            var sql = "insert into [" + subj.GetType().Name + "](" + string.Join(",",items) + ") values (" + string.Join(",", items.Select(i => "@" + i)) + ")";
-            using (var sqlConnection = MSSqlDb.Open()) await sqlConnection.ExecuteAsync(sql, pp);
-        }
-
 
         public async Task Delete(T subj)
         {
-            using (var sqlConnection = MSSqlDb.Open()) await sqlConnection.ExecuteAsync("delete [" + subj.GetType().Name + "] where id='" + subj.Id +"'");
+            using (var sqlConnection = MSSqlDb.Open())
+            {
+                await sqlConnection.ExecuteAsync("delete [" + subj.GetType().Name + "] where id='" + subj.Id + "'");
+            }
         }
 
-        public async Task<T[]> Select(string query=null, object param = null, int? top=null)
+        public async Task<T[]> Select(string query = null, object param = null, int? top = null)
         {
-            if (!(query??"").StartsWith("select")) query = "select " + (top==null ? "": ("TOP " + top.Value)) + " [" + typeof(T).Name + "].* from [" + typeof(T).Name + "] (nolock) " + query;
+            if (!(query ?? "").StartsWith("select"))
+                query = "select " + (top == null ? "" : "TOP " + top.Value) + " [" + typeof(T).Name + "].* from [" +
+                        typeof(T).Name + "] (nolock) " + query;
             using (var sqlConnection = MSSqlDb.Open())
             {
                 var result = await sqlConnection.QueryAsync<T>(query, param);
@@ -189,7 +129,8 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
             }
         }
 
-        public async Task<PageData<T>> SelectPage(string query, PagingArgs paging, dynamic param = null, string sortingAlias = null, string extraSorting = null)
+        public async Task<PageData<T>> SelectPage(string query, PagingArgs paging, dynamic param = null,
+            string sortingAlias = null, string extraSorting = null)
         {
             if (!(query ?? "").StartsWith("select")) query = "select * from[" + typeof(T).Name + "] (nolock)" + query;
             using (var c = MSSqlDb.Open())
@@ -207,8 +148,9 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                 var sortDir = paging.SortDir.ToString();
 
                 query = query.Replace("select", string.Format("select " +
-                                        "     row_number() over ( order by {0} {1} {2}) as __RowNum, " +
-                                        "     count({0}) over () AS __RowsTotal,", (string.IsNullOrWhiteSpace(sortingAlias) ? "" : sortingAlias + ".") + sort, sortDir, extraSorting ?? ""));
+                                                              "     row_number() over ( order by {0} {1} {2}) as __RowNum, " +
+                                                              "     count({0}) over () AS __RowsTotal,",
+                    (string.IsNullOrWhiteSpace(sortingAlias) ? "" : sortingAlias + ".") + sort, sortDir, extraSorting ?? ""));
 
                 var page = paging.Page == 0 ? 1 : paging.Page;
 
@@ -218,9 +160,10 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                 param.__PagingFrom = (page - 1) * rowsPerPage + 1;
                 param.__PagingTo = page * rowsPerPage;
 
-                query = $@"select * from ( {query} ) as __Res where __RowNum between @__PagingFrom and @__PagingTo order by __RowNum";
+                query =
+                    $@"select * from ( {query} ) as __Res where __RowNum between @__PagingFrom and @__PagingTo order by __RowNum";
 
-                var queryRes = await c.QueryAsync<T>(query, (object)param);
+                var queryRes = await c.QueryAsync<T>(query, (object) param);
                 var queryPage = queryRes.ToArray();
                 DeserializeProps(queryPage);
 
@@ -231,6 +174,85 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                     TotalRows = totalRows,
                     Rows = queryPage
                 };
+            }
+        }
+
+        private async Task Update(T subj)
+        {
+            var props =
+                subj.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+            var pp = new ExpandoObject() as IDictionary<string, object>;
+            var items = new List<string>();
+            foreach (var prop in props)
+            {
+                var attr = prop.GetCustomAttribute<DBField>();
+                if (attr == null) continue;
+                var value = prop.GetValue(subj);
+                if (attr.InJson)
+                {
+                    var newJson = JsonConvert.SerializeObject(value);
+
+                    PropertyInfo jsonProp;
+                    if (_jsonProps.ContainsKey(prop.Name))
+                    {
+                        jsonProp = _jsonProps[prop.Name];
+                    }
+                    else
+                    {
+                        jsonProp = props.FirstOrDefault(p => p.Name == prop.Name + "JSON");
+                        _jsonProps.Add(prop.Name, jsonProp);
+                    }
+
+                    var oldJson = (string) jsonProp.GetValue(subj);
+                    // do not update same value
+                    if (oldJson == newJson) continue;
+
+                    pp.Add(prop.Name + "JSON", newJson);
+                    items.Add(prop.Name + "JSON");
+                }
+                else
+                {
+                    pp.Add(prop.Name, value);
+                    items.Add(prop.Name);
+                }
+            }
+            var sql = "update [" + subj.GetType().Name + "] set " + string.Join(",", items.Select(i => i + "=@" + i)) +
+                      " where id='" + subj.Id + "'";
+            using (var sqlConnection = MSSqlDb.Open())
+            {
+                await sqlConnection.ExecuteAsync(sql, pp);
+            }
+        }
+
+        private async Task Insert(T subj)
+        {
+            subj.Id = Guid.NewGuid();
+            var props = subj.GetType().GetProperties();
+            var pp = new ExpandoObject() as IDictionary<string, object>;
+            pp.Add("Id", subj.Id);
+            var items = new List<string> {"Id"};
+            foreach (var prop in props)
+            {
+                var attr = prop.GetCustomAttribute<DBField>();
+                if (attr == null) continue;
+                var value = prop.GetValue(subj);
+                if (value == null) continue;
+                if (attr.InJson)
+                {
+                    pp.Add(prop.Name + "JSON", JsonConvert.SerializeObject(value));
+                    items.Add(prop.Name + "JSON");
+                }
+                else
+                {
+                    pp.Add(prop.Name, value);
+                    items.Add(prop.Name);
+                }
+            }
+            var sql = "insert into [" + subj.GetType().Name + "](" + string.Join(",", items) + ") values (" +
+                      string.Join(",", items.Select(i => "@" + i)) + ")";
+            using (var sqlConnection = MSSqlDb.Open())
+            {
+                await sqlConnection.ExecuteAsync(sql, pp);
             }
         }
 
@@ -256,19 +278,20 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
             }
         }
 
-        static string EnsurePropery(string prop)
+        private static string EnsurePropery(string prop)
         {
             var allProps = typeof(T).GetProperties();
             if (allProps.Any(x => x.Name == prop)) return prop;
             throw new InvalidOperationException("Invalid property: " + prop);
         }
 
-        static string GetFirstProperty()
+        private static string GetFirstProperty()
         {
             var propertyInfo = typeof(T).GetProperties().FirstOrDefault();
-            if (propertyInfo == null) throw new InvalidOperationException("Could not get the 1st property from the type. Set the 'sort' parameter explicitly");
+            if (propertyInfo == null)
+                throw new InvalidOperationException(
+                    "Could not get the 1st property from the type. Set the 'sort' parameter explicitly");
             return propertyInfo.Name;
         }
-
     }
 }

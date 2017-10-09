@@ -1,33 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sprut.MyShop;
 using Sprut.MyShop.Domain;
 using Sprut.MyShop.Infrastructure;
 
 namespace Sprut.MyShopConsole
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Registry.Init(new ConsoleCommonInfrastructureProvider());
 
             //Insert test category in database
-            for (int i = 0; i < 100; i++)
-            {
+            for (var i = 0; i < 100; i++)
                 Registry.Current.Categories.Save(new Category
                 {
                     Name = "Cat #" + i
                 });
-            }
 
             //Insert test product in database
             var cats = Registry.Current.Categories.Select();
-            for (int i = 0; i < 200; i++)
-            {
+            for (var i = 0; i < 200; i++)
                 Registry.Current.Products.Save(new Product
                 {
                     SKU = "SK" + i,
@@ -37,13 +30,13 @@ namespace Sprut.MyShopConsole
                     Qty = i % 100,
                     CategoryId = cats[i % 100].Id
                 });
-            }
 
             //var products = Registry.Current.Products.Select(" where QTY=@qty and SKU=@sku", new {qty = 0, sku= "NewSKu1" });
 
 
             string select = null;
-            do {
+            do
+            {
                 //Console.Clear();
                 Console.WriteLine("Main menu");
                 Console.WriteLine("1. View catalog");
@@ -58,7 +51,7 @@ namespace Sprut.MyShopConsole
                 Console.WriteLine("10. Build Category Tree");
                 Console.WriteLine("11. Delete SKU");
                 Console.WriteLine("0. Exit");
-                select=Console.ReadLine();
+                select = Console.ReadLine();
 
                 switch (select)
                 {
@@ -66,10 +59,10 @@ namespace Sprut.MyShopConsole
                         var allProducts = Registry.Current.Products.Select();
                         Console.WriteLine("SKU \t Title \t\t Price \t Description\tQty");
                         foreach (var product in allProducts)
-                        {
-                            
-                            Console.WriteLine(product.SKU + "\t " + product.Title + "\t " + product.Price.ToString("0.00")+"\t "+product.Descripton+"\t"+product.Qty);
-                        };
+                            Console.WriteLine(product.SKU + "\t " + product.Title + "\t " +
+                                              product.Price.ToString("0.00") + "\t " + product.Descripton + "\t" +
+                                              product.Qty);
+                        ;
                         break;
                     case "2":
                         Console.Write("Enter SKU for Baying:");
@@ -77,17 +70,17 @@ namespace Sprut.MyShopConsole
                         Console.Write("Enter Qty:");
                         var qty = Convert.ToInt16(Console.ReadLine());
                         var title = Registry.Current.Products.GetProduct(sku).Title;
-                        Registry.Current.Carts.Add(sku,title,qty);
+                        Registry.Current.Carts.Add(sku, title, qty);
                         break;
                     case "3":
-                        Cart cart = Registry.Current.Carts.GetCart();
+                        var cart = Registry.Current.Carts.GetCart();
                         Console.WriteLine("SKU \t Title \t\t Qty \t Price (1 Qty) \t Total price");
                         decimal summary = 0;
                         foreach (var item in cart.Items)
                         {
                             var itemPrice = Registry.Current.Products.GetProduct(item.SKU).Price;
                             Console.WriteLine(item.SKU + " \t " + item.Title + "\t "
-                                + item.Qty + " \t" + itemPrice + "\t\t " + itemPrice * item.Qty);
+                                              + item.Qty + " \t" + itemPrice + "\t\t " + itemPrice * item.Qty);
                             summary += itemPrice * item.Qty;
                         }
                         Console.WriteLine("Total: " + summary);
@@ -103,18 +96,18 @@ namespace Sprut.MyShopConsole
                         break;
                     case "6":
                         var order = Registry.Current.Orders.GetOrder("15210900");
-                        Console.WriteLine("Order number: " + order.Number + ", date: " + order.Date + ", state:" + order.State+",total:"+order.Total);
+                        Console.WriteLine("Order number: " + order.Number + ", date: " + order.Date + ", state:" +
+                                          order.State + ",total:" + order.Total);
                         Console.WriteLine("SKU \tTitle \t\tQty \tPrice");
                         foreach (var item in order.Items)
-                        {
                             Console.WriteLine(item.SKU + "\t" + item.Title + "\t" + item.Qty + "\t" + item.Price);
-                        }
                         Console.WriteLine("Total: " + order.Items.Sum(s => s.Price * s.Qty));
                         break;
                     case "7":
                         var product2 = Registry.Current.Products.GetProduct("NewSKu1");
                         Console.WriteLine("SKU \t Title \t\t Price \t Description");
-                        Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " + product2.Price.ToString("0.00") + "\t " + product2.Descripton);
+                        Console.WriteLine(product2.SKU + "\t " + product2.Title + "\t " +
+                                          product2.Price.ToString("0.00") + "\t " + product2.Descripton);
                         break;
                     //case "8":
                     //    //Registry.Current.Products.ImportFromExcel("e:\\temp\\MyShopTest.xlsx");
@@ -139,24 +132,16 @@ namespace Sprut.MyShopConsole
                     //        break;
                     case "10":
                         var categorytree = Registry.Current.Categories.GetPlanarTree();
-                        foreach(var cat in categorytree)
-                        {
+                        foreach (var cat in categorytree)
                             Console.WriteLine(cat.FullName);
-                        }
                         break;
                     case "11":
                         Console.WriteLine("Delete SKU:");
                         var skufordel = Console.ReadLine();
                         Registry.Current.Products.Delete(Registry.Current.Products.GetProduct(skufordel));
                         break;
-
-
                 }
             } while (select != "0");
-
-
-
-
         }
     }
 }

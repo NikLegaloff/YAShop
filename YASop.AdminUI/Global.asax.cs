@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -25,7 +22,8 @@ namespace YASop.AdminUI
 
         public IDictionary IdentityMap => HttpContext.Current.Items;
     }
-    public class MvcApplication : System.Web.HttpApplication
+
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {

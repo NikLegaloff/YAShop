@@ -1,10 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Sprut.MyShop.Infrastructure;
-using System.Data.Entity;
 
 namespace Sprut.MyShop.Domain
 {
@@ -19,8 +15,5 @@ namespace Sprut.MyShop.Domain
         public string Descripton { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category => Registry.Current.Categories.Find(CategoryId);
-
-
     }
-
 }

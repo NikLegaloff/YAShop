@@ -6,9 +6,9 @@ namespace YAShop.BusinessLogic.Service.Category
     public class CategoryTreeItem : AbstractService
     {
         public Guid Id { get; set; }
-        public int Lvl{ get; set; }
-        public string Name{ get; set; }
-        public string FullName{ get; set; }
-        public List<CategoryTreeItem> Childrens{ get; set; }
+        public int Lvl { get; set; }
+        public string Name { get; set; }
+        public string FullName { get; set; }
+        public List<CategoryTreeItem> Childrens { get; set; }
     }
 }

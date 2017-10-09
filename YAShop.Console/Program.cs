@@ -5,16 +5,15 @@ using YAShop.BusinessLogic.Bus;
 using YAShop.BusinessLogic.Bus.Commands;
 using YAShop.BusinessLogic.DomainModel;
 
-
 namespace YAShop.ConsoleApp
 {
-    class Program
+    internal class Program
     {
-        static  void Main(string[] args)
+        private static void Main(string[] args)
         {
             Registry.Init(new ProgrCommonInfrProvider());
 
-            DateTime now = DateTime.Now;
+            var now = DateTime.Now;
             Console.WriteLine("* - clear commands");
             Console.WriteLine("0 - start commands processing");
             Console.WriteLine("1-10 - invoke N commands");
@@ -31,20 +30,19 @@ namespace YAShop.ConsoleApp
                         ProcessCommands();
                         break;
                     case "*":
-                        foreach (var command in Registry.Current.Data.Commands.Select().Result) Registry.Current.Data.Commands.Delete(command);
+                        foreach (var command in Registry.Current.Data.Commands.Select().Result)
+                            Registry.Current.Data.Commands.Delete(command);
                         break;
                     default:
-                        for (int i = 0; i < int.Parse(c); i++)
-                        {
+                        for (var i = 0; i < int.Parse(c); i++)
                             Registry.Current.Bus.Invoke(new CancelOldNotPaidOrdersCommand {MaxDurationHours = 2}).Wait();
-                        }
                         break;
                 }
             } while (true);
             Console.WriteLine(DateTime.Now.Subtract(now).TotalMilliseconds);
             Console.ReadLine();
-
         }
+
         // консоль пользует клиента
         // и вот как это работает
         // запустим исполнителя и консольку в режиме клиента
@@ -55,7 +53,7 @@ namespace YAShop.ConsoleApp
             var url = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(url)) url = "http://localhost:9004/";
             var client = new CommandApiClient(url);
-            bool exit = false;
+            var exit = false;
             Console.WriteLine("");
             do
             {
@@ -64,7 +62,6 @@ namespace YAShop.ConsoleApp
                 if (str == "exit") return;
                 var res = client.ExecuteCommand(str);
                 Console.WriteLine(res);
-
             } while (true);
         }
 
@@ -72,7 +69,7 @@ namespace YAShop.ConsoleApp
         {
             do
             {
-                bool result = new CommandExecutor(Console.WriteLine).TakeOneAndExecute().Result;
+                var result = new CommandExecutor(Console.WriteLine).TakeOneAndExecute().Result;
                 // if nothing processed
                 if (!result) Thread.Sleep(200); // then sleep 2 sec
             } while (true);
@@ -80,16 +77,13 @@ namespace YAShop.ConsoleApp
 
         private static void CreateInventoryAndCategories()
         {
-            for (int i = 0; i < 100; i++)
-            {
+            for (var i = 0; i < 100; i++)
                 Registry.Current.Data.Categories.Save(new Category
                 {
                     Name = "Cat#" + i
                 });
-            }
             var cats = Registry.Current.Data.Categories.Select().Result;
-            for (int i = 1; i <= 1000; i++)
-            {
+            for (var i = 1; i <= 1000; i++)
                 Registry.Current.Data.Products.Save(new Product
                 {
                     SKU = "S" + i,
@@ -102,7 +96,6 @@ namespace YAShop.ConsoleApp
                     enables a clean separation of concerns and gives you full control over markup
                     for enjoyable, agile development."
                 });
-            }
         }
     }
 }

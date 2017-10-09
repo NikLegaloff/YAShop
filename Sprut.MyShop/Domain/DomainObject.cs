@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace Sprut.MyShop.Domain
@@ -9,8 +8,9 @@ namespace Sprut.MyShop.Domain
     {
         public DomainObject()
         {
-            Id=Guid.Empty;
+            Id = Guid.Empty;
         }
+
         public Guid Id { get; set; }
     }
 }

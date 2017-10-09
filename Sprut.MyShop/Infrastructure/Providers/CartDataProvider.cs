@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Sprut.MyShop.Infrastructure.Providers
 {
@@ -10,11 +6,11 @@ namespace Sprut.MyShop.Infrastructure.Providers
     {
         public Cart GetCart()
         {
-            var cart = (Cart)Registry.Current.CommonInfrastructureProvider.GetFromSession("Cart");
+            var cart = (Cart) Registry.Current.CommonInfrastructureProvider.GetFromSession("Cart");
             if (cart == null)
             {
                 cart = new Cart();
-                Registry.Current.CommonInfrastructureProvider.PutInSession("Cart",cart);
+                Registry.Current.CommonInfrastructureProvider.PutInSession("Cart", cart);
             }
             return cart;
         }
@@ -24,7 +20,7 @@ namespace Sprut.MyShop.Infrastructure.Providers
             var items = GetCart().Items;
             var existing = items.FirstOrDefault(i => i.SKU == sku);
             if (existing != null) existing.Qty += qty;
-            else items.Add(new CartItem { SKU = sku, Title = title, Qty = qty });
+            else items.Add(new CartItem {SKU = sku, Title = title, Qty = qty});
         }
 
         public void Remove(string sku)

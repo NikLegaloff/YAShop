@@ -15,12 +15,12 @@ namespace YAShop.BusinessLogic.Service.Cart
             var items = GetCart().Items;
             var existing = items.FirstOrDefault(i => i.SKU == sku);
             if (existing != null) existing.QTY += qty;
-            else items.Add(new CartItem { SKU = sku, Title = title, QTY = qty });
+            else items.Add(new CartItem {SKU = sku, Title = title, QTY = qty});
         }
 
         public DomainModel.Cart GetCart()
         {
-            var cart = (DomainModel.Cart)Registry.Current.Infrastructure.Common.GetFromSession("Cart");
+            var cart = (DomainModel.Cart) Registry.Current.Infrastructure.Common.GetFromSession("Cart");
             if (cart == null)
             {
                 cart = new DomainModel.Cart();

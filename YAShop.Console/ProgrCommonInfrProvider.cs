@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using YAShop.BusinessLogic.Infrastr;
 
 namespace YAShop.ConsoleApp
@@ -18,13 +17,9 @@ namespace YAShop.ConsoleApp
         }
 
 
-
         public IDictionary IdentityMap
         {
-            get
-            {
-                return new Hashtable();
-            }
+            get { return new Hashtable(); }
         }
     }
 }

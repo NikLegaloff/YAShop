@@ -1,22 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using YAShop.BusinessLogic.Presistense.MSSQL;
 
 namespace YAShop.BusinessLogic.Presistense
 {
     public class IMDBDataProvider<T> : IDataProvider<T> where T : DomainObject, new()
     {
+        private static readonly Dictionary<Type, Dictionary<Guid, DomainObject>> Imdb =
+            new Dictionary<Type, Dictionary<Guid, DomainObject>>();
+
         public IMDBDataProvider()
         {
             Imdb.Add(typeof(T), new Dictionary<Guid, DomainObject>());
         }
 
-        static readonly Dictionary<Type, Dictionary<Guid, DomainObject>> Imdb = new Dictionary<Type, Dictionary<Guid, DomainObject>>();
         public IDataProvider<T> Init()
         {
             throw new NotImplementedException();
@@ -42,7 +40,8 @@ namespace YAShop.BusinessLogic.Presistense
             throw new NotImplementedException();
         }
 
-        public Task<PageData<T>> SelectPage(string query, PagingArgs paging, dynamic param = null, string sortingAlias = null,
+        public Task<PageData<T>> SelectPage(string query, PagingArgs paging, dynamic param = null,
+            string sortingAlias = null,
             string extraSorting = null)
         {
             throw new NotImplementedException();

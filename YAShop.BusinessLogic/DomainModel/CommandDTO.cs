@@ -7,21 +7,25 @@ namespace YAShop.BusinessLogic.DomainModel
 {
     public enum CommandSatet
     {
-        Ready, Executing, Done, Failed
+        Ready,
+        Executing,
+        Done,
+        Failed
     }
+
     public class CommandDTO : DomainObject
     {
-        [DBField(SqlDbType.UniqueIdentifier,0,true)]
+        [DBField(SqlDbType.UniqueIdentifier, 0, true)]
         public Guid? TakeId { get; set; }
 
         [DBField(SqlDbType.NText, 128)]
-        public string BodyJSON{ get; set; }
+        public string BodyJSON { get; set; }
 
         [DBField(SqlDbType.Int)]
         public CommandSatet State { get; set; }
 
-        [DBField(SqlDbType.NText,0,true)]
-        public string Status{ get; set; }
+        [DBField(SqlDbType.NText, 0, true)]
+        public string Status { get; set; }
 
         [DBField(SqlDbType.DateTime)]
         public DateTime CreatedDate { get; set; }
@@ -31,8 +35,5 @@ namespace YAShop.BusinessLogic.DomainModel
 
         [DBField(SqlDbType.DateTime, 0, true)]
         public DateTime? EndedDate { get; set; }
-
-
-
     }
 }

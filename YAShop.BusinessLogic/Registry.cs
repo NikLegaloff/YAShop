@@ -9,6 +9,7 @@ namespace YAShop.BusinessLogic
     public class Registry
     {
         private static Registry _current;
+
         public static Registry Current
         {
             get
@@ -17,6 +18,11 @@ namespace YAShop.BusinessLogic
                 return _current;
             }
         }
+
+        public Infrastructure Infrastructure { get; set; }
+        public Services Services { get; set; }
+        public DataProviders Data { get; set; }
+        public CommandBus Bus { get; set; }
 
         public static void Init(ICommonInfrastructureProvider commonInfrastructureProvider)
         {
@@ -28,10 +34,5 @@ namespace YAShop.BusinessLogic
                 Bus = new CommandBus()
             };
         }
-
-        public Infrastructure Infrastructure { get; set; }
-        public Services Services { get; set; }
-        public DataProviders Data { get; set; }
-        public CommandBus Bus{ get; set; }
     }
 }

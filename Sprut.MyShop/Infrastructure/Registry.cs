@@ -1,29 +1,17 @@
 using System;
 using Sprut.MyShop.Domain;
 using Sprut.MyShop.Infrastructure.Providers;
-using Sprut.MyShop.Infrastructure;
-
 
 namespace Sprut.MyShop.Infrastructure
 {
     public class Registry
     {
-        public ICommonInfrastructureProvider CommonInfrastructureProvider { get; }
-
         private static Registry _current;
-        public static Registry Current
-        {
-            get
-            {
-                if (_current==null) throw new Exception("Registry is not initialized");
-                return _current;
-            }
-        }
+        public CartDataProvider Carts;
+        public CategoryDataProvider Categories;
+        public OrderDataProvider Orders;
 
-        public static void Init(ICommonInfrastructureProvider commonInfrastructureProvider)
-        {
-            _current=new Registry(commonInfrastructureProvider);
-        }
+        public ProductDataProvider Products;
 
         // replace InMemoryDataProviderExecutor to SqlDataProviderExecutor after implementation
         //public IDataProvider<T> GetExecutor<T>() where T : DomainObject => new InMemoryDataProviderExecutor<T>();
@@ -40,14 +28,20 @@ namespace Sprut.MyShop.Infrastructure
             Categories = new CategoryDataProvider(new EfDataProviderExecutor<Category>().Init());
         }
 
-        public ProductDataProvider Products;
-        public CartDataProvider Carts;
-        public OrderDataProvider Orders;
-        public CategoryDataProvider Categories;
-        
+        public ICommonInfrastructureProvider CommonInfrastructureProvider { get; }
 
+        public static Registry Current
+        {
+            get
+            {
+                if (_current == null) throw new Exception("Registry is not initialized");
+                return _current;
+            }
+        }
 
-
+        public static void Init(ICommonInfrastructureProvider commonInfrastructureProvider)
+        {
+            _current = new Registry(commonInfrastructureProvider);
+        }
     }
-
 }

@@ -1,18 +1,21 @@
-using System.Collections.Generic;
-using Sprut.MyShop.Domain;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Sprut.MyShop.Domain;
 
 namespace Sprut.MyShop.Infrastructure.Providers
 {
-    public class CategoryDataProvider : DataProvider<Category> 
+    public class CategoryDataProvider : DataProvider<Category>
     {
-        public CategoryDataProvider(IDataProvider<Category> executor) : base(executor){}
+        public CategoryDataProvider(IDataProvider<Category> executor) : base(executor)
+        {
+        }
 
         public List<CategoryTreeItem> GetTree()
         {
             return new CategoryTreeBuilder(Registry.Current.Categories.Select(" order by name").ToArray()).Build();
         }
+
         public List<CategoryTreeItem> GetPlanarTree()
         {
             var tree = new CategoryTreeBuilder(Registry.Current.Categories.Select(" order by name").ToArray()).Build();

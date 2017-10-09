@@ -7,7 +7,8 @@ namespace Sprut.MyShop.Infrastructure
 {
     public class InMemoryDataProviderExecutor<T> : IDataProvider<T> where T : DomainObject
     {
-        readonly List<T> _subjects = new List<T>();
+        private readonly List<T> _subjects = new List<T>();
+
         public T Find(Guid id)
         {
             return _subjects.FirstOrDefault(i => i.Id == id);

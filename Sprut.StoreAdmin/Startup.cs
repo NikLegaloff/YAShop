@@ -1,7 +1,9 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using Sprut.StoreAdmin;
 
-[assembly: OwinStartupAttribute(typeof(Sprut.StoreAdmin.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
+
 namespace Sprut.StoreAdmin
 {
     public partial class Startup

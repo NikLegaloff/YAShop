@@ -1,14 +1,12 @@
-﻿@using Sprut.MyShop
-
-@{
+﻿@{
     ViewBag.Title = "Category";
 }
 
 <h2>Category</h2>
 
-<a href="~/Product/ImportXLS">Импорт продуктов из файла Excel</a><br />
-<a href="~/Product/Edit">Добавить новый продукт</a><br />
-<a href="~/Product/Category">Работа с категориями</a><br />
+<a href="~/Product/ImportXLS">Импорт продуктов из файла Excel</a><br/>
+<a href="~/Product/Edit">Добавить новый продукт</a><br/>
+<a href="~/Product/Category">Работа с категориями</a><br/>
 
 <table>
     <tr>
@@ -17,13 +15,13 @@
         <td>New SubCat</td>
         <td>Delete</td>
     </tr>
-    
+
     @foreach (var c in ViewBag.Categorys)
     {
         <tr>
             <td>@c.Name</td>
-            <td>@Html.ActionLink("Edit", "CatEdit", new { guid= c.Id.ToString(), act="edit"})</td>
-            <td>@Html.ActionLink("NewSub", "CatEdit", new { guid = c.Id.ToString(), act = "new" })</td>
+            <td>@Html.ActionLink("Edit", "CatEdit", new {guid = c.Id.ToString(), act = "edit"})</td>
+            <td>@Html.ActionLink("NewSub", "CatEdit", new {guid = c.Id.ToString(), act = "new"})</td>
             <td>Delete</td>
         </tr>
     }

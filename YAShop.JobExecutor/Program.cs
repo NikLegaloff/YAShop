@@ -1,13 +1,11 @@
-﻿using System.Linq;
-using System.Text;
-using Topshelf;
+﻿using Topshelf;
 using YAShop.BusinessLogic;
 
 namespace YAShop.JobExecutor
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Registry.Init(new ProgrCommonInfrProvider());
             HostFactory.Run(x =>
@@ -20,10 +18,9 @@ namespace YAShop.JobExecutor
                 });
 
                 x.RunAsNetworkService(); // you can setup any other credentials here
-                x.SetServiceName("YAShopJobExec" );
+                x.SetServiceName("YAShopJobExec");
                 x.SetDisplayName("YAShopJobExec");
             });
-
         }
     }
 }

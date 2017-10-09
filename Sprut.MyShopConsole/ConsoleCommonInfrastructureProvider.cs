@@ -7,7 +7,11 @@ namespace Sprut.MyShopConsole
 {
     public class ConsoleCommonInfrastructureProvider : ICommonInfrastructureProvider
     {
-        readonly Dictionary<string, object> _session = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _session = new Dictionary<string, object>();
+
+
+        private Dictionary<Guid, object> _identityMap { get; } = new Dictionary<Guid, object>();
+
         public object GetFromSession(string key)
         {
             return _session.ContainsKey(key) ? _session[key] : null;
@@ -15,11 +19,10 @@ namespace Sprut.MyShopConsole
 
         public void PutInSession(string key, object subj)
         {
-            if (_session.ContainsKey(key)) _session[key] = subj; else _session.Add(key, subj);
+            if (_session.ContainsKey(key)) _session[key] = subj;
+            else _session.Add(key, subj);
         }
 
-
-        private Dictionary<Guid, object> _identityMap { get; } = new Dictionary<Guid, object>();
         public IDictionary IdentityMap => _identityMap;
     }
 }
