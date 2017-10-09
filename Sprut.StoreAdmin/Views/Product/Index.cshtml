@@ -1,11 +1,13 @@
-﻿@using Sprut.MyShop.Infrastructure
-@model Sprut.StoreAdmin.Models.ProductViewModel
+﻿@model Sprut.StoreAdmin.Models.ProductViewModel
+@using System.Web.UI.WebControls
+@using Sprut.MyShop.Infrastructure
+@using Sprut.StoreAdmin.Models
 
 @{
     ViewBag.Title = "Index";
 }
 
-<br/>
+<br />
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Products list</h3>
@@ -14,35 +16,21 @@
         <nav class="navbar navbar">
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-default">Add new product</button>
-                <button type="button" class="btn btn-default" data-toggle="collapse" href="#collapseFilter" aria-expanded="false">Filter</button>
                 <button type="button" class="btn btn-default">Import CSV</button>
                 <button type="button" class="btn btn-default">Export CSV</button>
             </div>
         </nav>
-        <div class="collapse" id="collapseFilter">
             <div class="well">
-                <form class="form-horizontal" name="m">
+                <form class="form-inline" id="filter">
+                    @Html.HiddenFor(m => m.CurrentPage, new{id="CurrentPage"})
+                    @Html.EditorFor(m => m.FilterTitle, new{ HtmlAttributes = new{@class="form-control",placeholder="Title"}})
+                    @Html.DropDownListFor(m => m.FilterCategoryId, (SelectList) Model.CategorySelectList,"Choose category...", new { @class = "form-control"} )
+                    @Html.EditorFor(m => m.FilterDescription, new{ HtmlAttributes = new{@class="form-control",placeholder="Description"}})
 
-                    @Html.HiddenFor(m => m.CurrentPage, 1)
-                    @Html.Label("FilterCategoryId", "Category")
-                    @Html.DropDownListFor(m => m.FilterCategoryId, Model.CategorySelectList, Model.FilterCategoryId, new {@class = "form-control"})
-                    @Html.Label("FilterTitle", "Product name contains")
-                    @Html.EditorFor(m => m.FilterTitle, new {@class = "form-control"})
-                    @Html.Label("FilterSort", "Sort by")
-                    @Html.DropDownListFor(m => m.FilterSort, new SelectList(new[] {"SKU", "Title", "Price", "Qty"}), Model.FilterSort, new {@class = "form-control"})
-                    @Html.RadioButtonFor(m => m.FilterSortDirection, 0)
-                    <span>Up</span>
-                    @Html.RadioButtonFor(m => m.FilterSortDirection, 1)
-                    <span>Down</span>
-                    @Html.Label("FilterMinPrice", "Minimal product price")
-                    @Html.EditorFor(m => m.FilterMinPrice, new {@class = "form-control"})
-                    @Html.Label("FilterMaxPrice", "Maximal product price")
-                    @Html.EditorFor(m => m.FilterMaxPrice, new {@class = "form-control"})
-
-                    <button type="submit" class="btn btn-default">Apply</button>
-                    <button type="reset" class="btn btn-default">Reset</button>
+                    <button type="submit" class="btn btn-default">Filter</button>
+                    <button type="reset" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                 </form>
-            </div>
+
         </div>
         <table class="table table-hover">
             <tr>
@@ -65,25 +53,32 @@
                     <td>@p.Price</td>
                     <td>@p.Image</td>
                     <td>@p.Descripton</td>
-                    <td>@Registry.Current.Categories.Find(p.CategoryId)</td>
-                    <td>@Html.ActionLink("Edit", "Edit", new {sku = p.SKU}) @Html.ActionLink("Delete", "DeleteProduct", new {sku = p.SKU})</td>
+                    <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new { sku = p.Id }) @Html.ActionLink("Delete", "DeleteProduct", new { sku = p.Id })</td>
                 </tr>
             }
         </table>
-        @*bad working in filter mod*@
         <nav aria-label="Page navigation" class="text-center">
             <ul class="pagination">
                 <li>
-                    <a href="#" aria-label="Previous">
+                    <a href="#" onClick="goto(@(Model.CurrentPage-1))" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                @for (var i = 0; i < ViewBag.Count / 10; i++)
+                @for (var i = 1; i < ViewBag.Count / 10; i++)
                 {
-                    <li>@Html.ActionLink((i + 1).ToString(), "Index", new {page = i + 1})</li>
+                    if (i == Model.CurrentPage)
+                    {
+                        <li><a href="#" onclick="goto(@i)"><strong>@i</strong></a></li>
+                    }
+                    else
+                    {
+                        <li><a href="#" onclick="goto(@i)">@i</a></li>
+                    }
+
                 }
                 <li>
-                    <a href="#" aria-label="Next">
+                    <a href="#" onClick="goto(@(Model.CurrentPage+1))" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -91,3 +86,25 @@
         </nav>
     </div>
 </div>
+
+
+}
+@section scripts
+{
+    <script>
+        function goto(page) {
+            if (page == 0) { page = 1 };
+            if (page > @ViewBag.Count) { page =@ViewBag.Count};
+            $("#CurrentPage").val(page);
+            $("#filter").submit();
+        };
+    </script>
+}
+
+
+
+
+
+
+
+
