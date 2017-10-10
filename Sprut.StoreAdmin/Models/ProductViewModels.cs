@@ -20,16 +20,14 @@ namespace Sprut.StoreAdmin.Models
         public string FilterSortDirection { get; set; }
         public string FilterCategoryId { get; set; }
         public string FilterTitle { get; set; }
-        public string FilterDescription { get; set; }
 
 
         public ProductViewModels()
         {
             CurrentPage = 1;
             FilterSort = "SKU";
+            FilterSortDirection = "0";
             CategorySelectList = new SelectList(Registry.Current.Categories.GetPlanarTree(), "Id", "FullName");
-
-            //if (FilterCategoryId.IsNullOrWhiteSpace()) FilterCategoryId = "1";
         }
     }
 

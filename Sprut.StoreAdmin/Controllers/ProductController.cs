@@ -32,20 +32,43 @@ namespace Sprut.StoreAdmin.Controllers
                 param.CategoryId = _pvModel.FilterCategoryId;
             }
 
-            //name
-            if (!_pvModel.FilterTitle.IsNullOrWhiteSpace())
+            if (_pvModel.FilterTitle != null)
             {
-                conditions.Add("(Title LIKE @Title or SKU=@SKU)");
-                param.Title = "%" + _pvModel.FilterTitle.Trim().Replace("  "," ").Replace(" ", "%") + "%";
-                param.SKU= _pvModel.FilterTitle.Trim();
+                if (_pvModel.FilterTitle.StartsWith("SKU:"))
+                {
+                    _pvModel.FilterTitle = _pvModel.FilterTitle.Replace("SKU:", "").Trim();
+                    conditions.Add("SKU LIKE @Text");
+                }
+                else
+                {
+                    if (_pvModel.FilterTitle.StartsWith("DESC:"))
+                    {
+                        _pvModel.FilterTitle = _pvModel.FilterTitle.Replace("DESC:", "").Trim();
+                        conditions.Add("Descripton LIKE @Text");
+                    }
+                    else
+                    {
+                        conditions.Add("Title LIKE @Text");
+                    }
+                }
+                param.Text = "%" + _pvModel.FilterTitle.Trim().Replace("  ", " ").Replace(" ", "%") + "%";
             }
 
-            //description
-            if (!_pvModel.FilterDescription.IsNullOrWhiteSpace())
-            {
-                conditions.Add("Descripton LIKE '%@Descrition%'");
-                param.Description = _pvModel.FilterDescription;
-            }
+            ////name
+            //if (!_pvModel.FilterTitle.IsNullOrWhiteSpace())
+            //{
+            //    conditions.Add("(Title LIKE @Title or SKU=@SKU)");
+            //    param.Title = "%" + _pvModel.FilterTitle.Trim().Replace("  "," ").Replace(" ", "%") + "%";
+            //    param.SKU= _pvModel.FilterTitle.Trim();
+            //}
+
+            
+            ////description
+            //if (!_pvModel.FilterDescription.IsNullOrWhiteSpace())
+            //{
+            //    conditions.Add("Descripton LIKE '%@Descrition%'");
+            //    param.Description = _pvModel.FilterDescription;
+            //}
             
             //build query an param
             if (conditions.Count > 0)
