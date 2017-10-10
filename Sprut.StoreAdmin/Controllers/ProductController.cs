@@ -14,10 +14,11 @@ namespace Sprut.StoreAdmin.Controllers
 {
     public class ProductController : Controller
     {
-        private ProductViewModel _pvModel = new ProductViewModel();
+        private ProductViewModels _pvModel = new ProductViewModels();
+        private AddProductViewModel _apvModel = new AddProductViewModel();
 
 
-        public ActionResult Index(ProductViewModel model)
+        public ActionResult Index(ProductViewModels model)
         {
             _pvModel = model;
             var conditions = new List<string>();
@@ -68,8 +69,35 @@ namespace Sprut.StoreAdmin.Controllers
             ViewBag.Products = products;
             return View(_pvModel);
         }
+        [HttpGet]
+        public ActionResult Add(string sku)
+        {
+            if (!sku.IsNullOrWhiteSpace())
+            {
+                _apvModel.Product = Registry.Current.Products.GetProduct(sku);
+            }
+            else
+            {
+                _apvModel.Product = new Product();
+            }
+            return View(_apvModel);
 
-  
+        }
+
+        [HttpPost]
+        public ActionResult Add(AddProductViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _apvModel.Product = model.Product;
+                Registry.Current.Products.Save(_apvModel.Product);
+            }
+            else
+            {
+                return View(_apvModel);
+            }
+            return Redirect("Index");
+        }
 
 
 

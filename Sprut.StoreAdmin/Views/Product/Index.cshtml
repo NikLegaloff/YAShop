@@ -1,10 +1,11 @@
-﻿@model Sprut.StoreAdmin.Models.ProductViewModel
+﻿@model Sprut.StoreAdmin.Models.ProductViewModels
 @using System.Web.UI.WebControls
+@using Sprut.MyShop.Domain
 @using Sprut.MyShop.Infrastructure
 @using Sprut.StoreAdmin.Models
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Products list";
 }
 
 <br />
@@ -15,7 +16,7 @@
     <div class="panel-body">
         <nav class="navbar navbar">
             <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-default">Add new product</button>
+                <button type="button" onclick="location.href='@Url.Action("Add", "Product")'" class="btn btn-default">Add new product</button>
                 <button type="button" class="btn btn-default">Import CSV</button>
                 <button type="button" class="btn btn-default">Export CSV</button>
             </div>
@@ -62,7 +63,7 @@
                     <td>@p.Image</td>
                     <td>@p.Descripton</td>
                     <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
-                    <td>@Html.ActionLink("Edit", "Edit", new { sku = p.Id }) @Html.ActionLink("Delete", "DeleteProduct", new { sku = p.Id })</td>
+                    <td>@Html.ActionLink("Edit", "Add", new {sku = p.SKU }) @Html.ActionLink("Delete", "DeleteProduct", new { sku = p.Id })</td>
                 </tr>
             }
         </table>

@@ -10,7 +10,7 @@ using Sprut.MyShop.Infrastructure;
 
 namespace Sprut.StoreAdmin.Models
 {
-    public class ProductViewModel
+    public class ProductViewModels
     {
         public int CurrentPage { get; set; }
         public SelectList CategorySelectList;
@@ -23,13 +23,25 @@ namespace Sprut.StoreAdmin.Models
         public string FilterDescription { get; set; }
 
 
-        public ProductViewModel()
+        public ProductViewModels()
         {
             CurrentPage = 1;
             FilterSort = "SKU";
             CategorySelectList = new SelectList(Registry.Current.Categories.GetPlanarTree(), "Id", "FullName");
 
             //if (FilterCategoryId.IsNullOrWhiteSpace()) FilterCategoryId = "1";
+        }
+    }
+
+    public class AddProductViewModel
+    {
+        public SelectList CategorySelectList;
+        public Product Product { get; set; }
+
+        public AddProductViewModel()
+        {
+            Product=new Product();
+            CategorySelectList = new SelectList(Registry.Current.Categories.GetPlanarTree(), "Id", "FullName");
         }
     }
 

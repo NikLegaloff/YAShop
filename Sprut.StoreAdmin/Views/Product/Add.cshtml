@@ -1,0 +1,78 @@
+﻿@model Sprut.StoreAdmin.Models.AddProductViewModel
+@{
+    ViewBag.Title = "Add new product";
+}
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            @if (Model.Product.SKU == null)
+            {
+                @Html.Raw("Add new product")
+            }
+            else
+            {
+                @Html.Raw("Edit product")
+            }
+        </h3>
+    </div>
+<div class="panel-body">
+    <form class="form-horizontal" method="post">
+        @Html.HiddenFor(m => m.Product.Id, new {id = "Id"})
+        <div class="form-group">
+            <label for="Product.SKU" class="col-sm-2 col control-label">SKU</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(m => m.Product.SKU, new {HtmlAttributes = new {id = "Product.SKU", @class = "form-control", placeholder = "Enter SKU"}})
+                <p class="text-danger">@Html.ValidationMessageFor(m => m.Product.SKU)</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Product.Title" class="col-sm-2 control-label">Title</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(m => m.Product.Title, new {HtmlAttributes = new {id = "Product.Title", @class = "form-control", placeholder = "Enter title"}})
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Product.Price" class="col-sm-2 control-label">Price</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(m => m.Product.Price, new {HtmlAttributes = new {id = "Product.Price", @class = "form-control", placeholder = "Enter price"}})
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Product.Qty" class="col-sm-2 control-label">Qty</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(m => m.Product.Qty, new {HtmlAttributes = new {id = "Product.Qty", @class = "form-control", placeholder = "Enter qty product"}})
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Product.Image" class="col-sm-2 control-label">Image</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(m => m.Product.Image, new {HtmlAttributes = new {id = "Product.Image", @class = "form-control", placeholder = "Enter image (underconstraction)"}})
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Product.Descripton" class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(m => m.Product.Descripton, new {HtmlAttributes = new {id = "Product.Descripton", @class = "form-control", placeholder = "Enter description product"}})
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Product.CategoryId" class="col-sm-2 control-label">Category</label>
+            <div class="col-sm-10">
+                @Html.DropDownListFor(m => m.Product.CategoryId, (SelectList) Model.CategorySelectList, "Choose category...", new {@class = "form-control", value = "1111"})
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Apply</button>
+            </div>
+        </div>
+    </form>
+    
+    
+</div>
+</div>

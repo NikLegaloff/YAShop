@@ -28,6 +28,8 @@ namespace Sprut.MyShop.Infrastructure
                 _efContext.Entry(subj).State = EntityState.Modified;
             }
             _efContext.SaveChanges();
+            _efContext.Entry(subj).State = EntityState.Detached;
+
         }
 
         public void Delete(T subj)
