@@ -26,7 +26,13 @@
                     @Html.HiddenFor(m => m.CurrentPage, new{id="CurrentPage"})
                     @Html.HiddenFor(m => m.FilterSort, new { id = "FilterSort" })
                     @Html.HiddenFor(m => m.FilterSortDirection, new { id = "FilterSortDirection" })
-                    @Html.EditorFor(m => m.FilterTitle, new{ HtmlAttributes = new{@class="form-control",placeholder="Title"}})
+                    <div class="col-md-4">
+                        @Html.EditorFor(m => m.FilterTitle, new { HtmlAttributes = new { @class = "form-control", placeholder = "SKU\\Title\\Description" } })
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Test">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        </button>
+                        
+                    </div>
                     @Html.DropDownListFor(m => m.FilterCategoryId, (SelectList) Model.CategorySelectList,"Choose category...", new { @class = "form-control"} )
                     @Html.EditorFor(m => m.FilterDescription, new{ HtmlAttributes = new{@class="form-control",placeholder="Description"}})
 
