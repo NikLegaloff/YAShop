@@ -35,8 +35,9 @@ namespace Sprut.StoreAdmin.Controllers
             //name
             if (!_pvModel.FilterTitle.IsNullOrWhiteSpace())
             {
-                conditions.Add("Title LIKE '%@Title%'");
-                param.Title = _pvModel.FilterTitle;
+                conditions.Add("(Title LIKE @Title or SKU=@SKU)");
+                param.Title = "%" + _pvModel.FilterTitle.Trim().Replace("  "," ").Replace(" ", "%") + "%";
+                param.SKU= _pvModel.FilterTitle.Trim();
             }
 
             //description
