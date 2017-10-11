@@ -1,4 +1,5 @@
 ﻿@model Sprut.StoreAdmin.Models.ProductViewModels
+@using System.Text.RegularExpressions
 @using System.Web.UI.WebControls
 @using Sprut.MyShop.Domain
 @using Sprut.MyShop.Infrastructure
@@ -59,7 +60,7 @@
                     <td>@p.Qty</td>
                     <td>@p.Price</td>
                     <td>@p.Image</td>
-                    <td>@p.Descripton</td>
+                    <td>@Regex.Replace(p.Descripton, "<[^>]+>", string.Empty)</td>
                     <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
                     <td>@Html.ActionLink("Edit", "Add", new {sku = p.SKU }) @Html.ActionLink("Delete", "DeleteProduct", new { sku = p.Id })</td>
                 </tr>

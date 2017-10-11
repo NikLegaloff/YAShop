@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Sprut.MyShop.Infrastructure;
+using System.Web.Mvc;
 
 namespace Sprut.MyShop.Domain
 {
@@ -16,6 +17,7 @@ namespace Sprut.MyShop.Domain
         public decimal Price { get; set; }
         public int Qty { get; set; }
         public string Image { get; set; }
+        [AllowHtml]
         public string Descripton { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category => Registry.Current.Categories.Find(CategoryId);
