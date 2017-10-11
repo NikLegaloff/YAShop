@@ -108,17 +108,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registry.cs" />
     <Compile Include="Service\AbstractService.cs" />
-    <Compile Include="Service\Cart\CartService.cs" />
-    <Compile Include="Service\Category\CategoryService.cs" />
-    <Compile Include="Service\Category\CategoryTreeBuilder.cs" />
-    <Compile Include="Service\Category\CategoryTreeItem.cs" />
-    <Compile Include="Service\Order\OrderService.cs" />
-    <Compile Include="Service\Product\Viewing\ProductViewer.cs" />
-    <Compile Include="Service\Product\Viewing\ProductFilter.cs" />
-    <Compile Include="Service\Product\Viewing\ProductViewRow.cs" />
-    <Compile Include="Service\Product\ProductService.cs" />
+    <Compile Include="Service\Carts\CartService.cs" />
+    <Compile Include="Service\Categorys\CategoryService.cs" />
+    <Compile Include="Service\Categorys\CategoryTreeBuilder.cs" />
+    <Compile Include="Service\Categorys\CategoryTreeItem.cs" />
+    <Compile Include="Service\Orders\OrderService.cs" />
+    <Compile Include="Service\Products\Viewing\ProductViewer.cs" />
+    <Compile Include="Service\Products\Viewing\ProductFilter.cs" />
+    <Compile Include="Service\Products\Viewing\ProductViewRow.cs" />
+    <Compile Include="Service\Products\ProductService.cs" />
     <Compile Include="Service\Services.cs" />
-    <Compile Include="Service\User\UserService.cs" />
+    <Compile Include="Service\Users\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

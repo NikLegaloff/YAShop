@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using YAShop.BusinessLogic.DomainModel;
 
-namespace YAShop.BusinessLogic.Service.Cart
+namespace YAShop.BusinessLogic.Service.Carts
 {
     public class CartService : AbstractService
     {

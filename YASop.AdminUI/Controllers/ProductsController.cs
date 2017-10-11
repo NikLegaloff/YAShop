@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using YAShop.BusinessLogic;
-using YAShop.BusinessLogic.Service.Product.Viewing;
+using YAShop.BusinessLogic.Service.Products.Viewing;
 
 namespace YASop.AdminUI.Controllers
 {
@@ -18,7 +18,6 @@ namespace YASop.AdminUI.Controllers
         }
     }
 
-    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()

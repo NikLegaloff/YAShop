@@ -1,17 +1,32 @@
 ﻿@{
     ViewBag.Title = "Login";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - YAShop</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 
-<div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        <h2>Please sign in</h2>
-        @using (Html.BeginForm("Login", "Account"))
-        {
-            <div><input type="text" placeholder="Login" name="login"/></div>
-            <div><input type="password" placeholder="Login" name="pass"/></div>
-            <div><input type="submit" value="Login"/></div>
-        }
+</head>
+<body>
+    <div style="width: 400px; margin: 100px auto;">
+        <div class="row">
+                <h2>Please sign in</h2>
+                @using (Html.BeginForm("Login", "Account"))
+            {
+                    <div style="margin-bottom: 20px;"><input class="input-lg" type="text" placeholder="Email" name="email" /></div>
+                    <div style="margin-bottom: 20px;"><input class="input-lg" type="password" placeholder="Password" name="pass" /></div>
+                <div style="margin-bottom: 20px;"><input type="submit" class="btn btn-block" value="Login" /></div>
+                <div class="warning">@Model.Error</div>
+                }
+            </div>
     </div>
 
-</div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

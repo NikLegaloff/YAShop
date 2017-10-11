@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using YAShop.BusinessLogic.DomainModel;
 
-namespace YAShop.BusinessLogic.Service.Order
+namespace YAShop.BusinessLogic.Service.Orders
 {
     public class OrderService : AbstractService
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace YAShop.BusinessLogic.Service.Category
+namespace YAShop.BusinessLogic.Service.Categorys
 {
     public class CategoryTreeBuilder
     {

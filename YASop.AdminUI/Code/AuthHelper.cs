@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.SessionState;
+using YAShop.BusinessLogic;
+using YAShop.BusinessLogic.DomainModel;
 
 namespace YASop.AdminUI.Code
 {
-    public class AuthUserInfo
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-    }
     public class AuthHelper
     {
         private static string SessionKey = "LoggedUser";
@@ -22,15 +19,15 @@ namespace YASop.AdminUI.Code
         {
             Session[SessionKey] = null;
         }
-        public void Authenticate(string name, Guid id)
+        public void Authenticate(Guid id)
         {
-            Session[SessionKey] = name + "~" + id;
+            Session[SessionKey] = id.ToString();
         }
-        public AuthUserInfo CurrentUser()
+        public User CurrentUser()
         {
             var s = Session[SessionKey] as string;
             if (string.IsNullOrWhiteSpace(s)) HttpContext.Current.Response.Redirect("/Account/Login/");
-            return new AuthUserInfo {Id = Guid.Parse(s.Split('~')[1]),Name = s.Split('~')[0]};
+            return AsyncHelpers.RunSync(() => Registry.Current.Data.Users.Find(new Guid(s)));
         }
 
     }

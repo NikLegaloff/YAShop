@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using YAShop.BusinessLogic.Presistense.MSSQL;
-using YAShop.BusinessLogic.Service.Product.Viewing;
+using YAShop.BusinessLogic.Service.Products.Viewing;
 
-namespace YAShop.BusinessLogic.Service.Product
+namespace YAShop.BusinessLogic.Service.Products
 {
     public class ProductService : AbstractService
     {

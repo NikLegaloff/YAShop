@@ -1,8 +1,8 @@
-using YAShop.BusinessLogic.Service.Cart;
-using YAShop.BusinessLogic.Service.Category;
-using YAShop.BusinessLogic.Service.Order;
-using YAShop.BusinessLogic.Service.Product;
-using YAShop.BusinessLogic.Service.User;
+using YAShop.BusinessLogic.Service.Carts;
+using YAShop.BusinessLogic.Service.Categorys;
+using YAShop.BusinessLogic.Service.Orders;
+using YAShop.BusinessLogic.Service.Products;
+using YAShop.BusinessLogic.Service.Users;
 
 namespace YAShop.BusinessLogic.Service
 {

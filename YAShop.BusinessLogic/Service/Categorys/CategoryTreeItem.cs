@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace YAShop.BusinessLogic.Service.Category
+namespace YAShop.BusinessLogic.Service.Categorys
 {
     public class CategoryTreeItem : AbstractService
     {

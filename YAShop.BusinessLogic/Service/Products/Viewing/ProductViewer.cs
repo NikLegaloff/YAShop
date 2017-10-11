@@ -2,7 +2,7 @@ using System.Dynamic;
 using System.Threading.Tasks;
 using YAShop.BusinessLogic.Presistense.MSSQL;
 
-namespace YAShop.BusinessLogic.Service.Product.Viewing
+namespace YAShop.BusinessLogic.Service.Products.Viewing
 {
     public class ProductViewer
     {

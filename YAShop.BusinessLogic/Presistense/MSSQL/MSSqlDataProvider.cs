@@ -65,7 +65,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
             using (var sqlConnection = MSSqlDb.Open())
             {
                 var find =
-                    await sqlConnection.QueryFirstAsync<T>("select * from " + typeof(T).Name + " where Id='" + id + "'");
+                    await sqlConnection.QueryFirstAsync<T>("select * from [" + typeof(T).Name + "] where Id='" + id + "'");
                 DeserializeProps(new[] {find});
                 return find;
             }

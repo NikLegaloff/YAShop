@@ -1,6 +1,6 @@
 using YAShop.BusinessLogic.Presistense;
 
-namespace YAShop.BusinessLogic.Service.Product.Viewing
+namespace YAShop.BusinessLogic.Service.Products.Viewing
 {
     public class ProductViewRow : DomainObject
     {
