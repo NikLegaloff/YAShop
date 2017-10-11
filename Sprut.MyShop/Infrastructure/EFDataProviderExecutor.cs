@@ -15,8 +15,8 @@ namespace Sprut.MyShop.Infrastructure
 
         public void Save(T subj)
         {
-            //var efTable = _efContext.Set(typeof(T));
-            var efTable = _efContext.Set<T>();
+            var efTable = _efContext.Set(typeof(T));
+            //var efTable = _efContext.Set<T>();
             var isNew = subj.Id == Guid.Empty;
             if (isNew)
             {
