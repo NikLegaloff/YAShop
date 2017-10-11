@@ -20,8 +20,9 @@ namespace YAShop.BusinessLogic.Service.Product.Viewing
             dynamic param = new ExpandoObject();
             if (!string.IsNullOrWhiteSpace(_filter.Keyword))
             {
-                query += " and (Product.SKU = @Keyword or Product.Title like '%' + @Keyword )";
-                param.Keyword = _filter.Keyword;
+                query += " and (Product.SKU = @SKU or Product.Title like '%' + @Keyword + '%' )";
+                param.SKU = _filter.Keyword.Trim();
+                param.Keyword = _filter.Keyword.Trim().Replace("  "," ").Replace(" ","%");
             }
             if (_filter.CategoryId != null)
             {

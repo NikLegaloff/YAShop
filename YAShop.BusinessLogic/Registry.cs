@@ -6,6 +6,29 @@ using YAShop.BusinessLogic.Service;
 
 namespace YAShop.BusinessLogic
 {
+    public enum EnvType
+    {
+        Devel, Test, Live
+    }
+
+    public class Env
+    {
+        private EnvType _type;
+
+        public Env(EnvType type)
+        {
+            _type = type;
+        }
+
+        public string MsSqlConnectionString
+        {
+            get
+            {
+                return "Data Source=.;Initial Catalog=YAShop;Persist Security Info=True;User ID=sa;Password=Password1";
+            }
+        }
+    }
+
     public class Registry
     {
         private static Registry _current;
@@ -19,6 +42,7 @@ namespace YAShop.BusinessLogic
             }
         }
 
+        public Env Env{ get; set; }
         public Infrastructure Infrastructure { get; set; }
         public Services Services { get; set; }
         public DataProviders Data { get; set; }
@@ -26,13 +50,13 @@ namespace YAShop.BusinessLogic
 
         public static void Init(ICommonInfrastructureProvider commonInfrastructureProvider)
         {
-            _current = new Registry
-            {
-                Services = Services.Create(),
-                Infrastructure = new Infrastructure(commonInfrastructureProvider),
-                Data = new DataProviders(),
-                Bus = new CommandBus()
-            };
+            _current = new Registry();
+            _current.Env = new Env(EnvType.Devel);
+            _current.Infrastructure = new Infrastructure(commonInfrastructureProvider);
+            _current.Services = Services.Create();
+            _current.Data = new DataProviders();
+            _current.Bus = new CommandBus();
+            
         }
     }
 }

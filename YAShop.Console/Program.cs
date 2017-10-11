@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using YAShop.BusinessLogic;
 using YAShop.BusinessLogic.Bus;
 using YAShop.BusinessLogic.Bus.Commands;
@@ -14,6 +15,7 @@ namespace YAShop.ConsoleApp
             Registry.Init(new ProgrCommonInfrProvider());
 
             var now = DateTime.Now;
+            Console.WriteLine("i - create inv and commands");
             Console.WriteLine("* - clear commands");
             Console.WriteLine("0 - start commands processing");
             Console.WriteLine("1-10 - invoke N commands");
@@ -23,9 +25,8 @@ namespace YAShop.ConsoleApp
                 var c = Console.ReadLine();
                 switch (c)
                 {
-                    case "":
-                        RunConsole();
-                        break;
+                    case "i": CreateInventoryAndCategories().Wait(); break;
+                    case "": RunConsole(); break;
                     case "0":
                         ProcessCommands();
                         break;
@@ -75,16 +76,19 @@ namespace YAShop.ConsoleApp
             } while (true);
         }
 
-        private static void CreateInventoryAndCategories()
+        private static async Task CreateInventoryAndCategories()
         {
             for (var i = 0; i < 100; i++)
-                Registry.Current.Data.Categories.Save(new Category
+            {
+                var category = new Category
                 {
                     Name = "Cat#" + i
-                });
+                };
+                await Registry.Current.Data.Categories.Save(category);
+            }
             var cats = Registry.Current.Data.Categories.Select().Result;
             for (var i = 1; i <= 1000; i++)
-                Registry.Current.Data.Products.Save(new Product
+               await Registry.Current.Data.Products.Save(new Product
                 {
                     SKU = "S" + i,
                     Title = "Product #" + i + " title",

@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncHelpers.cs" />
     <Compile Include="Bus\CommandBus.cs" />
     <Compile Include="Bus\Commands\Products\CancelOldNotPaidOrdersCommand.cs" />
     <Compile Include="Bus\Commands\Products\PingCommand.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="DomainModel\Cart.cs" />
     <Compile Include="DomainModel\Category.cs" />
     <Compile Include="DomainModel\CommandDTO.cs" />
+    <Compile Include="DomainModel\User.cs" />
     <Compile Include="Presistense\MSSQL\DBField.cs" />
     <Compile Include="Presistense\DomainObject.cs" />
     <Compile Include="DomainModel\Order.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Presistense\IMDBDataProvider.cs" />
     <Compile Include="Presistense\IDataProvider.cs" />
     <Compile Include="Presistense\MSSQL\MSSqlDataProvider.cs" />
+    <Compile Include="Presistense\MSSQL\MSSqlDb.cs" />
     <Compile Include="Presistense\MSSQL\PageData.cs" />
     <Compile Include="Presistense\MSSQL\PagedListItem.cs" />
     <Compile Include="Presistense\MSSQL\PagingArgs.cs" />
@@ -115,6 +118,7 @@
     <Compile Include="Service\Product\Viewing\ProductViewRow.cs" />
     <Compile Include="Service\Product\ProductService.cs" />
     <Compile Include="Service\Services.cs" />
+    <Compile Include="Service\User\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

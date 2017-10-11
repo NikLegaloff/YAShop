@@ -25,6 +25,7 @@ namespace YASop.AdminUI
 
     public class MvcApplication : HttpApplication
     {
+
         protected void Application_Start()
         {
             Registry.Init(new WebCommonInfrastructureProvider());

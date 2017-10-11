@@ -5,7 +5,6 @@ using YAShop.BusinessLogic.Service.Product.Viewing;
 
 namespace YASop.AdminUI.Controllers
 {
-    [Authorize]
     public class ProductsController : Controller
     {
         public ActionResult Index()
