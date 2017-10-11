@@ -17,7 +17,7 @@
     <div class="panel-body">
         <nav class="navbar navbar">
             <div class="btn-group" role="group" aria-label="...">
-                <button type="button" onclick="location.href='@Url.Action("Add", "Product")'" class="btn btn-default">Add new product</button>
+                <button type="button" onclick="location.href='@Url.Action("Edit", "Product")'" class="btn btn-default">Add new product</button>
                 <button type="button" class="btn btn-default">Import CSV</button>
                 <button type="button" class="btn btn-default">Export CSV</button>
             </div>
@@ -28,7 +28,7 @@
                     @Html.HiddenFor(m => m.FilterSort, new { id = "FilterSort" })
                     @Html.HiddenFor(m => m.FilterSortDirection, new { id = "FilterSortDirection" })
                     <div class="col-md-4">
-                        @Html.EditorFor(m => m.FilterTitle, new { HtmlAttributes = new { @class = "form-control", placeholder = "SKU \\ Title \\ Description" } })
+                        @Html.EditorFor(m => m.FilterTitle, new { HtmlAttributes = new { @class = "form-control", placeholder = "SKU \\ Title \\ Description", style = "width:90%" } })
                         <a href=# data-toggle=tooltip title="Use SKU: or DESC: to search by other fields">
                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                         </a>
@@ -62,7 +62,7 @@
                     <td>@p.Image</td>
                     <td>@Regex.Replace(p.Descripton, "<[^>]+>", string.Empty)</td>
                     <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
-                    <td>@Html.ActionLink("Edit", "Add", new {sku = p.SKU }) @Html.ActionLink("Delete", "DeleteProduct", new { sku = p.Id })</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new {id = p.Id }) @Html.ActionLink("Delete", "DeleteProduct", new { id = p.Id })</td>
                 </tr>
             }
         </table>

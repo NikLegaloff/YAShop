@@ -53,22 +53,6 @@ namespace Sprut.StoreAdmin.Controllers
                 }
                 param.Text = "%" + _pvModel.FilterTitle.Trim().Replace("  ", " ").Replace(" ", "%") + "%";
             }
-
-            ////name
-            //if (!_pvModel.FilterTitle.IsNullOrWhiteSpace())
-            //{
-            //    conditions.Add("(Title LIKE @Title or SKU=@SKU)");
-            //    param.Title = "%" + _pvModel.FilterTitle.Trim().Replace("  "," ").Replace(" ", "%") + "%";
-            //    param.SKU= _pvModel.FilterTitle.Trim();
-            //}
-
-            
-            ////description
-            //if (!_pvModel.FilterDescription.IsNullOrWhiteSpace())
-            //{
-            //    conditions.Add("Descripton LIKE '%@Descrition%'");
-            //    param.Description = _pvModel.FilterDescription;
-            //}
             
             //build query an param
             if (conditions.Count > 0)
@@ -94,33 +78,50 @@ namespace Sprut.StoreAdmin.Controllers
             return View(_pvModel);
         }
         [HttpGet]
-        public ActionResult Add(string sku)
+        public ActionResult Edit(Guid? id)
         {
-            if (!sku.IsNullOrWhiteSpace())
+            if (id!=null)
             {
-                _apvModel.Product = Registry.Current.Products.GetProduct(sku);
+                Product product = Registry.Current.Products.Find((Guid)id);
+                _apvModel.ProductDTO.Id = product.Id;
+                _apvModel.ProductDTO.CategoryId = product.CategoryId;
+                _apvModel.ProductDTO.Descripton = product.Descripton;
+                _apvModel.ProductDTO.Image = product.Image;
+                _apvModel.ProductDTO.Price = product.Price;
+                _apvModel.ProductDTO.Qty = product.Qty;
+                _apvModel.ProductDTO.SKU = product.SKU;
+                _apvModel.ProductDTO.Title = product.Title;
             }
             else
             {
-                _apvModel.Product = new Product();
+                _apvModel.ProductDTO = new AddProductDTO();
             }
             return View(_apvModel);
 
         }
 
         [HttpPost]
-        public ActionResult Add(AddProductViewModel model)
+        public ActionResult Edit(AddProductViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _apvModel.Product = model.Product;
-                Registry.Current.Products.Save(_apvModel.Product);
+                _apvModel.ProductDTO = model.ProductDTO;
+                var product=new Product();
+                if (_apvModel.ProductDTO.Id != null) product.Id = (Guid)_apvModel.ProductDTO.Id;
+                product.CategoryId = _apvModel.ProductDTO.CategoryId;
+                product.Descripton = _apvModel.ProductDTO.Descripton;
+                product.Image = _apvModel.ProductDTO.Image;
+                product.Price = _apvModel.ProductDTO.Price;
+                product.Qty = _apvModel.ProductDTO.Qty;
+                product.SKU = _apvModel.ProductDTO.SKU;
+                product.Title = _apvModel.ProductDTO.Title;
+                Registry.Current.Products.Save(product);
             }
             else
             {
                 return View(_apvModel);
             }
-            return Redirect("Index");
+            return Redirect("/Product/Index");
         }
 
 
