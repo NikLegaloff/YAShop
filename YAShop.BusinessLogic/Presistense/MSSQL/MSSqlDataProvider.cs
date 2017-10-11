@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
@@ -12,34 +11,6 @@ using YAShop.BusinessLogic.DomainModel;
 
 namespace YAShop.BusinessLogic.Presistense.MSSQL
 {
-    public class MSSqlDb
-    {
-        public static SqlConnection Open()
-        {
-            var connection =
-                new SqlConnection(
-                    "Data Source=.;Initial Catalog=YAShop;Persist Security Info=True;User ID=sa;Password=Password1");
-            connection.Open();
-            return connection;
-        }
-
-        public static async Task Execute(string sql, object param = null)
-        {
-            using (var db = Open())
-            {
-                await db.ExecuteAsync(sql, param);
-            }
-        }
-
-        public static async Task<T> ExecuteScalar<T>(string sql, object param = null)
-        {
-            using (var db = Open())
-            {
-                return await db.ExecuteScalarAsync<T>(sql, param);
-            }
-        }
-    }
-
     public class MSSqlDataProvider<T> : IDataProvider<T> where T : DomainObject, new()
     {
         private readonly Dictionary<string, PropertyInfo> _jsonProps = new Dictionary<string, PropertyInfo>();
@@ -117,9 +88,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
 
         public async Task<T[]> Select(string query = null, object param = null, int? top = null)
         {
-            if (!(query ?? "").StartsWith("select"))
-                query = "select " + (top == null ? "" : "TOP " + top.Value) + " [" + typeof(T).Name + "].* from [" +
-                        typeof(T).Name + "] (nolock) " + query;
+            if (!(query ?? "").StartsWith("select")) query = "select " + (top == null ? "" : "TOP " + top.Value) + " [" + typeof(T).Name + "].* from [" + typeof(T).Name + "] (nolock) " + query;
             using (var sqlConnection = MSSqlDb.Open())
             {
                 var result = await sqlConnection.QueryAsync<T>(query, param);
