@@ -106,8 +106,7 @@ namespace Sprut.StoreAdmin.Controllers
             if (ModelState.IsValid)
             {
                 _apvModel.ProductDTO = model.ProductDTO;
-                var product=new Product();
-                if (_apvModel.ProductDTO.Id != null) product.Id = (Guid)_apvModel.ProductDTO.Id;
+                var product= _apvModel.ProductDTO.Id != null ? Registry.Current.Products.Find(_apvModel.ProductDTO.Id.Value) :new Product();
                 product.CategoryId = _apvModel.ProductDTO.CategoryId;
                 product.Descripton = _apvModel.ProductDTO.Descripton;
                 product.Image = _apvModel.ProductDTO.Image;
