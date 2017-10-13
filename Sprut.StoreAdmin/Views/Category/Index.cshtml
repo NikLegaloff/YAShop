@@ -1,0 +1,76 @@
+﻿@model Sprut.StoreAdmin.Models.CategoryViewModels
+@{
+    ViewBag.Title = "Category list";
+}
+
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Products list</h3>
+    </div>
+    <div class="row panel-body">
+    <div class="col-md-6">
+        <nav class="navbar navbar">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" onclick="location.href='@Url.Action("", "")'" class="btn btn-default">Function One</button>
+                <button type="button" class="btn btn-default">Function Two</button>
+                <button type="button" class="btn btn-default">Function Three</button>
+            </div>
+        </nav>
+        <div class="well">
+            <table class="table table-hover">
+                <tr>
+                    <td>Full name</td>
+                    <td></td>
+                </tr>
+
+                @foreach (var c in @Model.CategoryTreeItems)
+                {
+                    <tr>
+                        <td>@c.FullName</td>
+                        <td class="text-right">@Html.ActionLink("Edit", "Edit", new {id = c.Id }) @Html.ActionLink("Delete", "Delete", new { id = c.Id })</td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#edit" aria-controls="home" role="tab" data-toggle="tab">Add and Edit</a></li>
+            <li role="presentation"><a href="#" aria-controls="profile" role="tab" data-toggle="tab">Temp 2</a></li>
+            <li role="presentation"><a href="#" aria-controls="messages" role="tab" data-toggle="tab">Temp 3</a></li>
+            <li role="presentation"><a href="#" aria-controls="settings" role="tab" data-toggle="tab">Temp 4</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="edit">
+                <br/>
+                <form>
+                    <div class="form-group">
+                        <label for="Category.Name">Category name</label>
+                        @Html.EditorFor(m => m.Category.Name, new {HtmlAttributes = new {@class = "form-control", placeholder = "Enter name is new category"}})
+                    </div>
+                    <div class="form-group">
+                        <label for="Category.ParentId">Parent category name</label>
+                        @Html.DropDownListFor(m => m.Category.ParentId, (SelectList) Model.CategorySelectList, "Choose parent category...", new {@class = "form-control"})
+                    </div>
+                    <div class="form-group">
+                    <div class="col-sm-offset-10 col-sm-1">
+                        <button type="submit" class="btn btn-default">Apply</button>
+                    </div>
+                        </div>
+                </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="">...</div>
+            <div role="tabpanel" class="tab-pane" id="">...</div>
+            <div role="tabpanel" class="tab-pane" id="">...</div>
+        </div>
+
+        
+    </div>
+    </div>
+</div>
+
