@@ -6,7 +6,7 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Hello " + new AuthHelper().CurrentUser().Email + "!", "Index", "Manage", null, new {title = "Manage"})
+                @Html.ActionLink("Hello " + new AuthHelper().CurrentUser().Email + "!", "Index", "Account", null, new {title = "Manage"})
             </li>
             <li>
                 <a href="/Account/Logoff">Log off</a>
