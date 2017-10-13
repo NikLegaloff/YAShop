@@ -62,7 +62,7 @@
                     <td>@p.Image</td>
                     <td>@Regex.Replace(p.Descripton, "<[^>]+>", string.Empty)</td>
                     <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
-                    <td>@Html.ActionLink("Edit", "Edit", new {id = p.Id }) @Html.ActionLink("Delete", "DeleteProduct", new { id = p.Id })</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new {id = p.Id }) @Html.ActionLink("Delete", "Delete", new { id = p.Id })</td>
                 </tr>
             }
         </table>

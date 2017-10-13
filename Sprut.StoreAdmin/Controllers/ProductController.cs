@@ -123,7 +123,11 @@ namespace Sprut.StoreAdmin.Controllers
             return Redirect("/Product/Index");
         }
 
-
+        public ActionResult Delete(Guid id)
+        {
+            Registry.Current.Products.Delete(Registry.Current.Products.Find(id));
+            return Redirect("/Product/Index");
+        }
 
     }
 }
