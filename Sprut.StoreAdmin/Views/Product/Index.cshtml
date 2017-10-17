@@ -18,13 +18,21 @@
         <nav class="navbar navbar">
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" onclick="location.href='@Url.Action("Edit", "Product")'" class="btn btn-default">Add new product</button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#groupAction">Group actions</button>
+                <button type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Group actions <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Set QTY</a></li>
+                    <li><a href="#">Assign category</a></li>
+                    <li><a href="#">Change price</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Delete</a></li>
+                </ul>
                 <button type="button" class="btn btn-default">Export CSV</button>
             </div>
         </nav>
         
-        <!-- Modal -->
-        <div class="modal fade" id="groupAction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        @*<div class="modal fade" id="groupAction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -42,7 +50,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
 
         <div class="well">
             <form class="form-inline" id="filter">
