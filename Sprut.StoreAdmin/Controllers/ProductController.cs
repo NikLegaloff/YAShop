@@ -9,6 +9,7 @@ using Sprut.MyShop.Domain;
 using Sprut.MyShop.Infrastructure;
 using Sprut.StoreAdmin.Models;
 using System.Dynamic;
+using System.Text.RegularExpressions;
 
 namespace Sprut.StoreAdmin.Controllers
 {
@@ -127,6 +128,44 @@ namespace Sprut.StoreAdmin.Controllers
         {
             Registry.Current.Products.Delete(Registry.Current.Products.Find(id));
             return Redirect("/Product/Index");
+        }
+
+        public ActionResult GroupAction()
+        {
+            var action = Request.Form["action"];
+            //var selectedproducts = Request.Form["selectedproducts"];
+            //selectedproducts = Regex.Replace(selectedproducts, ",", "','");
+            //param.selectedproducts = $"'" + selectedproducts + "'";
+
+            //I'm very cool )))
+            var selectedproducts = $"'" + Regex.Replace(Request.Form["selectedproducts"], ",", "','") + "'";
+            var listProduct = Registry.Current.Products.Select($"where Id in (" + selectedproducts + ")");
+
+            switch (action)
+            {
+                case "delete":
+                    //var listProduct = Registry.Current.Products.Select($"where Id in ("+selectedproducts+")");
+                    foreach (var p in listProduct)
+                    {
+                        Registry.Current.Products.Delete(Registry.Current.Products.Find(p.Id));
+                    }
+                    break;
+                case "remove":
+                    //var listProduct = Registry.Current.Products.Select($"where Id in (" + selectedproducts + ")");
+                    foreach (var p in listProduct)
+                    {
+                        var product = Registry.Current.Products.Find(p.Id);
+                        var temp = Request.Form["moveCategory"];
+                        var newCat = Guid.Parse(Request.Form["moveCategory"]);
+                        product.CategoryId = newCat;
+                        Registry.Current.Products.Save(product);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return Redirect("/Product/Index");
+
         }
 
     }

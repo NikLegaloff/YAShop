@@ -18,54 +18,81 @@
         <nav class="navbar navbar">
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" onclick="location.href='@Url.Action("Edit", "Product")'" class="btn btn-default">Add new product</button>
-                <button type="button" class="btn btn-default">Import CSV</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#groupAction">Group actions</button>
                 <button type="button" class="btn btn-default">Export CSV</button>
             </div>
         </nav>
-            <div class="well">
-                <form class="form-inline" id="filter">
-                    @Html.HiddenFor(m => m.CurrentPage, new{id="CurrentPage"})
-                    @Html.HiddenFor(m => m.FilterSort, new { id = "FilterSort" })
-                    @Html.HiddenFor(m => m.FilterSortDirection, new { id = "FilterSortDirection" })
-                    <div class="col-md-4">
-                        @Html.EditorFor(m => m.FilterTitle, new { HtmlAttributes = new { @class = "form-control", placeholder = "SKU \\ Title \\ Description", style = "width:90%" } })
-                        <a href=# data-toggle=tooltip title="Use SKU: or DESC: to search by other fields">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                        </a>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="groupAction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Group actions (<span id="CBcounter"></span> items)</h4>
                     </div>
-                    <div class="col-md-5">
-                    @Html.DropDownListFor(m => m.FilterCategoryId, (SelectList) Model.CategorySelectList,"Choose category...", new { @class = "form-control"} )
-                    </div>  
-                    <button type="submit" class="btn btn-default">Filter</button>
-                    <a href="#" onclick="reset()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-                </form>
-        </div>
-        <table class="table table-hover">
-            <tr>
-                <td><a href="#" onclick="sort('SKU')">SKU</a></td>
-                <td><a href="#" onclick="sort('Title')">Title</a></td>
-                <td><a href="#" onclick="sort('Qty')">Qty</a></td>
-                <td>Price</td>
-                <td>Image</td>
-                <td>Descripton</td>
-                <td>Category</td>
-                <td></td>
-            </tr>
+                    <div class="modal-body">
+                        <a href="#" onclick="groupAction('delete')">Delete</a>
+                        <hr/>
+                        <a href="#" onclick="groupAction('remove')">Remove</a> in @Html.DropDownList("moveTo", (SelectList) Model.CategorySelectList,"Choose category...", new { @class = "form-control"} )
 
-            @foreach (var p in ViewBag.Products)
-            {
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="well">
+            <form class="form-inline" id="filter">
+                @Html.HiddenFor(m => m.CurrentPage, new{id="CurrentPage"})
+                @Html.HiddenFor(m => m.FilterSort, new { id = "FilterSort" })
+                @Html.HiddenFor(m => m.FilterSortDirection, new { id = "FilterSortDirection" })
+                <div class="col-md-4">
+                    @Html.EditorFor(m => m.FilterTitle, new { HtmlAttributes = new { @class = "form-control", placeholder = "SKU \\ Title \\ Description", style = "width:90%" } })
+                    <a href=# data-toggle=tooltip title="Use SKU: or DESC: to search by other fields">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div class="col-md-5">
+                    @Html.DropDownListFor(m => m.FilterCategoryId, (SelectList) Model.CategorySelectList,"Choose category...", new { @class = "form-control"} )
+                </div>  
+                <button type="submit" class="btn btn-default">Filter</button>
+                <a href="#" onclick="reset()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+            </form>
+        </div>
+        @using (Html.BeginForm("GroupAction", "Product", FormMethod.Post, new {id = "selectProduct"}))
+        {
+            @Html.Hidden("action");
+            @Html.Hidden("moveCategory");
+            <table class="table table-hover">
                 <tr>
-                    <td>@p.SKU</td>
-                    <td>@p.Title</td>
-                    <td>@p.Qty</td>
-                    <td>@p.Price</td>
-                    <td>@p.Image</td>
-                    <td>@Regex.Replace(p.Descripton, "<[^>]+>", string.Empty)</td>
-                    <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
-                    <td>@Html.ActionLink("Edit", "Edit", new {id = p.Id }) @Html.ActionLink("Delete", "Delete", new { id = p.Id })</td>
+                    <td><input type="checkbox" name="selectedallproducts" id="selectedallproducts" value="all"></td>
+                    <td><a href="#" onclick="sort('SKU')">SKU</a></td>
+                    <td><a href="#" onclick="sort('Title')">Title</a></td>
+                    <td><a href="#" onclick="sort('Qty')">Qty</a></td>
+                    <td>Price</td>
+                    <td>Image</td>
+                    <td>Category</td>
+                    <td></td>
                 </tr>
-            }
-        </table>
+
+                @foreach (var p in ViewBag.Products)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="selectedproducts" id="selectedproducts" value="@p.Id"></td>
+                        <td>@p.SKU</td>
+                        <td>@p.Title</td>
+                        <td>@p.Qty</td>
+                        <td>@p.Price</td>
+                        <td>@p.Image</td>
+                        <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
+                        <td>@Html.ActionLink("Edit", "Edit", new {id = p.Id}) @Html.ActionLink("Delete", "Delete", new {id = p.Id})</td>
+                    </tr>
+                }
+            </table>
+        }
         <nav aria-label="Page navigation" class="text-center">
             <ul class="pagination">
                 <li><a href="#" onClick="goto(@(Model.CurrentPage-1))" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
@@ -90,8 +117,12 @@
         });
 
         function goto(page) {
-            if (page == 0) { page = 1 };
-            if (page > @ViewBag.Count) { page =@ViewBag.Count};
+            if (page === 0) {
+                page = 1;
+            };
+            if (page > @ViewBag.Count) {
+                page = @ViewBag.Count;
+            };
             $("#CurrentPage").val(page);
             $("#filter").submit();
         };
@@ -104,13 +135,46 @@
         };
 
         function sort(col) {
-            if (col == "SKU") { $("#FilterSort").val("SKU") };
-            if (col == "Title") { $("#FilterSort").val("Title") };
-            if (col == "Qty") { $("#FilterSort").val("Qty") };
-            if ($("#FilterSortDirection").val() == "0") { $("#FilterSortDirection").val("1") }
-            else { $("#FilterSortDirection").val("0")};
+            if (col == "SKU") {
+                $("#FilterSort").val("SKU");
+            };
+            if (col == "Title") {
+                $("#FilterSort").val("Title");
+            };
+            if (col == "Qty") {
+                $("#FilterSort").val("Qty");
+            };
+            if ($("#FilterSortDirection").val() === "0") {
+                $("#FilterSortDirection").val("1");
+            } else {
+                $("#FilterSortDirection").val("0");
+            };
             $("#filter").submit();
+        };
+
+        $("#selectedallproducts").change(function () {
+            if ($("#selectedallproducts").prop("checked") === true) {
+                $("#selectProduct input").prop("checked", true);
+            } else {
+                $("#selectProduct input").prop("checked", false);
+            }
+        });
+
+        $("#selectProduct input").change(function() {
+            var count = $('#selectProduct').find('input[id="selectedproducts"]:checked').length;
+            $("#CBcounter").text(count);
+        });
+
+        function CBcounter() {
+            var count = $("#selectProduct input").prop("checked", true).count;
+            return count;
         }
+
+        function groupAction(act) {
+            $("#action").val(act);
+            $("#moveCategory").val($("#moveTo").val());
+            $("#selectProduct").submit();
+        };
 
     </script>
 }
