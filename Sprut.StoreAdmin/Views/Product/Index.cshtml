@@ -21,59 +21,84 @@
                 <button type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Group actions <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Set QTY</a></li>
-                    <li><a href="#">Assign category</a></li>
-                    <li><a href="#">Change price</a></li>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="#SetQty" data-toggle="modal" data-target="#SetQty">Set QTY</a></li>
+                    <li><a href="#ChangePrice" data-toggle="modal" data-target="#ChangePrice">Change price</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Delete</a></li>
+                    <li><a href="#" onclick="groupDelete()">Delete</a></li>
                 </ul>
-                <button type="button" class="btn btn-default">Export CSV</button>
+                <button type="button" class="btn btn-default">Free</button>
             </div>
         </nav>
-        
-        @*<div class="modal fade" id="groupAction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
+
+        <!--Modal windows for SetQty-->
+        <div class="modal fade" id="SetQty" tabindex="-1" role="dialog" aria-labelledby="SetQty">
+            <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Group actions (<span id="CBcounter"></span> items)</h4>
+                        <h4 class="modal-title" id="SetQtyModalLabel">Set QTY</h4>
                     </div>
                     <div class="modal-body">
-                        <a href="#" onclick="groupAction('delete')">Delete</a>
-                        <hr/>
-                        <a href="#" onclick="groupAction('remove')">Remove</a> in @Html.DropDownList("moveTo", (SelectList) Model.CategorySelectList,"Choose category...", new { @class = "form-control"} )
-
+                        <div class="input-group">
+                            <div class="input-group-addon">Set</div>
+                            <input type="number" min="0" class="form-control" id="SetQtynumber">
+                            <div class="input-group-addon">qty</div>
+                        </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="SetQtynumber()">Apply</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
-        </div>*@
+        </div>
+        
+        <!--Modal windows for ChangePrice-->
+        <div class="modal fade" id="ChangePrice" tabindex="-1" role="dialog" aria-labelledby="ChangePrice">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="ChangePriceModalLabel">Change price</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <div class="input-group-addon">Set</div>
+                            <input type="number" min="0" class="form-control" id="ChangePriceNumber">
+                            <div class="input-group-addon">price</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="ChangePriceNumber()">Apply</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="well">
             <form class="form-inline" id="filter">
-                @Html.HiddenFor(m => m.CurrentPage, new{id="CurrentPage"})
-                @Html.HiddenFor(m => m.FilterSort, new { id = "FilterSort" })
-                @Html.HiddenFor(m => m.FilterSortDirection, new { id = "FilterSortDirection" })
+                @Html.HiddenFor(m => m.CurrentPage, new {id = "CurrentPage"})
+                @Html.HiddenFor(m => m.FilterSort, new {id = "FilterSort"})
+                @Html.HiddenFor(m => m.FilterSortDirection, new {id = "FilterSortDirection"})
                 <div class="col-md-4">
-                    @Html.EditorFor(m => m.FilterTitle, new { HtmlAttributes = new { @class = "form-control", placeholder = "SKU \\ Title \\ Description", style = "width:90%" } })
+                    @Html.EditorFor(m => m.FilterTitle, new {HtmlAttributes = new {@class = "form-control", placeholder = "SKU \\ Title \\ Description", style = "width:90%"}})
                     <a href=# data-toggle=tooltip title="Use SKU: or DESC: to search by other fields">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="col-md-5">
-                    @Html.DropDownListFor(m => m.FilterCategoryId, (SelectList) Model.CategorySelectList,"Choose category...", new { @class = "form-control"} )
-                </div>  
-                <button type="submit" class="btn btn-default">Filter</button>
-                <a href="#" onclick="reset()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                    @Html.DropDownListFor(m => m.FilterCategoryId, (SelectList) Model.CategorySelectList, "Choose category...", new {@class = "form-control", style = "width:100%"})
+                </div>
+                    <button type="submit" class="btn btn-default">Filter</button>
+                    <a href="#" onclick="reset()">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </a>
             </form>
         </div>
-        @using (Html.BeginForm("GroupAction", "Product", FormMethod.Post, new {id = "selectProduct"}))
-        {
-            @Html.Hidden("action");
-            @Html.Hidden("moveCategory");
+
+        <form id="selectProduct">
             <table class="table table-hover">
                 <tr>
                     <td><input type="checkbox" name="selectedallproducts" id="selectedallproducts" value="all"></td>
@@ -96,11 +121,11 @@
                         <td>@p.Price</td>
                         <td>@p.Image</td>
                         <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
-                        <td>@Html.ActionLink("Edit", "Edit", new {id = p.Id}) @Html.ActionLink("Delete", "Delete", new {id = p.Id})</td>
+                        <td>@Html.ActionLink("Edit", "Edit", new { id = p.Id }) <a href="#" onclick="Delete('@p.Id')">Delete</a></td>
                     </tr>
                 }
             </table>
-        }
+        </form>
         <nav aria-label="Page navigation" class="text-center">
             <ul class="pagination">
                 <li><a href="#" onClick="goto(@(Model.CurrentPage-1))" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
@@ -120,10 +145,12 @@
 @section scripts
 {
     <script>
+        //Set current page default value
         $(document).ready(function() {
             $("#CurrentPage").val(1);
         });
 
+        //Function go to desired page
         function goto(page) {
             if (page === 0) {
                 page = 1;
@@ -135,6 +162,7 @@
             $("#filter").submit();
         };
 
+        //Reset button on filter form
         function reset() {
             $("#FilterTitle").val(null);
             $("#FilterCategoryId").val(null);
@@ -142,14 +170,15 @@
             $("#filter").submit();
         };
 
+        //Function sort on click title columns
         function sort(col) {
-            if (col == "SKU") {
+            if (col === "SKU") {
                 $("#FilterSort").val("SKU");
             };
-            if (col == "Title") {
+            if (col === "Title") {
                 $("#FilterSort").val("Title");
             };
-            if (col == "Qty") {
+            if (col === "Qty") {
                 $("#FilterSort").val("Qty");
             };
             if ($("#FilterSortDirection").val() === "0") {
@@ -160,6 +189,7 @@
             $("#filter").submit();
         };
 
+        //Select/unselect all
         $("#selectedallproducts").change(function () {
             if ($("#selectedallproducts").prop("checked") === true) {
                 $("#selectProduct input").prop("checked", true);
@@ -168,13 +198,9 @@
             }
         });
 
-        $("#selectProduct input").change(function() {
-            var count = $('#selectProduct').find('input[id="selectedproducts"]:checked').length;
-            $("#CBcounter").text(count);
-        });
-
+        //Count selected item function
         function CBcounter() {
-            var count = $("#selectProduct input").prop("checked", true).count;
+            var count = $('#selectProduct').find('input[id="selectedproducts"]:checked').length;
             return count;
         }
 
@@ -184,8 +210,66 @@
             $("#selectProduct").submit();
         };
 
+        //Delete function
+        function Delete(product) {
+            var ok = confirm("Are you sure delete item?");
+            if (!ok) return;
+            $.ajax({
+                url: '/Product/Delete',
+                type: 'POST',
+                data: { selectedItems: product },
+                async: false,
+                success: null
+            });
+            window.location.reload(false);
+        }
+
+        function groupDelete() {
+            var ok = confirm("Are you sure delete " + CBcounter() + " items?");
+            if (!ok) return;
+            var selectedItems = new Array();
+            $('input[id="selectedproducts"]:checked').each(function() {selectedItems.push($(this).val());});
+            $.ajax({
+                url: '/Product/Delete',
+                type: 'POST',
+                data: { selectedItems: selectedItems },
+                async: false,
+                success: null
+            });
+            window.location.reload(false);
+        }
+        
+        function SetQtynumber() {
+            var selectedItems = new Array();
+            $('input[id="selectedproducts"]:checked').each(function () { selectedItems.push($(this).val()); });
+            var qty = $("#SetQtynumber").val();
+            $.ajax({
+                url: '/Product/SetQty',
+                type: 'POST',
+                data: { selectedItems: selectedItems, qty: qty },
+                async: false,
+                success: null
+            });
+            window.location.reload(false);
+        }
+
+        function ChangePriceNumber() {
+            var selectedItems = new Array();
+            $('input[id="selectedproducts"]:checked').each(function () { selectedItems.push($(this).val()); });
+            var price = $("#ChangePriceNumber").val();
+            $.ajax({
+                url: '/Product/ChangePrice',
+                type: 'POST',
+                data: { selectedItems: selectedItems, price: price },
+                async: false,
+                success: null
+            });
+            window.location.reload(false);
+        }
+
     </script>
 }
+
 
 
 

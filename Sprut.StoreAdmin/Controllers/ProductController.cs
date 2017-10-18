@@ -124,40 +124,43 @@ namespace Sprut.StoreAdmin.Controllers
             return Redirect("/Product/Index");
         }
 
-        public ActionResult Delete(Guid id)
+        private static List<Product> ArrayToListProducts(string[] selectedItems)
         {
-            Registry.Current.Products.Delete(Registry.Current.Products.Find(id));
-            return Redirect("/Product/Index");
+            var idStrings = $"'" + string.Join("','", selectedItems) + "'";
+            var selectedproducts = Registry.Current.Products.Select($"where Id in (" + idStrings + ")");
+            return selectedproducts;
         }
 
-        public ActionResult GroupAction()
+        public void Delete(string[] selectedItems)
         {
-            //I'm very cool )))
-            var selectedproducts = $"'" + Regex.Replace(Request.Form["selectedproducts"], ",", "','") + "'";
-            var listProduct = Registry.Current.Products.Select($"where Id in (" + selectedproducts + ")");
-
-            switch (Request.Form["action"])
+            foreach (var p in ArrayToListProducts(selectedItems))
             {
-                case "delete":
-                    foreach (var p in listProduct)
-                    {
-                        Registry.Current.Products.Delete(Registry.Current.Products.Find(p.Id));
-                    }
-                    break;
-                case "remove":
-                    foreach (var p in listProduct)
-                    {
-                        var product = Registry.Current.Products.Find(p.Id);
-                        product.CategoryId = Guid.Parse(Request.Form["moveCategory"]);
-                        Registry.Current.Products.Save(product);
-                    }
-                    break;
-                default:
-                    break;
+                Registry.Current.Products.Delete(Registry.Current.Products.Find(p.Id));
             }
-            return Redirect("/Product/Index");
+        }
+        
+        public void SetQty(string[] selectedItems, int qty)
+        {
+            foreach (var p in ArrayToListProducts(selectedItems))
+            {
+                var product = Registry.Current.Products.Find(p.Id);
+                product.Qty = qty;
+                Registry.Current.Products.Save(product);
+            }
 
         }
+
+        public void ChangePrice(string[] selectedItems, int price)
+        {
+            foreach (var p in ArrayToListProducts(selectedItems))
+            {
+                var product = Registry.Current.Products.Find(p.Id);
+                product.Price = price;
+                Registry.Current.Products.Save(product);
+            }
+
+        }
+
 
     }
 }
