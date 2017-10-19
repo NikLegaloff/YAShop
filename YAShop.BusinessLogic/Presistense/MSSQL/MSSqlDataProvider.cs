@@ -15,7 +15,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
     {
         private readonly Dictionary<string, PropertyInfo> _jsonProps = new Dictionary<string, PropertyInfo>();
 
-        public IDataProvider<T> Init()
+        public IDataProvider<T> Init(dynamic options=null)
         {
             var tableName = typeof(T).Name;
             using (var connection = MSSqlDb.Open())
@@ -64,8 +64,7 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
         {
             using (var sqlConnection = MSSqlDb.Open())
             {
-                var find =
-                    await sqlConnection.QueryFirstAsync<T>("select * from [" + typeof(T).Name + "] where Id='" + id + "'");
+                var find = await sqlConnection.QueryFirstAsync<T>("select * from [" + typeof(T).Name + "] where Id='" + id + "'");
                 DeserializeProps(new[] {find});
                 return find;
             }
@@ -261,6 +260,11 @@ namespace YAShop.BusinessLogic.Presistense.MSSQL
                 throw new InvalidOperationException(
                     "Could not get the 1st property from the type. Set the 'sort' parameter explicitly");
             return propertyInfo.Name;
+        }
+
+        public Task<T[]> Select(Func<T, bool> filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

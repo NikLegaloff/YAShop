@@ -12,6 +12,7 @@ namespace YAShop.BusinessLogic.Presistense
             Categories = GetDataProvider<Category>();
             Commands = GetDataProvider<CommandDTO>();
             Users = GetDataProvider<User>();
+            Listings = new JsonFilesDataProvider<Listing>().Init( new {BasePath= "J:\\DB\\" });
             InitData();
         }
 
@@ -20,6 +21,7 @@ namespace YAShop.BusinessLogic.Presistense
         public IDataProvider<Category> Categories { get; private set; }
         public IDataProvider<CommandDTO> Commands { get; private set; }
         public IDataProvider<User> Users { get; private set; }
+        public IDataProvider<Listing> Listings { get; private set; }
 
         private void InitData()
         {

@@ -5,6 +5,14 @@ using YAShop.BusinessLogic.Presistense.MSSQL;
 
 namespace YAShop.BusinessLogic.DomainModel
 {
+    public class Listing : DomainObject
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Guid ProductId { get; set; }
+        public Guid UserId { get; set; }
+        public int Number{ get; set; }
+    }
     public class Product : DomainObject
     {
         [DBField(SqlDbType.NVarChar, 32)]

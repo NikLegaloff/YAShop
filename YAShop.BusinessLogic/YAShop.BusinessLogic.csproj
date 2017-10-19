@@ -97,8 +97,8 @@
     <Compile Include="Infrastr\ICommonInfrastructureProvider.cs" />
     <Compile Include="Infrastr\Infrastructure.cs" />
     <Compile Include="Presistense\DataProviders.cs" />
-    <Compile Include="Presistense\IMDBDataProvider.cs" />
     <Compile Include="Presistense\IDataProvider.cs" />
+    <Compile Include="Presistense\MSSQL\JsonFilesDataProvider.cs" />
     <Compile Include="Presistense\MSSQL\MSSqlDataProvider.cs" />
     <Compile Include="Presistense\MSSQL\MSSqlDb.cs" />
     <Compile Include="Presistense\MSSQL\PageData.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using YAShop.BusinessLogic;
@@ -25,6 +26,7 @@ namespace YAShop.ConsoleApp
                 var c = Console.ReadLine();
                 switch (c)
                 {
+                    case "l": CreateListings(); break;
                     case "i": CreateInventoryAndCategories().Wait(); break;
                     case "": RunConsole(); break;
                     case "0":
@@ -42,6 +44,36 @@ namespace YAShop.ConsoleApp
             } while (true);
             Console.WriteLine(DateTime.Now.Subtract(now).TotalMilliseconds);
             Console.ReadLine();
+        }
+
+        private static void CreateListings()
+        {
+            Guid id1 = Guid.NewGuid();
+            Guid id2 = Guid.NewGuid();
+            var start = DateTime.Now;
+            List<Guid> ids = new List<Guid>();
+            for (int i = 0; i < 100; i++)
+            {
+                var listing = new Listing
+                {
+                    Description = "asdf sdfjsdfj sdf sdf wef wef wefe f';ef 'ejf ejfk jwefl jer klqejrl kqer fqerf qer qer fqerf " + i,
+                    Name = "Listing number " + i,
+                    Number = i,
+                    ProductId = id1,
+                    UserId = id2
+                };
+                Registry.Current.Data.Listings.Save(listing);
+                ids.Add(listing.Id);
+            }
+            Console.WriteLine(DateTime.Now.Subtract(start).TotalMilliseconds + " create");
+            start = DateTime.Now;
+            for (int i=0; i<100; i++)
+            {
+                Registry.Current.Data.Listings.Select(l => l.Number<i);
+            }
+            Console.WriteLine(DateTime.Now.Subtract(start).TotalMilliseconds + " selects");
+            start = DateTime.Now;
+            
         }
 
         // консоль пользует клиента
