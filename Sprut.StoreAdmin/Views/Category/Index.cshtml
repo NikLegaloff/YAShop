@@ -39,8 +39,8 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#edit" aria-controls="home" role="tab" data-toggle="tab">Add and Edit</a></li>
-            <li role="presentation"><a href="#" aria-controls="profile" role="tab" data-toggle="tab">Temp 2</a></li>
-            <li role="presentation"><a href="#" aria-controls="messages" role="tab" data-toggle="tab">Temp 3</a></li>
+            <li role="presentation"><a href="#import" aria-controls="profile" role="tab" data-toggle="tab">Import</a></li>
+            <li role="presentation"><a href="#export" aria-controls="messages" role="tab" data-toggle="tab">Export</a></li>
             <li role="presentation"><a href="#" aria-controls="settings" role="tab" data-toggle="tab">Temp 4</a></li>
         </ul>
 
@@ -49,7 +49,7 @@
             <div role="tabpanel" class="tab-pane active" id="edit">
                 <br/>
                 <form method="post">
-                    @Html.HiddenFor(m=>m.Category.Id);
+                    @Html.HiddenFor(m => m.Category.Id)
                     <div class="form-group">
                         <label for="Category.Name">Category name</label>
                         @Html.EditorFor(m => m.Category.Name, new {HtmlAttributes = new {@class = "form-control", placeholder = "Enter name is new category"}})
@@ -65,8 +65,20 @@
                     </div>
                 </form>
             </div>
-            <div role="tabpanel" class="tab-pane" id="">...</div>
-            <div role="tabpanel" class="tab-pane" id="">...</div>
+            <div id="import" role="tabpanel" class="tab-pane">
+                <label>Example: Cat1 > Cat2 > Cat3</label>
+                <textarea id="ImportTextarea" rows="5"></textarea>
+                <button onclick="Import()">Import</button>
+            </div>
+            <div id="export"role="tabpanel" class="tab-pane">
+                Select category for Export
+                @Html.DropDownList("exportCat", Model.CategorySelectList, "Select category", new {@class = "form-control"})
+                <button onclick="Export()">Export</button>
+                <br>
+                <form>
+                <textarea id="ExportResult" class="form-control" rows="5">null</textarea>
+                </form>
+            </div>
             <div role="tabpanel" class="tab-pane" id="">...</div>
         </div>
 
@@ -75,3 +87,32 @@
     </div>
 </div>
 
+@section scripts
+{
+    <script>
+        function Import() {
+            $.ajax({
+                url: '/Category/Import',
+                type: 'POST',
+                data: { categoryStrings: $('#ImportTextarea').val() },
+                async: false,
+                success: null
+            });
+            window.location.reload(false);
+        }
+
+        function Export() {
+            var result = "";
+            $.ajax({
+                url: '/Category/Export',
+                type: 'POST',
+                data: { id: $('#exportCat').val() },
+                async: false,
+                success: function(data){
+                        result = data;
+                }
+            });
+            $("#ExportResult").val(result);
+        }
+    </script>
+}
