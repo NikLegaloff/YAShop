@@ -42,7 +42,7 @@
                     <div class="modal-body">
                         <div class="input-group">
                             <div class="input-group-addon">Set</div>
-                            <input type="number" min="0" class="form-control" id="SetQtynumber">
+                            <input type="number" min="0" class="form-control text-right" id="SetQtynumber" value="99">
                             <div class="input-group-addon">qty</div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                     <div class="modal-body">
                         <div class="input-group">
                             <div class="input-group-addon">Set</div>
-                            <input type="number" min="0" class="form-control" id="ChangePriceNumber">
+                            <input type="number" min="0" class="form-control text-right" id="ChangePriceNumber" value="9,99">
                             <div class="input-group-addon">price</div>
                         </div>
                     </div>
@@ -91,10 +91,10 @@
                 <div class="col-md-5">
                     @Html.DropDownListFor(m => m.FilterCategoryId, (SelectList) Model.CategorySelectList, "Choose category...", new {@class = "form-control", style = "width:100%"})
                 </div>
-                    <button type="submit" class="btn btn-default">Filter</button>
-                    <a href="#" onclick="reset()">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </a>
+                <button type="submit" class="btn btn-default">Filter</button>
+                <a href="#" onclick="reset()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </a>
             </form>
         </div>
 
@@ -104,8 +104,8 @@
                     <td><input type="checkbox" name="selectedallproducts" id="selectedallproducts" value="all"></td>
                     <td><a href="#" onclick="sort('SKU')">SKU</a></td>
                     <td><a href="#" onclick="sort('Title')">Title</a></td>
-                    <td><a href="#" onclick="sort('Qty')">Qty</a></td>
-                    <td>Price</td>
+                    <td class="text-center"><a href="#" onclick="sort('Qty')">Qty</a></td>
+                    <td class="text-center">Price</td>
                     <td>Image</td>
                     <td>Category</td>
                     <td></td>
@@ -117,8 +117,8 @@
                         <td><input type="checkbox" name="selectedproducts" id="selectedproducts" value="@p.Id"></td>
                         <td>@p.SKU</td>
                         <td>@p.Title</td>
-                        <td>@p.Qty</td>
-                        <td>@p.Price</td>
+                        <td class="text-right">@p.Qty</td>
+                        <td class="text-right">@p.Price</td>
                         <td>@p.Image</td>
                         <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
                         <td>@Html.ActionLink("Edit", "Edit", new { id = p.Id }) <a href="#" onclick="Delete('@p.Id')">Delete</a></td>
@@ -139,8 +139,6 @@
         </nav>
     </div>
 </div>
-
-
 
 @section scripts
 {
@@ -266,6 +264,16 @@
             });
             window.location.reload(false);
         }
+
+        //Set focus on modal show
+        $('#SetQty').on('shown.bs.modal',
+            function() {
+                $('#SetQtynumber').select();
+            });
+        $('#ChangePrice').on('shown.bs.modal',
+            function () {
+                $('#ChangePriceNumber').select();
+            });
 
     </script>
 }

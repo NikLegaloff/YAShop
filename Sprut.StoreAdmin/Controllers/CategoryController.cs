@@ -61,5 +61,38 @@ namespace Sprut.StoreAdmin.Controllers
 
         }
 
+        public void Import(string categoryStrings)
+        {
+            var categorysList = categoryStrings.Split('\n').ToList();
+            foreach (var c in categorysList)
+            {
+                var categoryFullPathList = c.Split('>').ToList();
+                    //while without parametrs
+                    var parentCategoryName="";
+                    foreach (var cat in categoryFullPathList)
+                    {
+                        if (Registry.Current.Categories.Select($"where Name='" + cat.Trim()+"'").Count == 0)
+                        {
+                            var newCategory = new Category()
+                            {
+                                Name = cat.Trim()
+                            };
+                            if (!parentCategoryName.IsNullOrWhiteSpace())
+                                newCategory.ParentId = Registry.Current.Categories
+                                    .Select($"where Name='" + parentCategoryName+"'").First().Id;
+                            Registry.Current.Categories.Save(newCategory);
+                        }
+                        parentCategoryName = cat.Trim();
+                    }
+            }
+        }
+
+        public string Export(string id)
+        {
+            var categoryPlanarTree = Registry.Current.Categories.GetPlanarTree();
+            var fullName = categoryPlanarTree.First(c => c.Id == Guid.Parse(id)).FullName;
+            return (fullName.ToString());
+        }
+
     }
 }
