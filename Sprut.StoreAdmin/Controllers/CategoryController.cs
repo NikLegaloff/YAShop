@@ -67,23 +67,33 @@ namespace Sprut.StoreAdmin.Controllers
             foreach (var c in categorysList)
             {
                 var categoryFullPathList = c.Split('>').ToList();
-                    //while without parametrs
-                    var parentCategoryName="";
-                    foreach (var cat in categoryFullPathList)
+                var parentCategoryId = Guid.Empty;
+                if (Registry.Current.Categories.Select($"where Name='" + categoryFullPathList[0].Trim() + "' and ParentId is null").Count ==
+                    0)
+                {
+                    var newCategory = new Category()
                     {
-                        if (Registry.Current.Categories.Select($"where Name='" + cat.Trim()+"'").Count == 0)
+                        Name = categoryFullPathList[0].Trim()
+                    };
+                    Registry.Current.Categories.Save(newCategory);
+                }
+                parentCategoryId = Registry.Current.Categories
+                    .Select($"where Name='" + categoryFullPathList[0].Trim() + "' and ParentId is null").First().Id;
+                categoryFullPathList.RemoveAt(0);
+                foreach (var cat in categoryFullPathList)
+                {
+                    if (Registry.Current.Categories.Select($"where Name='" + cat.Trim() + "' and ParentId='"+parentCategoryId+"'").Count == 0)
+                    {
+                        var newCategory = new Category()
                         {
-                            var newCategory = new Category()
-                            {
-                                Name = cat.Trim()
-                            };
-                            if (!parentCategoryName.IsNullOrWhiteSpace())
-                                newCategory.ParentId = Registry.Current.Categories
-                                    .Select($"where Name='" + parentCategoryName+"'").First().Id;
-                            Registry.Current.Categories.Save(newCategory);
-                        }
-                        parentCategoryName = cat.Trim();
+                            Name = cat.Trim(),
+                            ParentId=parentCategoryId
+                        };
+                        Registry.Current.Categories.Save(newCategory);
                     }
+                    parentCategoryId = Registry.Current.Categories
+                        .Select($"where Name='" + cat.Trim() + "' and ParentId='"+parentCategoryId+"'").First().Id;
+                }
             }
         }
 
