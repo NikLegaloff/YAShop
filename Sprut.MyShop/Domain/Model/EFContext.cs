@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 
-namespace Sprut.MyShop.Domain
+namespace Sprut.MyShop.Domain.Model
 {
     public class EfContext : DbContext
     {

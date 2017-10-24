@@ -10,6 +10,7 @@ using Sprut.MyShop.Infrastructure;
 using Sprut.StoreAdmin.Models;
 using System.Dynamic;
 using System.Text.RegularExpressions;
+using Sprut.MyShop.Domain.Model;
 
 namespace Sprut.StoreAdmin.Controllers
 {

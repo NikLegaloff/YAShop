@@ -1,5 +1,6 @@
 using System;
 using Sprut.MyShop.Domain;
+using Sprut.MyShop.Domain.Model;
 using Sprut.MyShop.Infrastructure.Providers;
 
 namespace Sprut.MyShop.Infrastructure

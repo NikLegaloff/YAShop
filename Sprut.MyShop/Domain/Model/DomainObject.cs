@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Sprut.MyShop.Domain
+namespace Sprut.MyShop.Domain.Model
 {
     [DataContract]
     public class DomainObject

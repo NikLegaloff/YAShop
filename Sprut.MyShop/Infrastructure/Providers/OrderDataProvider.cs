@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Sprut.MyShop.Domain;
+using Sprut.MyShop.Domain.Model;
 
 namespace Sprut.MyShop.Infrastructure.Providers
 {

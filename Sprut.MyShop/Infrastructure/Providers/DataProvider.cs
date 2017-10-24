@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sprut.MyShop.Domain;
+using Sprut.MyShop.Domain.Model;
 
 namespace Sprut.MyShop.Infrastructure.Providers
 {

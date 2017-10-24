@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Sprut.MyShop.Infrastructure;
 using System.Web.Mvc;
+using Sprut.MyShop.Infrastructure;
 
-namespace Sprut.MyShop.Domain
+namespace Sprut.MyShop.Domain.Model
 {
     [Table("Product")]
     public class Product : DomainObject

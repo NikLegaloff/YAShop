@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Sprut.MyShop.Domain.Model;
 
 namespace Sprut.MyShop.Infrastructure.Providers
 {

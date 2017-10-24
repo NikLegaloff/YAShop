@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Sprut.MyShop.Domain;
+using Sprut.MyShop.Domain.Model;
+using Sprut.MyShop.Domain.Service;
 using Sprut.StoreAdmin.Models;
 using Sprut.MyShop.Infrastructure;
 
@@ -64,36 +66,10 @@ namespace Sprut.StoreAdmin.Controllers
         public void Import(string categoryStrings)
         {
             var categorysList = categoryStrings.Split('\n').ToList();
+            var service = new CategoriesService();
             foreach (var c in categorysList)
             {
-                var categoryFullPathList = c.Split('>').ToList();
-                var parentCategoryId = Guid.Empty;
-                if (Registry.Current.Categories.Select($"where Name='" + categoryFullPathList[0].Trim() + "' and ParentId is null").Count ==
-                    0)
-                {
-                    var newCategory = new Category()
-                    {
-                        Name = categoryFullPathList[0].Trim()
-                    };
-                    Registry.Current.Categories.Save(newCategory);
-                }
-                parentCategoryId = Registry.Current.Categories
-                    .Select($"where Name='" + categoryFullPathList[0].Trim() + "' and ParentId is null").First().Id;
-                categoryFullPathList.RemoveAt(0);
-                foreach (var cat in categoryFullPathList)
-                {
-                    if (Registry.Current.Categories.Select($"where Name='" + cat.Trim() + "' and ParentId='"+parentCategoryId+"'").Count == 0)
-                    {
-                        var newCategory = new Category()
-                        {
-                            Name = cat.Trim(),
-                            ParentId=parentCategoryId
-                        };
-                        Registry.Current.Categories.Save(newCategory);
-                    }
-                    parentCategoryId = Registry.Current.Categories
-                        .Select($"where Name='" + cat.Trim() + "' and ParentId='"+parentCategoryId+"'").First().Id;
-                }
+                var id = service.GetCategoryIdByName(c);
             }
         }
 

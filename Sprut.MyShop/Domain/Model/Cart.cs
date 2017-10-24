@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Sprut.MyShop
+namespace Sprut.MyShop.Domain.Model
 {
     public class Cart
     {

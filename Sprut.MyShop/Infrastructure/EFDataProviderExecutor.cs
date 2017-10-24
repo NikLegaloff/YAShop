@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using Sprut.MyShop.Domain;
+using Sprut.MyShop.Domain.Model;
 
 namespace Sprut.MyShop.Infrastructure
 {

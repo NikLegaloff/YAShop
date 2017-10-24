@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sprut.MyShop;
 using Sprut.MyShop.Domain;
+using Sprut.MyShop.Domain.Model;
 using Sprut.MyShop.Infrastructure;
 
 namespace Sprut.MyShopConsole

@@ -78,17 +78,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\DomainObject.cs" />
-    <Compile Include="Domain\Category.cs" />
-    <Compile Include="Domain\EFContext.cs" />
-    <Compile Include="Domain\Order.cs" />
+    <Compile Include="Domain\Model\DomainObject.cs" />
+    <Compile Include="Domain\Model\Category.cs" />
+    <Compile Include="Domain\Model\EFContext.cs" />
+    <Compile Include="Domain\Model\Order.cs" />
+    <Compile Include="Domain\Service\CategoriesService.cs" />
     <Compile Include="Infrastructure\ICommonInfrastructureProvider.cs" />
     <Compile Include="Infrastructure\EfDataProviderExecutor.cs" />
     <Compile Include="Infrastructure\Providers\CartDataProvider.cs" />
     <Compile Include="Infrastructure\Providers\OrderDataProvider.cs" />
     <Compile Include="Infrastructure\Registry.cs" />
-    <Compile Include="Domain\Cart.cs" />
-    <Compile Include="Domain\Product.cs" />
+    <Compile Include="Domain\Model\Cart.cs" />
+    <Compile Include="Domain\Model\Product.cs" />
     <Compile Include="Infrastructure\IDataProvider.cs" />
     <Compile Include="Infrastructure\InMemoryDataProviderExecutor.cs" />
     <Compile Include="Infrastructure\Providers\CategoryDataProvider.cs" />

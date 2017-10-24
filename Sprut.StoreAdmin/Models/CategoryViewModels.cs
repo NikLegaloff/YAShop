@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Sprut.MyShop.Domain;
+using Sprut.MyShop.Domain.Model;
 
 namespace Sprut.StoreAdmin.Models
 {

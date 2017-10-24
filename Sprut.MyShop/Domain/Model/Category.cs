@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Sprut.MyShop.Domain
+namespace Sprut.MyShop.Domain.Model
 {
     [Table("Category")]
     public class Category : DomainObject
