@@ -66,10 +66,12 @@
     <Compile Include="Domain\EFContext.cs" />
     <Compile Include="Domain\Folder.cs" />
     <Compile Include="Domain\Image.cs" />
+    <Compile Include="Domain\Service\FolderService.cs" />
     <Compile Include="Infrastructure\EfDataProviderExecutor.cs" />
     <Compile Include="Infrastructure\ICommonInfrastructureProvider.cs" />
     <Compile Include="Infrastructure\IDataProvider.cs" />
     <Compile Include="Infrastructure\ImageStoreRegistry.cs" />
+    <Compile Include="Infrastructure\Providers\ImageDataProvider.cs" />
     <Compile Include="Infrastructure\Providers\FolderDataProvider.cs" />
     <Compile Include="Infrastructure\Providers\DataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

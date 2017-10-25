@@ -8,14 +8,14 @@ namespace ImageStore.Infrastructure
     {
         private static ImageStoreRegistry _current;
         public FolderDataProvider Folders;
-        //public ImageDataProvider Imeges;
+        public ImageDataProvider Images;
 
 
         public ImageStoreRegistry(ICommonInfrastructureProvider commonInfrastructureProvider)
         {
             CommonInfrastructureProvider = commonInfrastructureProvider;
             Folders = new FolderDataProvider(new EfDataProviderExecutor<Folder>().Init());
-            //Images = new ImageDataProvider(new EfDataProviderExecutor<Image>().Init());
+            Images = new ImageDataProvider(new EfDataProviderExecutor<Image>().Init());
         }
 
         public ICommonInfrastructureProvider CommonInfrastructureProvider { get; }
