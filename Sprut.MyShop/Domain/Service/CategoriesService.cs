@@ -13,24 +13,12 @@ namespace Sprut.MyShop.Domain.Service
         public Guid GetCategoryIdByName(string name)
         {
             // но метод надо дорабатывать
-            Category result =null;
+            Category result = null;
             var categoryFullPathList = name.Split('>').ToList();
-            var parentCategoryId = Guid.Empty;
-            if (Registry.Current.Categories.Select($"where Name='" + categoryFullPathList[0].Trim() + "' and ParentId is null").Count ==0)
-            {
-                var newCategory = new Category()
-                {
-                    Name = categoryFullPathList[0].Trim()
-                };
-                Registry.Current.Categories.Save(newCategory);
-                result=newCategory;
-            }
-            parentCategoryId = Registry.Current.Categories.Select($"where Name='" + categoryFullPathList[0].Trim() + "' and ParentId is null").First().Id;
-            categoryFullPathList.RemoveAt(0);
-            
+            Guid? parentCategoryId = null;
             foreach (var cat in categoryFullPathList)
             {
-                if (Registry.Current.Categories.Select($"where Name='" + cat.Trim() + "' and ParentId='" + parentCategoryId + "'").Count == 0)
+                if (GetListCategorys(cat, parentCategoryId).Count == 0)
                 {
                     var newCategory = new Category()
                     {
@@ -40,9 +28,19 @@ namespace Sprut.MyShop.Domain.Service
                     Registry.Current.Categories.Save(newCategory);
                     result = newCategory;
                 }
-                parentCategoryId = Registry.Current.Categories.Select($"where Name='" + cat.Trim() + "' and ParentId='" + parentCategoryId + "'").First().Id;
+                parentCategoryId = GetListCategorys(cat, parentCategoryId).First().Id;
             }
             return result.Id;
+        }
+
+        List<Category> GetListCategorys(string cat, Guid? parentCategoryId)
+        {
+            if (parentCategoryId == null)
+                return Registry.Current.Categories.Select($"where Name='" + cat.Trim() +
+                                                       "' and ParentId is null");
+            else
+                return Registry.Current.Categories.Select($"where Name='" + cat.Trim() + "' and ParentId='" +
+                                                       parentCategoryId + "'");
         }
     }
 }
