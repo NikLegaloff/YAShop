@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="YAShop.ImagesHost.Service" CodeBehind="Service.svc.cs" %>
