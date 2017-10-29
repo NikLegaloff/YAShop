@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using YAShop.BusinessLogic;
 using YAShop.BusinessLogic.Bus;
 using YAShop.BusinessLogic.Bus.Commands;
 using YAShop.BusinessLogic.DomainModel;
+using YAShop.ImagesClient;
+using YAShop.ImagesClient.Images;
 
 namespace YAShop.ConsoleApp
 {
@@ -14,18 +17,20 @@ namespace YAShop.ConsoleApp
         private static void Main(string[] args)
         {
             Registry.Init(new ProgrCommonInfrProvider());
-
+            ProcessImages();
+            return;
             var now = DateTime.Now;
             Console.WriteLine("i - create inv and commands");
             Console.WriteLine("* - clear commands");
             Console.WriteLine("0 - start commands processing");
             Console.WriteLine("1-10 - invoke N commands");
-            Console.WriteLine("(enter) - run api console");
+            Console.WriteLine("img - run images console");
             do
             {
                 var c = Console.ReadLine();
                 switch (c)
                 {
+                    
                     case "l": CreateListings(); break;
                     case "i": CreateInventoryAndCategories().Wait(); break;
                     case "": RunConsole(); break;
@@ -44,6 +49,39 @@ namespace YAShop.ConsoleApp
             } while (true);
             Console.WriteLine(DateTime.Now.Subtract(now).TotalMilliseconds);
             Console.ReadLine();
+        }
+
+        private static void ProcessImages()
+        {
+            var client = new ImagesHostClient("http://localhost:9011/");
+            /*
+            for (int i = 0; i < 5; i++)
+            {
+                var folder = client.AddFolder("Folder" + i, null);
+                for (int j = 0; j < 3; j++)
+                {
+                    client.AddFolder("SubFolder" + i + "-" + j, folder);
+                }
+            }
+            foreach (var folder in foldersTree)
+            {
+                Console.WriteLine(folder.Name);
+                foreach (var subFolder in folder.Childrens)
+                {
+                    Console.WriteLine("\t" + subFolder.Name);
+                }
+            }*/
+            Folder[] foldersTree = client.GetFoldersTree();
+            foreach (var file in Directory.GetFiles("O:\\1\\"))
+            {
+                var now = DateTime.Now;
+                var bytes = File.ReadAllBytes(file);
+                FileInfo f = new FileInfo(file);
+                var imageId = client.UploadImage(f.Name, bytes, foldersTree[0].Id);
+                var tt = DateTime.Now.Subtract(now).TotalSeconds;
+                File.AppendAllText("C:\\Img\\Log2.txt",tt + "\r\n");
+
+            }
         }
 
         private static void CreateListings()

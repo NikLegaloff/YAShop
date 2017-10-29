@@ -85,6 +85,7 @@
     <Compile Include="Domain\Env.cs" />
     <Compile Include="Domain\EnvType.cs" />
     <Compile Include="Domain\FolderDTO.cs" />
+    <Compile Include="Domain\ImagesHelper.cs" />
     <Compile Include="Service.svc.cs">
       <DependentUpon>Service.svc</DependentUpon>
     </Compile>

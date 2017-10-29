@@ -32,7 +32,7 @@ namespace YAShop.ImagesHost
 
         public Guid AddFolder(string name, Guid? parentId)
         {
-            var existing = DB.ExecuteScalar<Guid?>("select Id from folder where name=@name, parentId=@parentId", new {name, parentId});
+            var existing = DB.ExecuteScalar<Guid?>("select Id from folder where name=@name and parentId=@parentId", new {name, parentId});
             if (existing != null) return existing.Value;
             var id = Guid.NewGuid();
             DB.Execute("insert into folder(id, name, parentId) values (@id, @name, @parentId)",new {id,name,parentId});

@@ -1,37 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using YAShop.ImagesClient.Images;
-
-
 
 namespace YAShop.ImagesClient
 {
-    public  class Client 
+    public class ImagesHostClient
     {
-        private ServiceClient _service;
-        private string _baseUrl;
+        private readonly string _baseUrl;
+        private readonly ServiceClient _service;
+
+
+        public ImagesHostClient(string baseUrl)
+        {
+            _baseUrl = baseUrl.Trim('/');
+            _service = new ServiceClient(new BasicHttpBinding {
+                MaxReceivedMessageSize = 52428800,
+                MaxBufferSize = 52428800,
+                MaxBufferPoolSize = 52428800,
+                
+                ReaderQuotas = new XmlDictionaryReaderQuotas
+                {
+                    MaxDepth = 200000,
+                    MaxArrayLength = 52428800,
+                    MaxStringContentLength = 52428800,
+                    MaxBytesPerRead = 52428800,
+                    MaxNameTableCharCount = 52428800,
+            } }, new EndpointAddress(_baseUrl + "/Service.svc"));
+        }
 
         public string GetImageUrl(Guid imageId)
         {
             var str = imageId.ToString();
-            return $"{_baseUrl}/Img/{str.Substring(0, 2)}/{str.Substring(2, 4)}/{imageId}.jpg"; 
+            return $"{_baseUrl}/Img/{str.Substring(0, 2)}/{str.Substring(2, 4)}/{imageId}.jpg";
         }
+
         public string GetTmbUrl(Guid imageId)
         {
             var str = imageId.ToString();
-            return $"{_baseUrl}/Img/{str.Substring(0, 2)}/{str.Substring(2, 4)}/{imageId}_tmb.jpg"; 
-        }
-
-
-        public Client(string baseUrl)
-        {
-            _baseUrl = baseUrl.Trim('/');
-            _service=new ServiceClient(new BasicHttpBinding(),new EndpointAddress(_baseUrl + "/Service.svc"));
+            return $"{_baseUrl}/Img/{str.Substring(0, 2)}/{str.Substring(2, 4)}/{imageId}_tmb.jpg";
         }
 
         public Folder[] GetFoldersTree()

@@ -63,6 +63,7 @@
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\YAShop.BusinessLogic\YAShop.BusinessLogic.csproj">
       <Project>{23A37F97-EC75-40F0-AEB2-EEFD88ACDF38}</Project>
       <Name>YAShop.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YAShop.ImagesClient\YAShop.ImagesClient.csproj">
+      <Project>{7b6b376b-4b1d-478c-88fe-bda3effdeeb0}</Project>
+      <Name>YAShop.ImagesClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
