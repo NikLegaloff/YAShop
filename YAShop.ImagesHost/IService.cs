@@ -14,24 +14,24 @@ namespace YAShop.ImagesHost
     {
 
         [OperationContract]
-        List<Folder> GetFoldersTree();
+        List<Folder> GetFoldersTree(Guid contextId);
         [OperationContract]
-        List<Image> GetImages(Guid? folderId);
-        [OperationContract]
-
-        Guid AddFolder(string name, Guid? parentId);
-        [OperationContract]
-        Guid UploadImage(string name, byte[] data, Guid? folderId);
+        List<Image> GetImages(Guid? folderId, Guid contextId);
         [OperationContract]
 
-        bool RenameFolder(Guid folderId, string newName);
+        Guid AddFolder(string name, Guid? parentId, Guid contextId);
         [OperationContract]
-        bool RenameImage(Guid imageId, string newName);
+        Guid UploadImage(string name, byte[] data, Guid? folderId, Guid contextId);
+        [OperationContract]
+
+        bool RenameFolder(Guid folderId, string newName, Guid contextId);
+        [OperationContract]
+        bool RenameImage(Guid imageId, string newName, Guid contextId);
 
         [OperationContract]
-        void DeleteFolder(Guid folderId, Guid? newFolderId);
+        void DeleteFolder(Guid folderId, Guid? newFolderId, Guid contextId);
         [OperationContract]
-        void DeleteImage(Guid imageId);
+        void DeleteImage(Guid imageId, Guid contextId);
     }
 
 

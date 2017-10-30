@@ -53,8 +53,8 @@ namespace YAShop.ConsoleApp
 
         private static void ProcessImages()
         {
-            var client = new ImagesHostClient("http://localhost:9011/");
-            /*
+            var client = new ImagesHostClient("http://localhost:9011/",Guid.Empty);
+/*            
             for (int i = 0; i < 5; i++)
             {
                 var folder = client.AddFolder("Folder" + i, null);
@@ -63,15 +63,8 @@ namespace YAShop.ConsoleApp
                     client.AddFolder("SubFolder" + i + "-" + j, folder);
                 }
             }
-            foreach (var folder in foldersTree)
-            {
-                Console.WriteLine(folder.Name);
-                foreach (var subFolder in folder.Childrens)
-                {
-                    Console.WriteLine("\t" + subFolder.Name);
-                }
-            }*/
-            Folder[] foldersTree = client.GetFoldersTree();
+            */
+           Folder[] foldersTree = client.GetFoldersTree();
             foreach (var file in Directory.GetFiles("O:\\1\\"))
             {
                 var now = DateTime.Now;

@@ -31,9 +31,13 @@ namespace YAShop.ImagesHost.Domain
             }
         }
 
-        public int MaxWidth
+        public int MaxWidthImg
         {
             get { return 2000; }
+        }
+        public int MaxWidthTmb
+        {
+            get { return 200; }
         }
     }
 }

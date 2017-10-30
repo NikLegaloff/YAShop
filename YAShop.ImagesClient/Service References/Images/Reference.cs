@@ -172,52 +172,52 @@ namespace YAShop.ImagesClient.Images {
     public interface IService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetFoldersTree", ReplyAction="http://tempuri.org/IService/GetFoldersTreeResponse")]
-        YAShop.ImagesClient.Images.Folder[] GetFoldersTree();
+        YAShop.ImagesClient.Images.Folder[] GetFoldersTree(System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetFoldersTree", ReplyAction="http://tempuri.org/IService/GetFoldersTreeResponse")]
-        System.Threading.Tasks.Task<YAShop.ImagesClient.Images.Folder[]> GetFoldersTreeAsync();
+        System.Threading.Tasks.Task<YAShop.ImagesClient.Images.Folder[]> GetFoldersTreeAsync(System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetImages", ReplyAction="http://tempuri.org/IService/GetImagesResponse")]
-        YAShop.ImagesClient.Images.Image[] GetImages(System.Nullable<System.Guid> folderId);
+        YAShop.ImagesClient.Images.Image[] GetImages(System.Nullable<System.Guid> folderId, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetImages", ReplyAction="http://tempuri.org/IService/GetImagesResponse")]
-        System.Threading.Tasks.Task<YAShop.ImagesClient.Images.Image[]> GetImagesAsync(System.Nullable<System.Guid> folderId);
+        System.Threading.Tasks.Task<YAShop.ImagesClient.Images.Image[]> GetImagesAsync(System.Nullable<System.Guid> folderId, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AddFolder", ReplyAction="http://tempuri.org/IService/AddFolderResponse")]
-        System.Guid AddFolder(string name, System.Nullable<System.Guid> parentId);
+        System.Guid AddFolder(string name, System.Nullable<System.Guid> parentId, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/AddFolder", ReplyAction="http://tempuri.org/IService/AddFolderResponse")]
-        System.Threading.Tasks.Task<System.Guid> AddFolderAsync(string name, System.Nullable<System.Guid> parentId);
+        System.Threading.Tasks.Task<System.Guid> AddFolderAsync(string name, System.Nullable<System.Guid> parentId, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/UploadImage", ReplyAction="http://tempuri.org/IService/UploadImageResponse")]
-        System.Guid UploadImage(string name, byte[] data, System.Nullable<System.Guid> folderId);
+        System.Guid UploadImage(string name, byte[] data, System.Nullable<System.Guid> folderId, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/UploadImage", ReplyAction="http://tempuri.org/IService/UploadImageResponse")]
-        System.Threading.Tasks.Task<System.Guid> UploadImageAsync(string name, byte[] data, System.Nullable<System.Guid> folderId);
+        System.Threading.Tasks.Task<System.Guid> UploadImageAsync(string name, byte[] data, System.Nullable<System.Guid> folderId, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RenameFolder", ReplyAction="http://tempuri.org/IService/RenameFolderResponse")]
-        bool RenameFolder(System.Guid folderId, string newName);
+        bool RenameFolder(System.Guid folderId, string newName, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RenameFolder", ReplyAction="http://tempuri.org/IService/RenameFolderResponse")]
-        System.Threading.Tasks.Task<bool> RenameFolderAsync(System.Guid folderId, string newName);
+        System.Threading.Tasks.Task<bool> RenameFolderAsync(System.Guid folderId, string newName, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RenameImage", ReplyAction="http://tempuri.org/IService/RenameImageResponse")]
-        bool RenameImage(System.Guid imageId, string newName);
+        bool RenameImage(System.Guid imageId, string newName, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RenameImage", ReplyAction="http://tempuri.org/IService/RenameImageResponse")]
-        System.Threading.Tasks.Task<bool> RenameImageAsync(System.Guid imageId, string newName);
+        System.Threading.Tasks.Task<bool> RenameImageAsync(System.Guid imageId, string newName, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/DeleteFolder", ReplyAction="http://tempuri.org/IService/DeleteFolderResponse")]
-        void DeleteFolder(System.Guid folderId, System.Nullable<System.Guid> newFolderId);
+        void DeleteFolder(System.Guid folderId, System.Nullable<System.Guid> newFolderId, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/DeleteFolder", ReplyAction="http://tempuri.org/IService/DeleteFolderResponse")]
-        System.Threading.Tasks.Task DeleteFolderAsync(System.Guid folderId, System.Nullable<System.Guid> newFolderId);
+        System.Threading.Tasks.Task DeleteFolderAsync(System.Guid folderId, System.Nullable<System.Guid> newFolderId, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/DeleteImage", ReplyAction="http://tempuri.org/IService/DeleteImageResponse")]
-        void DeleteImage(System.Guid imageId);
+        void DeleteImage(System.Guid imageId, System.Guid contextId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/DeleteImage", ReplyAction="http://tempuri.org/IService/DeleteImageResponse")]
-        System.Threading.Tasks.Task DeleteImageAsync(System.Guid imageId);
+        System.Threading.Tasks.Task DeleteImageAsync(System.Guid imageId, System.Guid contextId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -247,68 +247,68 @@ namespace YAShop.ImagesClient.Images {
                 base(binding, remoteAddress) {
         }
         
-        public YAShop.ImagesClient.Images.Folder[] GetFoldersTree() {
-            return base.Channel.GetFoldersTree();
+        public YAShop.ImagesClient.Images.Folder[] GetFoldersTree(System.Guid contextId) {
+            return base.Channel.GetFoldersTree(contextId);
         }
         
-        public System.Threading.Tasks.Task<YAShop.ImagesClient.Images.Folder[]> GetFoldersTreeAsync() {
-            return base.Channel.GetFoldersTreeAsync();
+        public System.Threading.Tasks.Task<YAShop.ImagesClient.Images.Folder[]> GetFoldersTreeAsync(System.Guid contextId) {
+            return base.Channel.GetFoldersTreeAsync(contextId);
         }
         
-        public YAShop.ImagesClient.Images.Image[] GetImages(System.Nullable<System.Guid> folderId) {
-            return base.Channel.GetImages(folderId);
+        public YAShop.ImagesClient.Images.Image[] GetImages(System.Nullable<System.Guid> folderId, System.Guid contextId) {
+            return base.Channel.GetImages(folderId, contextId);
         }
         
-        public System.Threading.Tasks.Task<YAShop.ImagesClient.Images.Image[]> GetImagesAsync(System.Nullable<System.Guid> folderId) {
-            return base.Channel.GetImagesAsync(folderId);
+        public System.Threading.Tasks.Task<YAShop.ImagesClient.Images.Image[]> GetImagesAsync(System.Nullable<System.Guid> folderId, System.Guid contextId) {
+            return base.Channel.GetImagesAsync(folderId, contextId);
         }
         
-        public System.Guid AddFolder(string name, System.Nullable<System.Guid> parentId) {
-            return base.Channel.AddFolder(name, parentId);
+        public System.Guid AddFolder(string name, System.Nullable<System.Guid> parentId, System.Guid contextId) {
+            return base.Channel.AddFolder(name, parentId, contextId);
         }
         
-        public System.Threading.Tasks.Task<System.Guid> AddFolderAsync(string name, System.Nullable<System.Guid> parentId) {
-            return base.Channel.AddFolderAsync(name, parentId);
+        public System.Threading.Tasks.Task<System.Guid> AddFolderAsync(string name, System.Nullable<System.Guid> parentId, System.Guid contextId) {
+            return base.Channel.AddFolderAsync(name, parentId, contextId);
         }
         
-        public System.Guid UploadImage(string name, byte[] data, System.Nullable<System.Guid> folderId) {
-            return base.Channel.UploadImage(name, data, folderId);
+        public System.Guid UploadImage(string name, byte[] data, System.Nullable<System.Guid> folderId, System.Guid contextId) {
+            return base.Channel.UploadImage(name, data, folderId, contextId);
         }
         
-        public System.Threading.Tasks.Task<System.Guid> UploadImageAsync(string name, byte[] data, System.Nullable<System.Guid> folderId) {
-            return base.Channel.UploadImageAsync(name, data, folderId);
+        public System.Threading.Tasks.Task<System.Guid> UploadImageAsync(string name, byte[] data, System.Nullable<System.Guid> folderId, System.Guid contextId) {
+            return base.Channel.UploadImageAsync(name, data, folderId, contextId);
         }
         
-        public bool RenameFolder(System.Guid folderId, string newName) {
-            return base.Channel.RenameFolder(folderId, newName);
+        public bool RenameFolder(System.Guid folderId, string newName, System.Guid contextId) {
+            return base.Channel.RenameFolder(folderId, newName, contextId);
         }
         
-        public System.Threading.Tasks.Task<bool> RenameFolderAsync(System.Guid folderId, string newName) {
-            return base.Channel.RenameFolderAsync(folderId, newName);
+        public System.Threading.Tasks.Task<bool> RenameFolderAsync(System.Guid folderId, string newName, System.Guid contextId) {
+            return base.Channel.RenameFolderAsync(folderId, newName, contextId);
         }
         
-        public bool RenameImage(System.Guid imageId, string newName) {
-            return base.Channel.RenameImage(imageId, newName);
+        public bool RenameImage(System.Guid imageId, string newName, System.Guid contextId) {
+            return base.Channel.RenameImage(imageId, newName, contextId);
         }
         
-        public System.Threading.Tasks.Task<bool> RenameImageAsync(System.Guid imageId, string newName) {
-            return base.Channel.RenameImageAsync(imageId, newName);
+        public System.Threading.Tasks.Task<bool> RenameImageAsync(System.Guid imageId, string newName, System.Guid contextId) {
+            return base.Channel.RenameImageAsync(imageId, newName, contextId);
         }
         
-        public void DeleteFolder(System.Guid folderId, System.Nullable<System.Guid> newFolderId) {
-            base.Channel.DeleteFolder(folderId, newFolderId);
+        public void DeleteFolder(System.Guid folderId, System.Nullable<System.Guid> newFolderId, System.Guid contextId) {
+            base.Channel.DeleteFolder(folderId, newFolderId, contextId);
         }
         
-        public System.Threading.Tasks.Task DeleteFolderAsync(System.Guid folderId, System.Nullable<System.Guid> newFolderId) {
-            return base.Channel.DeleteFolderAsync(folderId, newFolderId);
+        public System.Threading.Tasks.Task DeleteFolderAsync(System.Guid folderId, System.Nullable<System.Guid> newFolderId, System.Guid contextId) {
+            return base.Channel.DeleteFolderAsync(folderId, newFolderId, contextId);
         }
         
-        public void DeleteImage(System.Guid imageId) {
-            base.Channel.DeleteImage(imageId);
+        public void DeleteImage(System.Guid imageId, System.Guid contextId) {
+            base.Channel.DeleteImage(imageId, contextId);
         }
         
-        public System.Threading.Tasks.Task DeleteImageAsync(System.Guid imageId) {
-            return base.Channel.DeleteImageAsync(imageId);
+        public System.Threading.Tasks.Task DeleteImageAsync(System.Guid imageId, System.Guid contextId) {
+            return base.Channel.DeleteImageAsync(imageId, contextId);
         }
     }
 }
