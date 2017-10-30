@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ImageStore.Infrastructure;
 using System.IO;
+using ImageStore;
 
 namespace ImageStoreConsole
 {
@@ -15,7 +15,7 @@ namespace ImageStoreConsole
         [STAThread]
         static void Main(string[] args)
         {
-            ImageStoreRegistry.Init(new ConsoleCommonInfrastructureProvider());
+            ImageStoreRepository imageStoreRepository=new ImageStoreRepository();
 
             string select = null;
             do
@@ -33,20 +33,20 @@ namespace ImageStoreConsole
                 switch (select)
                 {
                     case "1":
-                        ImageStoreRegistry.Current.Folders.AddFolder("Folder num.1","");
+                        imageStoreRepository.AddFolder("Folder num.1","");
                         break;
                     case "2":
-                        ImageStoreRegistry.Current.Folders.AddFolder("Folder 2 level", "Folder num.1");
+                        imageStoreRepository.AddFolder("Folder 2 level", "Folder num.1");
                         break;
                     case "3":
-                        ImageStoreRegistry.Current.Folders.AddFolder("Folder 3 level", "Folder num.1\\Folder 2 level");
+                        imageStoreRepository.AddFolder("Folder 3 level", "Folder num.1\\Folder 2 level");
                         break;
                     case "4":
                         OpenFileDialog openFileDialog=new OpenFileDialog();
                         openFileDialog.Filter = "jpg files (*.jpg)|*.jpg";
                         openFileDialog.ShowDialog();
                         byte[] imageBytes = File.ReadAllBytes(openFileDialog.FileName);
-                        ImageStoreRegistry.Current.Images.UploadImage(imageBytes, "69BAB117-7ED0-47F3-8D6F-01A9593CE5D1", "Folder num.1\\Folder 2 level");
+                        imageStoreRepository.UploadImage(imageBytes, "69BAB117-7ED0-47F3-8D6F-01A9593CE5D1", "Folder num.1\\Folder 2 level");
                         break;
 
                 }

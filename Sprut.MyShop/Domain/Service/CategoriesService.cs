@@ -37,10 +37,10 @@ namespace Sprut.MyShop.Domain.Service
         {
             if (parentCategoryId == null)
                 return Registry.Current.Categories.Select($"where Name='" + cat.Trim() +
-                                                       "' and ParentId is null");
+                                                          "' and ParentId is null");
             else
                 return Registry.Current.Categories.Select($"where Name='" + cat.Trim() + "' and ParentId='" +
-                                                       parentCategoryId + "'");
+                                                          parentCategoryId + "'");
         }
     }
 }
