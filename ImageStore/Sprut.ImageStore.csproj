@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Db.cs" />
     <Compile Include="Domain\Folder.cs" />
     <Compile Include="Domain\Image.cs" />
     <Compile Include="ImageStoreRepository.cs" />
