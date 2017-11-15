@@ -69,34 +69,29 @@ namespace YAShop.ImagesHost.Domain
 
         private static void Draw(byte[] data, string path, int maxWidth, System.Drawing.Image g)
         {
-            if (g.Width > maxWidth)
-            {
-                var thumbSize = new Size(g.Width, g.Height);
-
-                if (thumbSize.Width > maxWidth)
-                    thumbSize = new Size(maxWidth, thumbSize.Height * maxWidth / thumbSize.Width);
-                using (var imgOutput = new Bitmap(thumbSize.Width, thumbSize.Height))
-                {
-                    imgOutput.MakeTransparent();
-                    imgOutput.MakeTransparent(Color.Black);
-                    using (var newGraphics = Graphics.FromImage(imgOutput))
-                    {
-                        newGraphics.CompositingQuality = maxWidth<300 ? CompositingQuality.HighQuality : CompositingQuality.HighSpeed;
-                        newGraphics.InterpolationMode = InterpolationMode.Bicubic;
-                        newGraphics.Clear(Color.FromArgb(255, 255, 255, 255));
-                        newGraphics.DrawImage(g, 0, 0, thumbSize.Width, thumbSize.Height);
-                        newGraphics.Flush();
-                    }
-                    var parameters = new EncoderParameters(1);
-                    var parameter = new EncoderParameter(Encoder.Quality, 75L);
-                    parameters.Param[0] = parameter;
-                    var codec = GetImageCodecInfo(ImageFormat.Jpeg);
-                    imgOutput.Save(path, codec, parameters);
-                }
-            }
-            else
+            if (g.Width <= maxWidth)
             {
                 File.WriteAllBytes(path, data);
+                return;
+            }
+            var thumbSize = new Size(maxWidth, g.Height * maxWidth / g.Width);
+            using (var imgOutput = new Bitmap(thumbSize.Width, thumbSize.Height))
+            {
+                imgOutput.MakeTransparent(Color.Black);
+                using (var newGraphics = Graphics.FromImage(imgOutput))
+                {
+                    newGraphics.CompositingQuality =
+                        maxWidth < 300 ? CompositingQuality.HighQuality : CompositingQuality.HighSpeed;
+                    newGraphics.InterpolationMode = InterpolationMode.Bicubic;
+                    newGraphics.Clear(Color.FromArgb(255, 255, 255, 255));
+                    newGraphics.DrawImage(g, 0, 0, thumbSize.Width, thumbSize.Height);
+                    newGraphics.Flush();
+                }
+                var parameters = new EncoderParameters(1);
+                var parameter = new EncoderParameter(Encoder.Quality, 75L);
+                parameters.Param[0] = parameter;
+                var codec = GetImageCodecInfo(ImageFormat.Jpeg);
+                imgOutput.Save(path, codec, parameters);
             }
         }
 
