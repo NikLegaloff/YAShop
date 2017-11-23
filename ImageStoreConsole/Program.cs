@@ -25,8 +25,8 @@ namespace ImageStoreConsole
                 Console.WriteLine("1. Add new root folder");
                 Console.WriteLine("2. Add new folder 2 level");
                 Console.WriteLine("3. Add new folder 3 level");
-                Console.WriteLine("4. Upload JPG file");
-                Console.WriteLine("5. ");
+                Console.WriteLine("4. Upload JPG file to root");
+                Console.WriteLine("5. GetImageUrl");
                 Console.WriteLine("0. Exit");
                 select = Console.ReadLine();
 
@@ -46,9 +46,11 @@ namespace ImageStoreConsole
                         openFileDialog.Filter = "jpg files (*.jpg)|*.jpg";
                         openFileDialog.ShowDialog();
                         byte[] imageBytes = File.ReadAllBytes(openFileDialog.FileName);
-                        imageStoreRepository.UploadImage(imageBytes, "69BAB117-7ED0-47F3-8D6F-01A9593CE5D1", "Folder num.1\\Folder 2 level");
+                        imageStoreRepository.UploadImage(imageBytes, openFileDialog.FileName, "");
                         break;
-
+                    case "5":
+                        Console.WriteLine(imageStoreRepository.GetImageUrl(Guid.Parse("A9EA5375-FCE0-4E90-A5B3-408B5F53C412")));
+                        break;
                 }
             } while (select != "0");
 

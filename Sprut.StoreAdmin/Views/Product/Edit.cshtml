@@ -2,11 +2,6 @@
 @{
     ViewBag.Title = "Add new product";
 }
-@section scripts
-{
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinymce.init({ selector: 'textarea' });</script>
-}
 
 <br />
 <div class="panel panel-default">
@@ -14,60 +9,68 @@
         <h3 class="panel-title">
             @if (Model.ProductDTO.SKU == null){@Html.Raw("Add new product")}
             else{@Html.Raw("Edit product")}
-        </h3>
-    </div>
-<div class="panel-body">
-    <form class="form-horizontal" method="post">
-        @Html.HiddenFor(m => m.ProductDTO.Id, new {id = "Id"})
-        <div class="form-group">
-            <label for="ProductDTO.SKU" class="col-sm-1 col control-label">SKU</label>
-            <div class="col-sm-3">
-                @Html.EditorFor(m => m.ProductDTO.SKU, new {HtmlAttributes = new {id = "ProductDTO.SKU", @class = "form-control", placeholder = "Enter SKU"}})
-                <p class="text-danger">@Html.ValidationMessageFor(m => m.ProductDTO.SKU)</p>
-            </div>
-            <label for="ProductDTO.Title" class="col-sm-1 control-label">Title</label>
-            <div class="col-sm-7">
-                @Html.EditorFor(m => m.ProductDTO.Title, new {HtmlAttributes = new {id = "ProductDTO.Title", @class = "form-control", placeholder = "Enter title"}})
-                <p class="text-danger">@Html.ValidationMessageFor(m => m.ProductDTO.Title)</p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="ProductDTO.Price" class="col-sm-1 control-label">Price</label>
-            <div class="col-sm-2">
-                @Html.EditorFor(m => m.ProductDTO.Price, new {HtmlAttributes = new {id = "ProductDTO.Price", @class = "form-control", placeholder = "Enter price"}})
-                <p class="text-danger">@Html.ValidationMessageFor(m => m.ProductDTO.Price)</p>
-            </div>
-            <label for="ProductDTO.Qty" class="col-sm-1 control-label">Qty</label>
-            <div class="col-sm-2">
-                @Html.EditorFor(m => m.ProductDTO.Qty, new {HtmlAttributes = new {id = "ProductDTO.Qty", @class = "form-control", placeholder = "Enter qty product"}})
-                <p class="text-danger">@Html.ValidationMessageFor(m => m.ProductDTO.Qty)</p>
-            </div>
-            <label for="ProductDTO.Image" class="col-sm-1 control-label">Image</label>
-            <div class="col-sm-5">
-                @Html.EditorFor(m => m.ProductDTO.Image, new {HtmlAttributes = new {id = "ProductDTO.Image", @class = "form-control", placeholder = "Enter image (underconstraction)"}})
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="ProductDTO.CategoryId" class="col-sm-1 control-label">Category</label>
-            <div class="col-sm-11">
-                @Html.DropDownListFor(m => m.ProductDTO.CategoryId, (SelectList)Model.CategorySelectList, "Choose category...", new { @class = "form-control"})
-            </div>
-        </div>
+                 </h3>
+                 </div>
+                 <div class="panel-body">
+                     <form class="form-horizontal" method="post">
+                         @Html.HiddenFor(m => m.ProductDTO.Id, new {id = "Id"})
+                         <div class="form-group">
+                             <label for="ProductDTO.SKU" class="col-sm-1 col control-label">SKU</label>
+                             <div class="col-sm-3">
+                                 @Html.EditorFor(m => m.ProductDTO.SKU, new {HtmlAttributes = new {id = "ProductDTO.SKU", @class = "form-control", placeholder = "Enter SKU"}})
+                                 <p class="text-danger">@Html.ValidationMessageFor(m => m.ProductDTO.SKU)</p>
+                             </div>
+                             <label for="ProductDTO.Title" class="col-sm-1 control-label">Title</label>
+                             <div class="col-sm-7">
+                                 @Html.EditorFor(m => m.ProductDTO.Title, new {HtmlAttributes = new {id = "ProductDTO.Title", @class = "form-control", placeholder = "Enter title"}})
+                                 <p class="text-danger">@Html.ValidationMessageFor(m => m.ProductDTO.Title)</p>
+                             </div>
+                         </div>
+                         <div class="form-group">
+                             <label for="ProductDTO.Price" class="col-sm-1 control-label">Price</label>
+                             <div class="col-sm-2">
+                                 @Html.EditorFor(m => m.ProductDTO.Price, new {HtmlAttributes = new {id = "ProductDTO.Price", @class = "form-control", placeholder = "Enter price"}})
+                                 <p class="text-danger">@Html.ValidationMessageFor(m => m.ProductDTO.Price)</p>
+                             </div>
+                             <label for="ProductDTO.Qty" class="col-sm-1 control-label">Qty</label>
+                             <div class="col-sm-2">
+                                 @Html.EditorFor(m => m.ProductDTO.Qty, new {HtmlAttributes = new {id = "ProductDTO.Qty", @class = "form-control", placeholder = "Enter qty product"}})
+                                 <p class="text-danger">@Html.ValidationMessageFor(m => m.ProductDTO.Qty)</p>
+                             </div>
+                             <label for="ProductDTO.Image" class="col-sm-1 control-label">Image</label>
+                             <div class="col-sm-5">
+                                 @Html.TextBoxFor(m => m.ProductDTO.Image, new { type = "file", id = "ProductDTO.Image", @class = "form-control", placeholder = "Enter image (underconstraction)" })
+                             </div>
+                         </div>
+                         <div class="form-group">
+                             <label for="ProductDTO.CategoryId" class="col-sm-1 control-label">Category</label>
+                             <div class="col-sm-11">
+                                 @Html.DropDownListFor(m => m.ProductDTO.CategoryId, (SelectList)Model.CategorySelectList, "Choose category...", new { @class = "form-control"})
+                             </div>
+                         </div>
+                         <div class="form-group">
+                             <label for="ProductDTO.Descripton" class="col-sm-1 control-label">Description</label>
+                             <div class="col-sm-11">
+                                 @Html.TextAreaFor(m => m.ProductDTO.Descripton, 
+                                    new {HtmlAttributes = new {id = "ProductDTO.Descripton", @class = "form-control", placeholder = "Enter description product"}})
+                             </div>
+                         </div>
 
-        <div class="form-group">
-            <label for="ProductDTO.Descripton" class="col-sm-1 control-label">Description</label>
-            <div class="col-sm-11">
-                @Html.TextAreaFor(m => m.ProductDTO.Descripton, new {HtmlAttributes = new {id = "ProductDTO.Descripton", @class = "form-control", placeholder = "Enter description product"}})
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-11 col-sm-1">
-                <button type="submit" class="btn btn-default">Apply</button>
-            </div>
-        </div>
-    </form>
+                         <div class="form-group">
+                             <div class="col-sm-offset-11 col-sm-1">
+                                 <button type="submit" class="btn btn-default">Apply</button>
+                             </div>
+                         </div>
+                     </form>
     
     
-</div>
-</div>
+                 </div>
+                 </div>
+
+@section scripts
+{
+    
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
+
+}

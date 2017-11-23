@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using ImageStore.Domain;
+using System.Drawing;
 
 namespace ImageStore
 {
@@ -16,10 +17,12 @@ namespace ImageStore
     {
         public void AddFolder(string name, string path)
         {
+            var parentId = PathToParentId(path);
+            if (GetFolder(name, parentId)!=null) return;
             var folder = new Folder
             {
                 Name = name,
-                ParentId = PathToParentId(path)
+                ParentId = parentId
             };
             using (var db = Db.Open())
             {
@@ -39,7 +42,7 @@ namespace ImageStore
             }
         }
 
-        public Guid? PathToParentId(string path)
+        private Guid? PathToParentId(string path)
         {
             if (path == "") return null;
             var fullPathList = path.Split('\\').ToList();
@@ -53,26 +56,67 @@ namespace ImageStore
             return parentFolderId;
         }
 
-        public void UploadImage(byte[] data, string fileName, string folder)
+        public void UploadImage(byte[] data, string fileNameOrigin, string folder)
         {
-            //upload to local disk
+            //upload image to local disk
+            var fileName = Guid.NewGuid().ToString();
             var uploadDir = $"" + fileName.Substring(0, 2) + "\\" + fileName.Substring(2, 2) + "\\";
             var fullFileName=$""+uploadDir + fileName + ".jpg";
             DirectoryInfo dirInfo = new DirectoryInfo(uploadDir);
             if (!dirInfo.Exists) dirInfo.Create();
             File.WriteAllBytes(fullFileName,data);
 
-            //write to database
-            var image = new Image
+            //Thumbnail
+            System.Drawing.Image.GetThumbnailImageAbort myCallback =
+                new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallback);
+            Bitmap bitmap;
+            using (var ms = new MemoryStream(data))
             {
-               Name = fileName,
-               Folder = (Guid) PathToParentId(folder)
+                bitmap = new Bitmap(ms);
+            }
+            System.Drawing.Image thumbnail = bitmap.GetThumbnailImage(
+                50, bitmap.Height * 50 / bitmap.Width, myCallback, IntPtr.Zero);
+            using (var ms = new MemoryStream())
+            {
+                thumbnail.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                fullFileName = $"" + uploadDir + fileName + "_tmb.jpg";
+                File.WriteAllBytes(fullFileName, ms.ToArray());
+            }
+
+            //write image to database (Thumbnail)
+            var fileNameShort = fileNameOrigin.Split('\\').LastOrDefault();
+            Guid imageFolder;
+            if (folder == "") imageFolder = Guid.Empty;
+            else imageFolder = (Guid) PathToParentId(folder);
+            
+            var image = new Domain.Image
+            {
+                Id=Guid.Parse(fileName),
+                Name = fileNameShort,
+                Folder = imageFolder
             };
             using (var db = Db.Open())
             {
                 var sqlQuery = "INSERT INTO Images (Id, Folder, Name) VALUES (@Id, @Folder, @Name)";
-                db.Query<Image>(sqlQuery, image);
+                db.Query<Domain.Image>(sqlQuery, image);
             }
+        }
+        private bool ThumbnailCallback()
+        {
+            return false;
+        }
+        private string GetBaseUrl(Guid id)
+        {
+            var fileName = id.ToString();
+            return $"" + fileName.Substring(0, 2) + "\\" + fileName.Substring(2, 2) + "\\";
+        }
+        public string GetImageUrl(Guid id)
+        {
+            return GetBaseUrl(id) + id + ".jpg";
+        }
+        public string GetTmbUrl(Guid id)
+        {
+            return GetBaseUrl(id) + id + "_tmb.jpg";
         }
 
     }

@@ -68,7 +68,7 @@ namespace Sprut.MyShop.Infrastructure
         public IDataProvider<T> Init()
         {
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EfContext>());
-
+            //Database.SetInitializer(new DropCreateDatabaseAlways<EfContext>()); 
             if (_efContext == null)
                 _efContext = new EfContext();
             return this;
