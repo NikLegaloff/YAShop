@@ -1,6 +1,7 @@
 ﻿@model Sprut.StoreAdmin.Models.ProductViewModels
 @using System.Text.RegularExpressions
 @using System.Web.UI.WebControls
+@using ImageStore
 @using Sprut.MyShop.Domain
 @using Sprut.MyShop.Infrastructure
 @using Sprut.StoreAdmin.Models
@@ -97,7 +98,7 @@
                 </a>
             </form>
         </div>
-
+        
         <form id="selectProduct">
             <table class="table table-hover">
                 <tr>
@@ -119,7 +120,7 @@
                         <td>@p.Title</td>
                         <td class="text-right">@p.Qty</td>
                         <td class="text-right">@p.Price</td>
-                        <td>@p.Image</td>
+                        <td><img src="@p.Image" alt="tmb"/></td>
                         <td>@Registry.Current.Categories.Find(p.CategoryId).Name</td>
                         <td>@Html.ActionLink("Edit", "Edit", new { id = p.Id }) <a href="#" onclick="Delete('@p.Id')">Delete</a></td>
                     </tr>

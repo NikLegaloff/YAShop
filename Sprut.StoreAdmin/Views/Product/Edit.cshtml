@@ -3,6 +3,21 @@
     ViewBag.Title = "Add new product";
 }
 
+@section scripts
+{
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
+
+    <script type="text/javascript">
+        function selectFileClick() {
+            document.getElementById('selectFile').click();
+        }
+    </script>
+}
+
+
+
+
 <br />
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -39,7 +54,9 @@
                              </div>
                              <label for="ProductDTO.Image" class="col-sm-1 control-label">Image</label>
                              <div class="col-sm-5">
-                                 @Html.TextBoxFor(m => m.ProductDTO.Image, new { type = "file", id = "ProductDTO.Image", @class = "form-control", placeholder = "Enter image (underconstraction)" })
+                                 @Html.TextBoxFor(m => m.ProductDTO.Image, new { id = "ProductDTO.Image", @class = "form-control", placeholder = "Enter image (underconstraction)" })
+                                 <a href="#" onclick="selectFileClick();">Select file</a>
+                                 <input type="file" id="selectFile" style="display:none" onchange="document.getElementById('ProductDTO.Image').value = this.value" />
                              </div>
                          </div>
                          <div class="form-group">
@@ -67,10 +84,3 @@
                  </div>
                  </div>
 
-@section scripts
-{
-    
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinymce.init({ selector: 'textarea' });</script>
-
-}

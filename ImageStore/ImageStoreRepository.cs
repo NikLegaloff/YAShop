@@ -15,6 +15,7 @@ namespace ImageStore
 {
     public class ImageStoreRepository
     {
+        private string uploadDirPrefix = "e:\\Temp\\";
         public void AddFolder(string name, string path)
         {
             var parentId = PathToParentId(path);
@@ -30,7 +31,6 @@ namespace ImageStore
                 db.Query<Folder>(sqlQuery, folder);
             }
         }
-
         public Folder GetFolder(string name, Guid? parentId)
         {
             using (var db = Db.Open())
@@ -41,7 +41,6 @@ namespace ImageStore
                 return db.Query<Folder>(sqlQuery, new {name, parentId}).FirstOrDefault();
             }
         }
-
         private Guid? PathToParentId(string path)
         {
             if (path == "") return null;
@@ -55,12 +54,11 @@ namespace ImageStore
             }
             return parentFolderId;
         }
-
-        public void UploadImage(byte[] data, string fileNameOrigin, string folder)
+        public Guid UploadImage(byte[] data, string fileNameOrigin, string folder)
         {
             //upload image to local disk
             var fileName = Guid.NewGuid().ToString();
-            var uploadDir = $"" + fileName.Substring(0, 2) + "\\" + fileName.Substring(2, 2) + "\\";
+            var uploadDir = $""+uploadDirPrefix + fileName.Substring(0, 2) + "\\" + fileName.Substring(2, 2) + "\\";
             var fullFileName=$""+uploadDir + fileName + ".jpg";
             DirectoryInfo dirInfo = new DirectoryInfo(uploadDir);
             if (!dirInfo.Exists) dirInfo.Create();
@@ -100,6 +98,7 @@ namespace ImageStore
                 var sqlQuery = "INSERT INTO Images (Id, Folder, Name) VALUES (@Id, @Folder, @Name)";
                 db.Query<Domain.Image>(sqlQuery, image);
             }
+            return Guid.Parse(fileName);
         }
         private bool ThumbnailCallback()
         {
@@ -108,7 +107,7 @@ namespace ImageStore
         private string GetBaseUrl(Guid id)
         {
             var fileName = id.ToString();
-            return $"" + fileName.Substring(0, 2) + "\\" + fileName.Substring(2, 2) + "\\";
+            return $""+ uploadDirPrefix + fileName.Substring(0, 2) + "\\" + fileName.Substring(2, 2) + "\\";
         }
         public string GetImageUrl(Guid id)
         {
@@ -118,6 +117,5 @@ namespace ImageStore
         {
             return GetBaseUrl(id) + id + "_tmb.jpg";
         }
-
     }
 }

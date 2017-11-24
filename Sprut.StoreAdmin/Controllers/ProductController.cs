@@ -12,6 +12,7 @@ using System.Dynamic;
 using System.Text.RegularExpressions;
 using Sprut.MyShop.Domain.Model;
 using System.Windows.Forms;
+using ImageStore;
 
 namespace Sprut.StoreAdmin.Controllers
 {
@@ -19,6 +20,8 @@ namespace Sprut.StoreAdmin.Controllers
     {
         private ProductViewModels _pvModel = new ProductViewModels();
         private AddProductViewModel _apvModel = new AddProductViewModel();
+        ImageStoreRepository imageStoreRepository = new ImageStoreRepository();
+
 
 
         public ActionResult Index(ProductViewModels model)
@@ -77,6 +80,10 @@ namespace Sprut.StoreAdmin.Controllers
             param.Offset = (_pvModel.CurrentPage - 1) * 10;
 
             products = Registry.Current.Products.Select(query,param);
+            foreach (var product in products)
+            {
+                if(product.Image!=null) product.Image = imageStoreRepository.GetTmbUrl(Guid.Parse(product.Image));
+            }
             ViewBag.Products = products;
             return View(_pvModel);
         }
@@ -89,7 +96,7 @@ namespace Sprut.StoreAdmin.Controllers
                 _apvModel.ProductDTO.Id = product.Id;
                 _apvModel.ProductDTO.CategoryId = product.CategoryId;
                 _apvModel.ProductDTO.Descripton = product.Descripton;
-                _apvModel.ProductDTO.Image = product.Image;
+                if (product.Image != null) _apvModel.ProductDTO.Image = imageStoreRepository.GetImageUrl(Guid.Parse(product.Image));
                 _apvModel.ProductDTO.Price = product.Price;
                 _apvModel.ProductDTO.Qty = product.Qty;
                 _apvModel.ProductDTO.SKU = product.SKU;
@@ -112,7 +119,12 @@ namespace Sprut.StoreAdmin.Controllers
                 var product= _apvModel.ProductDTO.Id != null ? Registry.Current.Products.Find(_apvModel.ProductDTO.Id.Value) :new Product();
                 product.CategoryId = _apvModel.ProductDTO.CategoryId;
                 product.Descripton = _apvModel.ProductDTO.Descripton;
-                product.Image = _apvModel.ProductDTO.Image;
+                //This working only local, but not on the server, i think.
+                if (_apvModel.ProductDTO.Image != null)
+                {
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(_apvModel.ProductDTO.Image);
+                    product.Image=imageStoreRepository.UploadImage(imageBytes, _apvModel.ProductDTO.Image.Split('\\').LastOrDefault(), "").ToString();
+                }
                 product.Price = _apvModel.ProductDTO.Price;
                 product.Qty = _apvModel.ProductDTO.Qty;
                 product.SKU = _apvModel.ProductDTO.SKU;
