@@ -26,9 +26,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprut.ImageStore", "ImageStore\Sprut.ImageStore.csproj", "{5D8C7297-ABA9-4DE9-90B3-8429E169FBE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAShop.ImagesClient", "YAShop.ImagesClient\YAShop.ImagesClient.csproj", "{7B6B376B-4B1D-478C-88FE-BDA3EFFDEEB0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4E3CAF55-E3E9-475F-A12B-D9CFF09D7C55} = {4E3CAF55-E3E9-475F-A12B-D9CFF09D7C55}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

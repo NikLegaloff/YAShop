@@ -15,7 +15,7 @@ namespace ImageStore
 {
     public class ImageStoreRepository
     {
-        private string uploadDirPrefix = "e:\\Temp\\";
+        private string uploadDirPrefix = "e:\\Visual Studio 2017\\Projects\\YAShop\\Sprut.StoreAdmin\\Content\\Images\\";
         public void AddFolder(string name, string path)
         {
             var parentId = PathToParentId(path);
@@ -107,7 +107,9 @@ namespace ImageStore
         private string GetBaseUrl(Guid id)
         {
             var fileName = id.ToString();
-            return $""+ uploadDirPrefix + fileName.Substring(0, 2) + "\\" + fileName.Substring(2, 2) + "\\";
+            //return $""+ uploadDirPrefix + fileName.Substring(0, 2) + "\\" + fileName.Substring(2, 2) + "\\";
+            //for debuging
+            return $"/Content/Images/" + fileName.Substring(0, 2) + "/" + fileName.Substring(2, 2) + "/";
         }
         public string GetImageUrl(Guid id)
         {
