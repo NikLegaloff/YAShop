@@ -1,3 +1,42 @@
-﻿@{
+﻿@using Sprut.MyShop.Infrastructure
+@{
     ViewBag.Title = "Products list";
 }
+
+<form id="selectProduct">
+    <table class="table table-hover">
+        <tr>
+            <td><input type="checkbox" name="selectedallproducts" id="selectedallproducts" value="all"></td>
+            <td>Id (for debug)</td>
+            <td>Folder</td>
+            <td>Image name</td>
+            <td>Tmb</td>
+            <td>Action</td>
+        </tr>
+        
+        @foreach (var f in ViewBag.Folders)
+        {
+            <tr>
+                <td><input type="checkbox" name="selectedproducts" id="selectedproducts" value="@f.Id"></td>
+                <td>@f.Id</td>
+                <td>@Html.ActionLink("Dir", "Index", new { folderId = f.Id })</td>
+                <td>@f.Name</td>
+                <td><img src="Image" alt="f_img" /></td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = f.Id }) <a href="#" onclick="Delete('@f.Id')">Delete</a></td>
+            </tr>
+        }
+
+
+        @foreach (var i in ViewBag.Images)
+        {
+            <tr>
+                <td><input type="checkbox" name="selectedproducts" id="selectedproducts" value="@i.Id"></td>
+                <td>@i.Id</td>
+                <td>@i.Folder</td>
+                <td>@i.Name</td>
+                <td><img src="Image" alt="tmb" /></td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = i.Id }) <a href="#" onclick="Delete('@i.Id')">Delete</a></td>
+            </tr>
+        }
+    </table>
+</form>

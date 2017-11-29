@@ -36,9 +36,31 @@ namespace ImageStore
             using (var db = Db.Open())
             {
                 string sqlQuery = "SELECT * FROM Folders WHERE Name=@name and ParentId";
+                //TODO refactoring required
                 if (parentId == null) sqlQuery += " is null";
                 else sqlQuery += "=@parentId";
                 return db.Query<Folder>(sqlQuery, new {name, parentId}).FirstOrDefault();
+            }
+        }
+        public List<Domain.Image> GetImagesInFolder(Guid? folderId)
+        {
+            using (var db = Db.Open())
+            {
+                string sqlQuery = "SELECT * FROM Images WHERE Folder=@folderId";
+                //TODO refactoring required
+                if (folderId == null) folderId = Guid.Empty;
+                return db.Query<Domain.Image>(sqlQuery, new { folderId }).ToList();
+            }
+        }
+        public List<Folder> GetSubFolders(Guid? folderId)
+        {
+            using (var db = Db.Open())
+            {
+                string sqlQuery = "SELECT * FROM Folders WHERE ParentId";
+                //TODO refactoring required
+                if (folderId == null || folderId==Guid.Empty) sqlQuery += " is null";
+                else sqlQuery += "=@folderId";
+                return db.Query<Folder>(sqlQuery, new { folderId }).ToList();
             }
         }
         private Guid? PathToParentId(string path)
