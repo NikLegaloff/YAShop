@@ -47,7 +47,6 @@ namespace ImageStore
             using (var db = Db.Open())
             {
                 string sqlQuery = "SELECT * FROM Images WHERE Folder=@folderId";
-                //TODO refactoring required
                 if (folderId == null) folderId = Guid.Empty;
                 return db.Query<Domain.Image>(sqlQuery, new { folderId }).ToList();
             }

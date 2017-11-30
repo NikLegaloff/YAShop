@@ -1,4 +1,5 @@
 ﻿@using Sprut.MyShop.Infrastructure
+@model Sprut.StoreAdmin.Models.ImagesIndexDto
 @{
     ViewBag.Title = "Products list";
 }
@@ -14,7 +15,7 @@
             <td>Action</td>
         </tr>
         
-        @foreach (var f in ViewBag.Folders)
+        @foreach (var f in Model.Folders)
         {
             <tr>
                 <td><input type="checkbox" name="selectedproducts" id="selectedproducts" value="@f.Id"></td>
@@ -26,16 +27,15 @@
             </tr>
         }
 
-
-        @foreach (var i in ViewBag.Images)
+        @foreach (var i in Model.Images)
         {
             <tr>
-                <td><input type="checkbox" name="selectedproducts" id="selectedproducts" value="@i.Id"></td>
-                <td>@i.Id</td>
-                <td>@i.Folder</td>
-                <td>@i.Name</td>
-                <td><img src="Image" alt="tmb" /></td>
-                <td>@Html.ActionLink("Edit", "Edit", new { id = i.Id }) <a href="#" onclick="Delete('@i.Id')">Delete</a></td>
+                <td><input type="checkbox" name="selectedproducts" id="selectedproducts" value="@i.Image.Id"></td>
+                <td>@i.Image.Id</td>
+                <td>@i.Image.Folder</td>
+                <td>@i.Image.Name</td>
+                <td><img src="@i.ImageUrl" alt="tmb" /></td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = i.Image.Id }) <a href="#" onclick="Delete('@i.Image.Id')">Delete</a></td>
             </tr>
         }
     </table>

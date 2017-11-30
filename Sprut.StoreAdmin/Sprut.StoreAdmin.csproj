@@ -207,6 +207,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CategoryViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ImagesViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProductViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
