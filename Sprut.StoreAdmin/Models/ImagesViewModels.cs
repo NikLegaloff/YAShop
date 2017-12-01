@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ImageStore.Domain;
+using Sprut.Domain;
+using Folder = Sprut.StoreAdmin.ImageService.Folder;
 
 namespace Sprut.StoreAdmin.Models
 {

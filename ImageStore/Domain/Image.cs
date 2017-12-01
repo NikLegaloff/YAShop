@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageStore.Domain
+namespace Sprut.Domain
 {
     public class Image
     {

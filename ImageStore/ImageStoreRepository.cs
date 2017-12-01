@@ -8,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
-using ImageStore.Domain;
 using System.Drawing;
+using Sprut.Domain;
 
-namespace ImageStore
+namespace Sprut
 {
     public class ImageStoreRepository
     {

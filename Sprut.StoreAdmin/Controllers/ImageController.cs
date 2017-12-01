@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ImageStore;
+using Sprut;
 using Sprut.StoreAdmin.Models;
+
+using Sprut.StoreAdmin.ImageService;
 
 namespace Sprut.StoreAdmin.Controllers
 {
     public class ImageController : Controller
     {
-        readonly ImageStoreRepository _imageStoreRepository=new ImageStoreRepository();
+        readonly ServiceClient _imageStoreRepository = new ServiceClient();
+        //readonly ImageStoreRepository _imageStoreRepository=new ImageStoreRepository();
         public ActionResult Index(Guid? folderId)
         {
             ImagesIndexDto imagesIndexDto = new ImagesIndexDto
@@ -27,6 +30,7 @@ namespace Sprut.StoreAdmin.Controllers
                 };
                 imagesIndexDto.Images.Add(imageExt);
             }
+            _imageStoreRepository.Close();
             return View(imagesIndexDto);
         }
     }

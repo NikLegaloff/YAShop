@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ImageStore.Domain
+namespace Sprut.Domain
 {
     public class Folder
     {
