@@ -15,12 +15,21 @@ namespace Sprut.ImageStoreClient.ImageService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Folder", Namespace="http://schemas.datacontract.org/2004/07/ImagesStoreHost")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Folder", Namespace="http://schemas.datacontract.org/2004/07/Sprut.Domain")]
     [System.SerializableAttribute()]
     public partial class Folder : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Guid IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.Guid> ParentIdField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -29,6 +38,45 @@ namespace Sprut.ImageStoreClient.ImageService {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.Guid> ParentId {
+            get {
+                return this.ParentIdField;
+            }
+            set {
+                if ((this.ParentIdField.Equals(value) != true)) {
+                    this.ParentIdField = value;
+                    this.RaisePropertyChanged("ParentId");
+                }
             }
         }
         
@@ -44,7 +92,7 @@ namespace Sprut.ImageStoreClient.ImageService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Image", Namespace="http://schemas.datacontract.org/2004/07/ImageStoreHost.Domain")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Image", Namespace="http://schemas.datacontract.org/2004/07/Sprut.Domain")]
     [System.SerializableAttribute()]
     public partial class Image : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -136,16 +184,16 @@ namespace Sprut.ImageStoreClient.ImageService {
         System.Threading.Tasks.Task<Sprut.ImageStoreClient.ImageService.Folder> GetFolderAsync(string name, System.Nullable<System.Guid> parentId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetImagesInFolder", ReplyAction="http://tempuri.org/IService/GetImagesInFolderResponse")]
-        Sprut.ImageStoreClient.ImageService.Image[] GetImagesInFolder(System.Nullable<System.Guid> folderId);
+        System.Collections.Generic.List<Sprut.ImageStoreClient.ImageService.Image> GetImagesInFolder(System.Nullable<System.Guid> folderId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetImagesInFolder", ReplyAction="http://tempuri.org/IService/GetImagesInFolderResponse")]
-        System.Threading.Tasks.Task<Sprut.ImageStoreClient.ImageService.Image[]> GetImagesInFolderAsync(System.Nullable<System.Guid> folderId);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Sprut.ImageStoreClient.ImageService.Image>> GetImagesInFolderAsync(System.Nullable<System.Guid> folderId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetSubFolders", ReplyAction="http://tempuri.org/IService/GetSubFoldersResponse")]
-        Sprut.ImageStoreClient.ImageService.Folder[] GetSubFolders(System.Nullable<System.Guid> folderId);
+        System.Collections.Generic.List<Sprut.ImageStoreClient.ImageService.Folder> GetSubFolders(System.Nullable<System.Guid> folderId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetSubFolders", ReplyAction="http://tempuri.org/IService/GetSubFoldersResponse")]
-        System.Threading.Tasks.Task<Sprut.ImageStoreClient.ImageService.Folder[]> GetSubFoldersAsync(System.Nullable<System.Guid> folderId);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Sprut.ImageStoreClient.ImageService.Folder>> GetSubFoldersAsync(System.Nullable<System.Guid> folderId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/UploadImage", ReplyAction="http://tempuri.org/IService/UploadImageResponse")]
         System.Guid UploadImage(byte[] data, string fileNameOrigin, string folder);
@@ -209,19 +257,19 @@ namespace Sprut.ImageStoreClient.ImageService {
             return base.Channel.GetFolderAsync(name, parentId);
         }
         
-        public Sprut.ImageStoreClient.ImageService.Image[] GetImagesInFolder(System.Nullable<System.Guid> folderId) {
+        public System.Collections.Generic.List<Sprut.ImageStoreClient.ImageService.Image> GetImagesInFolder(System.Nullable<System.Guid> folderId) {
             return base.Channel.GetImagesInFolder(folderId);
         }
         
-        public System.Threading.Tasks.Task<Sprut.ImageStoreClient.ImageService.Image[]> GetImagesInFolderAsync(System.Nullable<System.Guid> folderId) {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Sprut.ImageStoreClient.ImageService.Image>> GetImagesInFolderAsync(System.Nullable<System.Guid> folderId) {
             return base.Channel.GetImagesInFolderAsync(folderId);
         }
         
-        public Sprut.ImageStoreClient.ImageService.Folder[] GetSubFolders(System.Nullable<System.Guid> folderId) {
+        public System.Collections.Generic.List<Sprut.ImageStoreClient.ImageService.Folder> GetSubFolders(System.Nullable<System.Guid> folderId) {
             return base.Channel.GetSubFolders(folderId);
         }
         
-        public System.Threading.Tasks.Task<Sprut.ImageStoreClient.ImageService.Folder[]> GetSubFoldersAsync(System.Nullable<System.Guid> folderId) {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Sprut.ImageStoreClient.ImageService.Folder>> GetSubFoldersAsync(System.Nullable<System.Guid> folderId) {
             return base.Channel.GetSubFoldersAsync(folderId);
         }
         
