@@ -49,8 +49,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\Sprut.Domain.Folder.datasource" />
-    <None Include="Properties\DataSources\Sprut.Domain.Image.datasource" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
