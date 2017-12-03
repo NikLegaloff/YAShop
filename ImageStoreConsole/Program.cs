@@ -1,22 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
-using Sprut;
-using ImageStoreConsole.ImageService;
+using System.Windows.Forms;
+using Sprut.ImageStoreClient;
 
 namespace ImageStoreConsole
 {
-    class Program
+    internal class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            ServiceClient _imageStoreRepository = new ServiceClient();
+            var imageClient = new ImageStoreHostClient();
 
             string select = null;
             do
@@ -34,27 +28,26 @@ namespace ImageStoreConsole
                 switch (select)
                 {
                     case "1":
-                        _imageStoreRepository.AddFolder("Folder num.1","");
+                        imageClient.AddFolder("Folder num.1", "");
                         break;
                     case "2":
-                        _imageStoreRepository.AddFolder("Folder 2 level", "Folder num.1");
+                        imageClient.AddFolder("Folder 2 level", "Folder num.1");
                         break;
                     case "3":
-                        _imageStoreRepository.AddFolder("Folder 3 level", "Folder num.1\\Folder 2 level");
+                        imageClient.AddFolder("Folder 3 level", "Folder num.1\\Folder 2 level");
                         break;
                     case "4":
-                        OpenFileDialog openFileDialog=new OpenFileDialog();
+                        var openFileDialog = new OpenFileDialog();
                         openFileDialog.Filter = "jpg files (*.jpg)|*.jpg";
                         openFileDialog.ShowDialog();
-                        byte[] imageBytes = File.ReadAllBytes(openFileDialog.FileName);
-                        _imageStoreRepository.UploadImage(imageBytes, openFileDialog.FileName, "");
+                        var imageBytes = File.ReadAllBytes(openFileDialog.FileName);
+                        imageClient.UploadImage(imageBytes, openFileDialog.FileName, "");
                         break;
                     case "5":
-                        Console.WriteLine(_imageStoreRepository.GetImageUrl(Guid.Parse("A9EA5375-FCE0-4E90-A5B3-408B5F53C412")));
+                        Console.WriteLine(imageClient.GetImageUrl(Guid.Parse("A9EA5375-FCE0-4E90-A5B3-408B5F53C412")));
                         break;
                 }
             } while (select != "0");
-
         }
     }
 }

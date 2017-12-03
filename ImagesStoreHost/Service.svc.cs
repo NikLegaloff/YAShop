@@ -1,5 +1,4 @@
-﻿using Sprut;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,7 +8,8 @@ using System.Text;
 using Dapper;
 using System.Drawing;
 using System.IO;
-using Sprut.Domain;
+using ImagesStoreHost.Domain;
+using Image = ImagesStoreHost.Domain.Image;
 
 
 namespace ImagesStoreHost
@@ -45,13 +45,13 @@ namespace ImagesStoreHost
                 return db.Query<Folder>(sqlQuery, new { name, parentId }).FirstOrDefault();
             }
         }
-        public List<Sprut.Domain.Image> GetImagesInFolder(Guid? folderId)
+        public List<Image> GetImagesInFolder(Guid? folderId)
         {
             using (var db = Db.Open())
             {
                 string sqlQuery = "SELECT * FROM Images WHERE Folder=@folderId";
                 if (folderId == null) folderId = Guid.Empty;
-                return db.Query<Sprut.Domain.Image>(sqlQuery, new { folderId }).ToList();
+                return db.Query<Image>(sqlQuery, new { folderId }).ToList();
             }
         }
         public List<Folder> GetSubFolders(Guid? folderId)
@@ -111,7 +111,7 @@ namespace ImagesStoreHost
             if (folder == "") imageFolder = Guid.Empty;
             else imageFolder = (Guid)PathToParentId(folder);
 
-            var image = new Sprut.Domain.Image
+            var image = new Image
             {
                 Id = Guid.Parse(fileName),
                 Name = fileNameShort,
@@ -120,7 +120,7 @@ namespace ImagesStoreHost
             using (var db = Db.Open())
             {
                 var sqlQuery = "INSERT INTO Images (Id, Folder, Name) VALUES (@Id, @Folder, @Name)";
-                db.Query<Sprut.Domain.Image>(sqlQuery, image);
+                db.Query<Image>(sqlQuery, image);
             }
             return Guid.Parse(fileName);
         }

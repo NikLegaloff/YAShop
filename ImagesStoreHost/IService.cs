@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
-using Sprut.Domain;
+using ImagesStoreHost.Domain;
 
 namespace ImagesStoreHost
 {
@@ -20,7 +20,7 @@ namespace ImagesStoreHost
         Folder GetFolder(string name, Guid? parentId);
 
         [OperationContract]
-        List<Sprut.Domain.Image> GetImagesInFolder(Guid? folderId);
+        List<Image> GetImagesInFolder(Guid? folderId);
 
         [OperationContract]
         List<Folder> GetSubFolders(Guid? folderId);

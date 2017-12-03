@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAShop.BusinessLogic", "YAShop.BusinessLogic\YAShop.BusinessLogic.csproj", "{23A37F97-EC75-40F0-AEB2-EEFD88ACDF38}"
 EndProject
@@ -29,6 +29,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAShop.ImagesClient", "YAShop.ImagesClient\YAShop.ImagesClient.csproj", "{7B6B376B-4B1D-478C-88FE-BDA3EFFDEEB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprut.ImagesStoreHost", "ImagesStoreHost\Sprut.ImagesStoreHost.csproj", "{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprut.ImageStoreClient", "Sprut.ImageStoreClient\Sprut.ImageStoreClient.csproj", "{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552} = {230C8662-D0B3-44D9-B3B7-AE5BA21B8552}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAShop.ImagesHost", "YAShop.ImagesHost\YAShop.ImagesHost.csproj", "{4E3CAF55-E3E9-475F-A12B-D9CFF09D7C55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +91,14 @@ Global
 		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E3CAF55-E3E9-475F-A12B-D9CFF09D7C55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E3CAF55-E3E9-475F-A12B-D9CFF09D7C55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E3CAF55-E3E9-475F-A12B-D9CFF09D7C55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E3CAF55-E3E9-475F-A12B-D9CFF09D7C55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

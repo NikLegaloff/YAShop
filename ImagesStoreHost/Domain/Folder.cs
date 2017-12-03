@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sprut.Domain
+namespace ImagesStoreHost.Domain
 {
     public class Folder
     {

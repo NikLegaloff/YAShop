@@ -7,7 +7,7 @@ using Sprut.ImageStoreClient.ImageService;
 
 namespace Sprut.ImageStoreClient
 {
-    public class ImageStoreHostClient
+    public class ImageStoreHostClient : IDisposable
     {
         private readonly ServiceClient _service;
 
@@ -37,7 +37,7 @@ namespace Sprut.ImageStoreClient
             return _service.GetFolderAsync(name, parentId);
         }
 
-        public List<Image> GetImagesInFolder(Guid folderId)
+        public List<Image> GetImagesInFolder(Guid? folderId)
         {
             return _service.GetImagesInFolder(folderId);
         }
@@ -87,5 +87,9 @@ namespace Sprut.ImageStoreClient
             return _service.GetTmbUrlAsync(id);
         }
 
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

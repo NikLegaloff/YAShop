@@ -4,33 +4,31 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Sprut;
+using Sprut.ImageStoreClient;
 using Sprut.StoreAdmin.Models;
-
-using Sprut.StoreAdmin.ImageService;
 
 namespace Sprut.StoreAdmin.Controllers
 {
     public class ImageController : Controller
     {
-        readonly ServiceClient _imageStoreRepository = new ServiceClient();
-        //readonly ImageStoreRepository _imageStoreRepository=new ImageStoreRepository();
         public ActionResult Index(Guid? folderId)
         {
-            ImagesIndexDto imagesIndexDto = new ImagesIndexDto
+            ImagesIndexDto imagesIndexDto = new ImagesIndexDto();
+            using (var imageStoreHostClient = new ImageStoreHostClient())
             {
-                Folders = _imageStoreRepository.GetSubFolders(folderId),
-                Images = new List<ImageExt>()
-            };
-            foreach (var i in _imageStoreRepository.GetImagesInFolder(folderId))
-            {
-                ImageExt imageExt = new ImageExt
+                imagesIndexDto.Folders = imageStoreHostClient.GetSubFolders(folderId);
+                imagesIndexDto.Images = new List<ImageExt>();
+
+                foreach (var i in imageStoreHostClient.GetImagesInFolder(folderId))
                 {
-                    Image = i,
-                    ImageUrl = _imageStoreRepository.GetTmbUrl(i.Id)
-                };
-                imagesIndexDto.Images.Add(imageExt);
+                    ImageExt imageExt = new ImageExt
+                    {
+                        Image = i,
+                        ImageUrl = imageStoreHostClient.GetTmbUrl(i.Id)
+                    };
+                    imagesIndexDto.Images.Add(imageExt);
+                }
             }
-            _imageStoreRepository.Close();
             return View(imagesIndexDto);
         }
     }

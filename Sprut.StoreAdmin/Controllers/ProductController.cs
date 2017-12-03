@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using Sprut.MyShop.Domain.Model;
 using System.Windows.Forms;
 using Sprut;
-using Sprut.StoreAdmin.ImageService;
+using Sprut.ImageStoreClient;
 
 namespace Sprut.StoreAdmin.Controllers
 {
@@ -21,9 +21,6 @@ namespace Sprut.StoreAdmin.Controllers
     {
         private ProductViewModels _pvModel = new ProductViewModels();
         private AddProductViewModel _apvModel = new AddProductViewModel();
-        readonly ServiceClient _imageStoreRepository = new ServiceClient();
-
-
 
         public ActionResult Index(ProductViewModels model)
         {
@@ -81,9 +78,12 @@ namespace Sprut.StoreAdmin.Controllers
             param.Offset = (_pvModel.CurrentPage - 1) * 10;
 
             products = Registry.Current.Products.Select(query,param);
-            foreach (var product in products)
+            using (var imageClient=new ImageStoreHostClient())
             {
-                if(product.Image!=null) product.Image = _imageStoreRepository.GetTmbUrl(Guid.Parse(product.Image));
+                foreach (var product in products)
+                {
+                    if(product.Image!=null) product.Image = imageClient.GetTmbUrl(Guid.Parse(product.Image));
+                }
             }
             ViewBag.Products = products;
             return View(_pvModel);
@@ -97,7 +97,13 @@ namespace Sprut.StoreAdmin.Controllers
                 _apvModel.ProductDTO.Id = product.Id;
                 _apvModel.ProductDTO.CategoryId = product.CategoryId;
                 _apvModel.ProductDTO.Descripton = product.Descripton;
-                if (product.Image != null) _apvModel.ProductDTO.Image = _imageStoreRepository.GetImageUrl(Guid.Parse(product.Image));
+                if (product.Image != null)
+                {
+                    using (var imageClient = new ImageStoreHostClient())
+                    {
+                        _apvModel.ProductDTO.Image = imageClient.GetImageUrl(Guid.Parse(product.Image));
+                    }
+                }
                 _apvModel.ProductDTO.Price = product.Price;
                 _apvModel.ProductDTO.Qty = product.Qty;
                 _apvModel.ProductDTO.SKU = product.SKU;
@@ -124,7 +130,11 @@ namespace Sprut.StoreAdmin.Controllers
                 if (_apvModel.ProductDTO.Image != null)
                 {
                     byte[] imageBytes = System.IO.File.ReadAllBytes(_apvModel.ProductDTO.Image);
-                    product.Image=_imageStoreRepository.UploadImage(imageBytes, _apvModel.ProductDTO.Image.Split('\\').LastOrDefault(), "").ToString();
+                    using (var imageClient = new ImageStoreHostClient())
+                    {
+                        product.Image = imageClient.UploadImage(imageBytes,
+                            _apvModel.ProductDTO.Image.Split('\\').LastOrDefault(), "").ToString();
+                    }
                 }
                 product.Price = _apvModel.ProductDTO.Price;
                 product.Qty = _apvModel.ProductDTO.Qty;
