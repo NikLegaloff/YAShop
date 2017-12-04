@@ -5,8 +5,8 @@ namespace ImagesStoreHost
     public class Db
     {
         //string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        //private const string ConnectionString = "Data Source = (LocalDB)\\MSSQLLocalDB;AttachDbFilename='E:\\Visual Studio 2017\\Projects\\YAShop\\ImageStore\\App_Data\\ImageStore.mdf';Integrated Security = True";
-        private const string ConnectionString = "Data Source = (LocalDB)\\MSSQLLocalDB;AttachDbFilename='C:\\VSProjects\\YAShop\\ImageStore\\App_Data\\ImageStore.mdf';Integrated Security = True";
+        private const string ConnectionString = "Data Source = (LocalDB)\\MSSQLLocalDB;AttachDbFilename='E:\\Visual Studio 2017\\Projects\\YAShop\\ImageStore\\App_Data\\ImageStore.mdf';Integrated Security = True";
+        //private const string ConnectionString = "Data Source = (LocalDB)\\MSSQLLocalDB;AttachDbFilename='C:\\VSProjects\\YAShop\\ImageStore\\App_Data\\ImageStore.mdf';Integrated Security = True";
 
 
         public static SqlConnection Open()

@@ -37,8 +37,10 @@ namespace ImageStoreConsole
                         imageClient.AddFolder("Folder 3 level", "Folder num.1\\Folder 2 level");
                         break;
                     case "4":
-                        var openFileDialog = new OpenFileDialog();
-                        openFileDialog.Filter = "jpg files (*.jpg)|*.jpg";
+                        var openFileDialog = new OpenFileDialog
+                        {
+                            Filter = "jpg files (*.jpg)|*.jpg"
+                        };
                         openFileDialog.ShowDialog();
                         var imageBytes = File.ReadAllBytes(openFileDialog.FileName);
                         imageClient.UploadImage(imageBytes, openFileDialog.FileName, "");
