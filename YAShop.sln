@@ -24,16 +24,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAShop.JobExecutor", "YASho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAShop.APIEndpoint", "YAShop.APIEndpoint\YAShop.APIEndpoint.csproj", "{18A24B88-9B8B-4F88-BCCC-33D3A354B9D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprut.ImageStoreConsole", "ImageStoreConsole\Sprut.ImageStoreConsole.csproj", "{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAShop.ImagesClient", "YAShop.ImagesClient\YAShop.ImagesClient.csproj", "{7B6B376B-4B1D-478C-88FE-BDA3EFFDEEB0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprut.ImagesStoreHost", "ImagesStoreHost\Sprut.ImagesStoreHost.csproj", "{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprut.ImageStoreClient", "Sprut.ImageStoreClient\Sprut.ImageStoreClient.csproj", "{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552} = {230C8662-D0B3-44D9-B3B7-AE5BA21B8552}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprut.ImagesStoreHost", "Sprut.ImagesStoreHost\Sprut.ImagesStoreHost.csproj", "{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprut.ImageStoreConsole", "Sprut.ImageStoreConsole\Sprut.ImageStoreConsole.csproj", "{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,22 +77,22 @@ Global
 		{18A24B88-9B8B-4F88-BCCC-33D3A354B9D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18A24B88-9B8B-4F88-BCCC-33D3A354B9D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18A24B88-9B8B-4F88-BCCC-33D3A354B9D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7B6B376B-4B1D-478C-88FE-BDA3EFFDEEB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B6B376B-4B1D-478C-88FE-BDA3EFFDEEB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B6B376B-4B1D-478C-88FE-BDA3EFFDEEB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B6B376B-4B1D-478C-88FE-BDA3EFFDEEB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91F64FA5-7304-4B64-B5F5-9CAC2380DDC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{230C8662-D0B3-44D9-B3B7-AE5BA21B8552}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BF2EB0A-258B-433A-813F-3AA71A78DC3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
