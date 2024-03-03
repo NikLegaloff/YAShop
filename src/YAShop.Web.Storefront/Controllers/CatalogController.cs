@@ -6,6 +6,10 @@ namespace YAShop.Web.Storefront.Controllers;
 
 public class CatalogController : Controller
 {
+    public IActionResult View(Guid id)
+    {
+        return View(Registry.Current.Products.SelectAll().FirstOrDefault(p => p.Id == id));
+    }
     public IActionResult Index()
     {
         var prs = new List<ProductSummary>();
