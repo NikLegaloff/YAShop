@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using YAShop.Common.Data;
+using YAShop.Common;
 using YAShop.Web.Storefront.Models;
 
 namespace YAShop.Web.Storefront.Controllers

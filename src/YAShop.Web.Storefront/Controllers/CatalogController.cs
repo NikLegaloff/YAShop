@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using YAShop.Common.Data;
+using YAShop.Common;
 using YAShop.Web.Storefront.Models;
 
 namespace YAShop.Web.Storefront.Controllers;
@@ -8,7 +8,7 @@ public class CatalogController : Controller
 {
     public IActionResult View(Guid id)
     {
-        return View(Registry.Current.Products.SelectAll().FirstOrDefault(p => p.Id == id));
+        return View(Registry.Current.Products.Find(id));
     }
     public IActionResult Index()
     {

@@ -1,9 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Newtonsoft.Json;
+using YAShop.Common;
+using YAShop.Console;
 
-using System.Net.Http.Json;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
-using YAShop.Common.Data;
+Registry.Init(new StaticCommonInfrProvider());
 
 foreach (var p in Registry.Current.Products.SelectAll())
 {
