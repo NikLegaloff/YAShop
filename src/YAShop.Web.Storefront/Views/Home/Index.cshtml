@@ -1,0 +1,55 @@
+﻿@model IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Yet Another Shop</h1>
+    
+    <h3>Top selling products</h3>
+    <div class="row">
+    @foreach (var p in Model.TopProducts)
+    {
+        <div class="col-lg-3 mb-2 mt-2">
+            <div class="card" >
+                <img src="@p.Image" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@p.Title</h5>
+                    <p class="card-text">
+                        <div class="row">
+                                <div class="col"> $@p.Price.ToString("0.00")</div>
+                                <div class="col text-end">
+                                    @Html.Raw(p.QTY > 0 ? p.QTY + " left" : "<span class='text-danger'>Out of stock</span>")
+                                </div>
+                        </div> 
+                    </p>
+                        <a href="#" class="btn btn-primary @(p.QTY==0 ?"disabled":"")">View details</a>
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+    <h3>New products</h3>
+    <div class="row">
+    @foreach (var p in Model.LatestProducts)
+    {
+        <div class="col-lg-3 mb-2 mt-2">
+            <div class="card" >
+                <img src="@p.Image" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@p.Title</h5>
+                    <p class="card-text">
+                        <div class="row">
+                                <div class="col"> $@p.Price.ToString("0.00")</div>
+                                <div class="col text-end">
+                                    @Html.Raw(p.QTY > 0 ? p.QTY + " left" : "<span class='text-danger'>Out of stock</span>")
+                                </div>
+                        </div> 
+                    </p>
+                        <a href="#" class="btn btn-primary @(p.QTY==0 ?"disabled":"")">View details</a>
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+</div>
