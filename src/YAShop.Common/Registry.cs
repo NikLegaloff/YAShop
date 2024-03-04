@@ -1,4 +1,5 @@
-﻿using YAShop.Common.Data;
+﻿using System.Globalization;
+using YAShop.Common.Data;
 using YAShop.Common.Infrastructure;
 using YAShop.Common.Service.Cart;
 
@@ -21,6 +22,7 @@ public class Registry
 
     public Registry(ICommonInfrastructureProvider commonInfrastructureProvider, string? invFilePath = null)
     {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         Infrastructure = commonInfrastructureProvider;
         Products = new ProductDataProvider(invFilePath);
     }

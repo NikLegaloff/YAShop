@@ -154,7 +154,7 @@ namespace YAShop.Common
 
         public static decimal ToDecimal(this string s)
         {
-            return !decimal.TryParse(s, out var d) ? 0 : d;
+            return !decimal.TryParse(s, CultureInfo.InvariantCulture, out var d ) ? 0 : d;
         }
 
         public static decimal? ToDecimalMeterNullable(this string s)
