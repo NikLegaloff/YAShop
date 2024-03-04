@@ -30,9 +30,10 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.UseSession();
+var path = app.Environment.WebRootPath + "\\data\\Inventory.csv";
 WebCommonInfrastructureProvider.App = app;
-Registry.Init(new WebCommonInfrastructureProvider());
+Registry.Init(new WebCommonInfrastructureProvider(), path);
 
 app.Run();
 

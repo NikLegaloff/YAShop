@@ -17,7 +17,7 @@
             <div class="col mt-2 ">Price: $@Model.Price.ToString("0.00")</div>
             <div class="col mt-2 ">@Html.Raw(inStock ? "In stock: " + @Model.QTY : "<span class='text-danget'>Out of stock</span>")</div>
       </div>
-      <div class="mt-2">@Model.Description</div>
+      <div class="mt-2">@Html.Raw(Model.Description)</div>
         @using (Html.BeginForm("Add", "Cart", FormMethod.Post))
       {
           <div class="row">

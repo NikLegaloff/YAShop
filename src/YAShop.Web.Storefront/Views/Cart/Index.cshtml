@@ -1,0 +1,47 @@
+﻿@model YAShop.Common.Service.Cart.Cart
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+
+<div>
+    <h1 class="display-4">My shopping cart</h1>
+    @if (Model.IsEmpty)
+    {
+        <div class="alert alert-warning">Your shopping cart is empty, <a href="/">back to shop</a></div>
+    }
+    else
+    {
+        <div>
+            <table class="table table-light">
+                <tr>
+                    <th>Title</th>
+                    <th class="text-end">Price</th>
+                    <th class="text-end">QTY</th>
+                    <th class="text-end">Subtotal</th>
+                    
+                </tr>
+                @foreach (var i in Model.Items)
+                {
+                    <tr>
+                        <td>@i.Title</td>
+                        <td class="text-end">@i.Price.ToString("$0.00")</td>
+                        <td class="text-end">@i.QTY</td>
+                        <td class="text-end">@((i.QTY * i.Price).ToString("$0.00"))</td>
+                    </tr>
+                }
+                <tr>
+                    <td>TOTAL:</td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-end lead">@Model.TotalAmount.ToString("$0.00")</td>
+                </tr>
+            </table>
+        </div>
+        <div class="mt-2">
+            <input type="submit" value="Checkout" class="btn btn-lg btn-primary"/>
+            <a href="/" class="btn btn-lg btn-secondary">Continue shopping</a>
+        </div>
+    }
+
+    </div>

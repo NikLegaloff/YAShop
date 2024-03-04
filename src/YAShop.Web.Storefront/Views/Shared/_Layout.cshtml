@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using YAShop.Common
+@{
+    var cart = Registry.Current.Cart.GetCart();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,6 +12,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/YAShop.Web.Storefront.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/65af487970.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -27,6 +33,13 @@
                         </li>
                     </ul>
                 </div>
+                <span class="navbar-text">
+                   
+                       <a  class="btn btn-primary position-relative text-white" style="padding: " href="/Cart/">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">@cart.TotalCount</span>
+                       </a>
+                </span>
             </div>
         </nav>
     </header>

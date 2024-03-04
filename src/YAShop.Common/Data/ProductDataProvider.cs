@@ -1,12 +1,47 @@
-﻿using YAShop.Common.Domain;
+﻿using Csv;
+using YAShop.Common.Domain;
 
 namespace YAShop.Common.Data;
 
 public class ProductDataProvider
 {
+    private readonly string? _invFilePath;
+
+    public ProductDataProvider(string? invFilePath=null)
+    {
+        _invFilePath = invFilePath;
+    }
+
     public Product? Find(Guid id) => SelectAll().FirstOrDefault(p => p.Id == id);
+    private Product[]? _products = null;
 
     public Product[] SelectAll()
+    {
+        return _products??= string.IsNullOrEmpty(_invFilePath) ? DummyProducts() : CsvProducts() ;
+        
+    }
+
+    private Product[] CsvProducts()
+    {
+        var all = new List<Product>();
+        
+        foreach (var csv in CsvReader.ReadFromText(File.ReadAllText(_invFilePath)))
+        {
+            all.Add(new Product
+            {
+                Id = csv["Id"].ToGuid(),
+                SKU = csv["SKU"],
+                Title= csv["Title"],
+                Image= csv["Image1"],
+                Price= csv["BIN price"].ToDecimal(),
+                QTY = csv["QTY"].ToInt(),
+                Description= csv["Description"],
+            });
+        }
+        return all.ToArray();
+    }
+
+    private static Product[] DummyProducts()
     {
         var all = new List<Product>();
         for (int i = 10; i <= 30; i++)
