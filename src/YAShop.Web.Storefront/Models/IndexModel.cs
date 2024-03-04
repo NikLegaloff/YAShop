@@ -10,6 +10,11 @@ namespace YAShop.Web.Storefront.Models
         public int QTY { get; set; }
         public string? Image { get; set; }
     }
+
+    public class CatalogModel
+    {
+        public ProductSummary[] Products { get; set; }
+    }
     public class IndexModel
     {
         public ProductSummary[] TopProducts { get; set; }

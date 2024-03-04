@@ -19,5 +19,6 @@ public class CartItem
     public Guid ProductId { get; set; }
     public string Title{ get; set; }
     public decimal Price { get; set; }
+    public string Image { get; set; }
     public int QTY { get; set; }
 }

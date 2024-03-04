@@ -24,7 +24,7 @@ public class CatalogController : Controller
                 QTY = p.QTY
             });
         }
-        return View(new IndexModel { TopProducts = prs.ToArray() });
+        return View(new CatalogModel() { Products = prs.ToArray() });
     }
 
 }

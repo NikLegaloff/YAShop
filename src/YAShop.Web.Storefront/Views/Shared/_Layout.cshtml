@@ -37,13 +37,16 @@
                    
                        <a  class="btn btn-primary position-relative text-white" style="padding: " href="/Cart/">
                             <i class="fa-solid fa-cart-shopping"></i>
-                           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">@cart.TotalCount</span>
+                           @if (!cart.IsEmpty)
+                           {
+                               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">@cart.TotalCount</span>
+                           }
                        </a>
                 </span>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container mb-2">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -51,7 +54,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - YAShop.Web.Storefront - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Yet Another Shop
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

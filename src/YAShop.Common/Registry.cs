@@ -18,7 +18,7 @@ public class Registry
     public ProductDataProvider Products { get; private set; }
 
     public ICommonInfrastructureProvider Infrastructure { get; }
-    public CartService Cart => new CartService();
+    public CartService Cart => new();
 
     public Registry(ICommonInfrastructureProvider commonInfrastructureProvider, string? invFilePath = null)
     {

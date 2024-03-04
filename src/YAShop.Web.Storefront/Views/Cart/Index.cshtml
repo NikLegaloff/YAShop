@@ -3,9 +3,11 @@
     ViewData["Title"] = "Home Page";
 
 }
-
+<style>
+    .cart td {vertical-align: middle}
+</style>
 <div>
-    <h1 class="display-4">My shopping cart</h1>
+    <h1>My shopping cart</h1>
     @if (Model.IsEmpty)
     {
         <div class="alert alert-warning">Your shopping cart is empty, <a href="/">back to shop</a></div>
@@ -13,8 +15,9 @@
     else
     {
         <div>
-            <table class="table table-light">
+            <table class="table table-hover cart">
                 <tr>
+                    <th></th>
                     <th>Title</th>
                     <th class="text-end">Price</th>
                     <th class="text-end">QTY</th>
@@ -24,6 +27,7 @@
                 @foreach (var i in Model.Items)
                 {
                     <tr>
+                        <td><img src="@i.Image" style="height: 50px;" /></td>
                         <td>@i.Title</td>
                         <td class="text-end">@i.Price.ToString("$0.00")</td>
                         <td class="text-end">@i.QTY</td>
@@ -31,16 +35,17 @@
                     </tr>
                 }
                 <tr>
-                    <td>TOTAL:</td>
+                    <td colspan="2">TOTAL:</td>
                     <td></td>
                     <td></td>
-                    <td class="text-end lead">@Model.TotalAmount.ToString("$0.00")</td>
+                    <td class="text-end lead fw-bold">@Model.TotalAmount.ToString("$0.00")</td>
                 </tr>
             </table>
         </div>
-        <div class="mt-2">
-            <input type="submit" value="Checkout" class="btn btn-lg btn-primary"/>
+        <div class="mt-2 text-end">
+            
             <a href="/" class="btn btn-lg btn-secondary">Continue shopping</a>
+            <input type="submit" value="Checkout" class="btn btn-lg btn-primary" />
         </div>
     }
 

@@ -11,7 +11,7 @@ public class CartService
         if (exist == null)
         {
             var p = Registry.Current.Products.Find(productId);
-            cart.Items.Add(new CartItem { ProductId = productId, QTY = qty, Price = p.Price, Title = p.Title });
+            cart.Items.Add(new CartItem { ProductId = productId, QTY = qty, Price = p.Price, Title = p.Title,Image = p.Image});
         }
         else
             exist.QTY++;

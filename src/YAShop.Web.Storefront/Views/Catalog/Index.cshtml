@@ -1,4 +1,4 @@
-﻿@model YAShop.Web.Storefront.Models.IndexModel
+﻿@model YAShop.Web.Storefront.Models.CatalogModel
 
 @{
     ViewBag.Title = "title";
@@ -7,24 +7,5 @@
 
 <h1>Yet another store catalogue</h1>
 <div class="row">
-    @foreach (var p in Model.TopProducts)
-    {
-        <div class="col-lg-3 mb-2 mt-2">
-            <div class="card" >
-                <div style="height: 300px; overflow-y: hidden;"><img src="@p.Image" class="card-img-top" alt="..."></div>
-                <div class="card-body">
-                    <h5 class="card-title">@p.Title</h5>
-                    <div class="card-text">
-                        <div class="row">
-                            <div class="col"> $@p.Price.ToString("0.00")</div>
-                            <div class="col text-end">
-                                @Html.Raw(p.QTY > 0 ? p.QTY + " left" : "<span class='text-danger'>Out of stock</span>")
-                            </div>
-                        </div> 
-                    </div>
-                    <div class="d-grid mt-2"><a href="/Catalog/View/@p.Id" class="btn btn-primary @(p.QTY==0 ?"disabled":"")">View details</a></div>
-                </div>
-            </div>
-        </div>
-    }
+    @Html.Partial("ProductList", Model.Products)
 </div>
