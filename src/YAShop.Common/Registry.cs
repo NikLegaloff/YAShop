@@ -20,10 +20,10 @@ public class Registry
     public ICommonInfrastructureProvider Infrastructure { get; }
     public CartService Cart => new();
 
-    public Registry(ICommonInfrastructureProvider commonInfrastructureProvider, string? invFilePath = null)
+    public Registry(ICommonInfrastructureProvider commonInfrastructureProvider, string? dataPath = null)
     {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         Infrastructure = commonInfrastructureProvider;
-        Products = new ProductDataProvider(invFilePath);
+        Products = new ProductDataProvider(dataPath);
     }
 }

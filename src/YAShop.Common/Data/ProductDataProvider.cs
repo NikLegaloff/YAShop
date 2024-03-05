@@ -3,28 +3,43 @@ using YAShop.Common.Domain;
 
 namespace YAShop.Common.Data;
 
-public class ProductDataProvider
+public class ProductDataProvider : IDataProvider<Product>
 {
-    private readonly string? _invFilePath;
+    private readonly string? _dataPath;
 
-    public ProductDataProvider(string? invFilePath=null)
+    public ProductDataProvider(string? dataPath=null)
     {
-        _invFilePath = invFilePath;
+        _dataPath = dataPath;
     }
 
-    public Product? Find(Guid id) => SelectAll().FirstOrDefault(p => p.Id == id);
-    private Product[]? _products = null;
 
     public Product[] SelectAll()
     {
-        return _products??= string.IsNullOrEmpty(_invFilePath) ? DummyProducts() : CsvProducts() ;
+        return _products ??=LoadCsvProducts();
     }
 
-    private Product[] CsvProducts()
+    public Product? Find(Guid id)
+    {
+        return SelectAll().FirstOrDefault(p => p.Id == id);
+    }
+
+    public void Save(Product subj)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+
+    private Product[]? _products;
+    Product[] LoadCsvProducts()
     {
 
         var all = new List<Product>();
-        var text = File.ReadAllText(_invFilePath + "Inventory.csv");
+        var text = File.ReadAllText(_dataPath + "Inventory.csv");
         foreach (var csv in CsvReader.ReadFromText(text))
         {
             var item = new Product();
@@ -37,24 +52,6 @@ public class ProductDataProvider
             item.Description = csv["Description"];
             all.Add(item);
         }
-        return all.ToArray();
-    }
-
-    private static Product[] DummyProducts()
-    {
-        var all = new List<Product>();
-        for (int i = 10; i <= 30; i++)
-            all.Add(new Product
-            {
-                Id = Guid.Parse("e4aaf240-8f6a-4485-b040-594c579425" + i), 
-                SKU = "P-" + i, 
-                Title = $"Product #{i} title",
-                Price = 10+i*2.5m, 
-                QTY = i-1,
-                Image = "https://upload.wikimedia.org/wikipedia/commons/0/0e/Canon_EOS_50D.jpg",
-                Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-            });
-            
         return all.ToArray();
     }
 }
