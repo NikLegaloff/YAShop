@@ -20,4 +20,5 @@ namespace YAShop.Web.Storefront.Models
         public ProductSummary[] TopProducts { get; set; }
         public ProductSummary[] LatestProducts { get; set; }
     }
+
 }

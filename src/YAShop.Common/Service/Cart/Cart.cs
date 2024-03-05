@@ -1,17 +1,20 @@
-﻿namespace YAShop.Common.Service.Cart;
+﻿using Newtonsoft.Json;
+
+namespace YAShop.Common.Service.Cart;
 
 public class Cart
 {
     public Cart()
     {
-        Items = new List<CartItem>();
     }
 
-    public List<CartItem> Items { get; set; }
+    public List<CartItem> Items { get; set; } = new();
 
+    [JsonIgnore]
     public bool IsEmpty => TotalCount == 0;
+    [JsonIgnore] 
     public int TotalCount => Items.Sum(i => i.QTY);
-    public decimal TotalAmount => Items.Sum(i => i.Price * i.QTY);
+    [JsonIgnore] public decimal TotalAmount => Items.Sum(i => i.Price * i.QTY);
 }
 
 public class CartItem

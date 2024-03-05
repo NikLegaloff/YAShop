@@ -25,6 +25,6 @@ public class CartService
     }
     public Cart GetCart()
     {
-        return Registry.Current.Infrastructure.GetFromSession<Cart>("Cart")?? new Cart();
+        return Registry.Current.Infrastructure.GetFromSession<Cart>("Cart") ?? new Cart();
     }
 }

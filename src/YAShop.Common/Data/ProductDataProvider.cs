@@ -18,25 +18,24 @@ public class ProductDataProvider
     public Product[] SelectAll()
     {
         return _products??= string.IsNullOrEmpty(_invFilePath) ? DummyProducts() : CsvProducts() ;
-        
     }
 
     private Product[] CsvProducts()
     {
+
         var all = new List<Product>();
-        
-        foreach (var csv in CsvReader.ReadFromText(File.ReadAllText(_invFilePath)))
+        var text = File.ReadAllText(_invFilePath + "Inventory.csv");
+        foreach (var csv in CsvReader.ReadFromText(text))
         {
-            all.Add(new Product
-            {
-                Id = csv["Id"].ToGuid(),
-                SKU = csv["SKU"],
-                Title= csv["Title"],
-                Image= csv["Image1"],
-                Price= csv["BIN price"].ToDecimal(),
-                QTY = csv["QTY"].ToInt(),
-                Description= csv["Description"],
-            });
+            var item = new Product();
+            item.Id = csv["Id"].ToGuid();
+            item.SKU = csv["SKU"];
+            item.Title = csv["Title"];
+            item.Image = csv["Image1"];
+            item.Price = csv["BIN price"].ToDecimal();
+            item.QTY = csv["QTY"].ToInt();
+            item.Description = csv["Description"];
+            all.Add(item);
         }
         return all.ToArray();
     }

@@ -16,22 +16,15 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-
-
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-}
 
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthorization();
+//app.UseAuthorization();
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 app.UseSession();
-var path = app.Environment.WebRootPath + "\\data\\Inventory.csv";
+
+var path = app.Environment.WebRootPath + "\\data\\";
 WebCommonInfrastructureProvider.App = app;
 Registry.Init(new WebCommonInfrastructureProvider(), path);
 

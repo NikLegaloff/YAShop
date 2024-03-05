@@ -1,19 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YAShop.Common;
+using YAShop.Common.Domain;
 using YAShop.Web.Storefront.Models;
 
 namespace YAShop.Web.Storefront.Controllers;
 
-public class CatalogController : Controller
+public class YASController : Controller
 {
-    public IActionResult View(Guid id)
-    {
-        return View(Registry.Current.Products.Find(id));
-    }
-    public IActionResult Index()
+    public ProductSummary[] SelectproductSummary(Product[] products)
     {
         var prs = new List<ProductSummary>();
-        foreach (var p in Registry.Current.Products.SelectAll())
+        foreach (var p in products)
         {
             prs.Add(new ProductSummary
             {
@@ -24,7 +21,19 @@ public class CatalogController : Controller
                 QTY = p.QTY
             });
         }
-        return View(new CatalogModel() { Products = prs.ToArray() });
+        return prs.ToArray();
+
+    }
+}
+public class CatalogController : YASController
+{
+    public IActionResult View(Guid id)
+    {
+        return View(Registry.Current.Products.Find(id));
+    }
+    public IActionResult Index()
+    {
+        return View(new CatalogModel() { Products = SelectproductSummary(Registry.Current.Products.SelectAll()) });
     }
 
 }
