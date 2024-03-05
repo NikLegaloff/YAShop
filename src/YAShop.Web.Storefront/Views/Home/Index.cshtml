@@ -7,11 +7,7 @@
     <h1 class="text-center">Welcome to Yet Another Shop</h1>
     
     <h3 class="mt-4 text-center">Top selling products</h3>
-    <div class="row">
         @Html.Partial("ProductList", Model.TopProducts)
-    </div>
     <h3 class="mt-4 text-center">New products</h3>
-    <div class="row">
         @Html.Partial("ProductList", Model.LatestProducts)
-    </div>
 </div>
