@@ -4,20 +4,20 @@
 {
     <div class="col-lg-3 mb-2 mt-2">
         <div class="card" >
-            <div style="height: 300px; overflow-y: hidden;"><img src="@p.Image" class="card-img-top" alt="..."></div>
+            <div style="height: 300px; overflow-y: hidden;">
+                <a href="/Catalog/View/@p.Id"><img src="@p.Image" class="card-img-top" alt="..."></a>
+            </div>
             <div class="card-body">
-                <h5 class="card-title" style="height: 72px; overflow-y: hidden">@p.Title</h5>
+                <div class="card-title product-title" style="height: 72px; overflow-y: hidden"><a href="/Catalog/View/@p.Id">@p.Title</a></div>
                 <div class="card-text">
                     <div class="row">
-                        <div class="col">@Html.Raw(p.QTY > 0 ? p.QTY + " in stock" : "<span class='text-danger'>Out of stock</span>")</div>
-                        <div class="col text-end fw-bold">
-                            $@p.Price.ToString("0.00")
-                        </div>
+                        <div class="col fw-bold @(p.QTY==0?"text-muted":"")">$@p.Price.ToString("0.00")</div>
+                        <div class="col text-end">@Html.Raw(p.QTY > 0 ? "" : "<div class='text-danger'>Out of stock</div>")</div>
                     </div> 
                 </div>
                 <div class="row">
-                    <div class="col-md d-grid mt-2"><a href="/Cart/Add/@p.Id/?qty=1" class="btn btn-primary @(p.QTY==0 ?"disabled":"")">Add to cart</a></div>
-                    <div class="col-md d-grid mt-2"><a href="/Catalog/View/@p.Id" class="btn btn-primary">Details</a></div>
+                    <div class="col-md d-grid mt-2"><a href="/Cart/Add/@p.Id/?qty=1" class="btn btn-@(p.QTY==0 ?"secondary disabled":"primary")">Add to cart</a></div>
+                    
                 </div>
                 
             </div>

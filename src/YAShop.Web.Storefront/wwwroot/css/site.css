@@ -20,3 +20,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+.product-title a {color: var(--bs-body-color); text-decoration: none;}
+.product-title a:hover {color: var(--bs-primary);}
