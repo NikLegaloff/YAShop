@@ -33,10 +33,10 @@
                         </li>
                     </ul>
                 </div>
-                <span class="navbar-text">
-                   
-                       <a  class="btn btn-primary position-relative text-white" style="padding: " href="/Cart/">
-                            <i class="fa-solid fa-cart-shopping"></i>
+                
+                <span class="navbar-text  me-2">
+                    <a class="btn btn-primary position-relative text-white @(cart.IsEmpty ? "disabled":"")" style="padding: " href="/Cart/">
+                            <i class="fa-solid fa-cart-shopping"></i> Cart
                            @if (!cart.IsEmpty)
                            {
                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">@cart.TotalCount</span>
