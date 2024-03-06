@@ -5,6 +5,7 @@
 }
 <style>
     .cart td {vertical-align: middle}
+    .cart tr:last-child td {border-bottom:0;}
 </style>
 <div>
     <h1>My shopping cart</h1>
@@ -20,7 +21,7 @@
                     <th></th>
                     <th>Title</th>
                     <th class="text-end">Price</th>
-                    <th class="text-end">QTY</th>
+                    <th class="text-center">QTY</th>
                     <th class="text-end">Subtotal</th>
                     
                 </tr>
@@ -30,7 +31,14 @@
                         <td><img src="@i.Image" style="height: 60px;" /></td>
                         <td> <a href="/Catalog/View/@i.ProductId">@i.Title</a></td>
                         <td class="text-end">@i.Price.ToString("$0.00")</td>
-                        <td class="text-end">@i.QTY</td>
+                        <td class="text-center">
+                            <div class="input-group" style="width: fit-content;    margin: 0 auto;">
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="fa fa-minus"></i></a>
+                                <input type="text" class="form-control form-control-sm disabled text-center" style="width: 42px;" readonly value="@i.QTY" />
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i></a>
+                            </div>
+                            
+                        </td>
                         <td class="text-end">@((i.QTY * i.Price).ToString("$0.00"))</td>
                     </tr>
                 }
@@ -44,8 +52,8 @@
         </div>
         <div class="mt-2 text-end">
             
-            <a href="/" class="btn btn-lg btn-secondary">Continue shopping</a>
-            <input type="submit" value="Checkout" class="btn btn-lg btn-primary" />
+            <a href="/" class="btn me-2 btn-secondary">Continue shopping</a>
+            <input type="submit" value="Checkout" class="btn btn-primary" />
         </div>
     }
 
