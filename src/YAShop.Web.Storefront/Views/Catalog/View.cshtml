@@ -1,36 +1,40 @@
-﻿@model YAShop.Common.Domain.Product
+﻿@model ProductViewModel
 
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
-    var inStock = Model.QTY > 0;
+    var p = Model.Product;
+    var inStock = p.QTY > 0;
 }
 
 
 <div class="row mt-4">
-    <h3 class="">@Model.Title</h3>
 
-    <div class="col-md-5 text-center mt-4"><img src="@Model.Image" style="max-width: 100%;" /></div>
+    <div class="col-md-5 text-center mt-4"><img src="@p.Image" style="max-width: 100%;" /></div>
     <div class="col-md-1"></div>
     <div class="col-md-6 mt-4">
-        <div class="mt-4 fw-bold"></div>
+        <h4>@p.Title</h4>
+        <h4 class="mt-2">$@p.Price.ToString("0.00")</h4>
+        <div class="mt-2">@Html.Raw(inStock ? "In stock: " + p.QTY : "<span class='text-danger'>Out of stock</span>")</div>
+        <div class="mt-2 mb-2">SKU: @p.SKU</div>
 
         @using (Html.BeginForm("Add", "Cart", FormMethod.Post))
         {
-            <div class="row mt-2">
-                <input type="hidden" name="id" value="@Model.Id"/>
-                <div class="col-md-6 mt-2 fs-3 fw-bold">$@Model.Price.ToString("0.00")</div>
-                <div class="col-md-6 mt-2">
-                    <div class="input-group"><input type="number" name="qty" value="1" min="1" class="form-control text-end @(Model.QTY == 0 ? "disabled" : "")"/>
-                        <input type="submit" value="Add to cart" style="width: 70%" class="btn btn-primary" @(Model.QTY == 0 ? "disabled=disabled" : "")/>
-                    </div>
+           
+            <div class="row">
+                <input type="hidden" name="id" value="@p.Id" />
+                <div class="col-sm-2 mt-2"><input type="number" name="qty" value="1" min="1" style="min-width: 50px;" class="form-control @(p.QTY == 0 ? "disabled" : "")" /></div>
+                <div class="col-sm-4 d-grid  mt-2">
+                    <input type="submit" value="Add to cart" class="btn btn-outline-primary" @(p.QTY == 0 ? "disabled=disabled" : "")/>
                 </div>
             </div>
         }
-        <div class="mt-4">@Html.Raw(inStock ? "In stock: " + @Model.QTY : "<span class='text-danger'>Out of stock</span>")</div>
-        <div class="mt-2">SKU: @Model.SKU</div>
         <div class="mt-4 fw-bold">Description</div>
-        <div class="mt-2">@Html.Raw(Model.Description)</div>
+        <div class="mt-2">@Html.Raw(p.Description)</div>
 
     </div>
+    
+    <h4 class="text-center mt-5">Similar products</h4>
+    @Html.Partial("ProductList", Model.SimilarProducts)
+
 </div>

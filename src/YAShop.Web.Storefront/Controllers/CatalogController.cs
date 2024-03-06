@@ -29,7 +29,7 @@ public class CatalogController : YASController
 {
     public IActionResult View(Guid id)
     {
-        return View(Registry.Current.Products.Find(id));
+        return View(new ProductViewModel{Product = Registry.Current.Products.Find(id) ,SimilarProducts = SelectproductSummary(Registry.Current.Products.SelectAll().Skip(12).Take(4).ToArray()) });
     }
     public IActionResult Index()
     {

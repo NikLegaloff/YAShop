@@ -1,4 +1,5 @@
 ﻿using YAShop.Common.Domain;
+using YAShop.Web.Storefront.Models;
 
 namespace YAShop.Web.Storefront.Models
 {
@@ -11,10 +12,6 @@ namespace YAShop.Web.Storefront.Models
         public string? Image { get; set; }
     }
 
-    public class CatalogModel
-    {
-        public ProductSummary[] Products { get; set; }
-    }
     public class IndexModel
     {
         public ProductSummary[] TopProducts { get; set; }
@@ -22,3 +19,10 @@ namespace YAShop.Web.Storefront.Models
     }
 
 }
+    public class ProductViewModel
+    {
+        public Product Product{ get; set; }
+        public ProductSummary[] SimilarProducts { get; set; }
+        
+    }
+
