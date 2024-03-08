@@ -13,7 +13,7 @@ Registry.Init(new StaticCommonInfrProvider(),path);
 
 foreach (var p in LoadCsvProducts(path))
 {
-    //Registry.Current.Products.
+    Registry.Current.Products.Save(p);
 }
 
 

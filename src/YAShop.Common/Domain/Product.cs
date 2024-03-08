@@ -1,5 +1,10 @@
 ﻿namespace YAShop.Common.Domain;
 
+public class Category : DomainObject
+{
+    public string Name { get; set; }
+
+}
 public class Product : DomainObject
 {
     public string SKU { get; set; }
