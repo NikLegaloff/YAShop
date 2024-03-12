@@ -1,6 +1,9 @@
 ﻿@using YAShop.Common
+@using Microsoft.Extensions.Primitives
 @{
     var cart = Registry.Current.Cart.GetCart();
+    var query = Context.Request.Query.ContainsKey("query") ? Context.Request.Query["query"].First():null;
+    var s = query;
 }
 
 <!DOCTYPE html>
