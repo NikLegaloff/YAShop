@@ -23,6 +23,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
@@ -32,8 +33,20 @@
                             <a class="nav-link text-dark" href="/Catalog/">Catalog</a>
                         </li>
                     </ul>
+
+                    <form class="d-flex input-group w-auto me-2" method="get" action="/Catalog/">
+                        <input type="search"
+                               class="form-control rounded"
+                               placeholder="Search"
+                               aria-label="Search"
+                               aria-describedby="search-addon"
+                               name="query"/>
+                        <input type="submit" class="btn btn-primary" id="search-addon" value="search">
+                            
+                        </input>
+                    </form>
                 </div>
-                
+
                 <span class="navbar-text  me-2">
                     <a class="btn btn-primary position-relative text-white @(cart.IsEmpty ? "disabled":"")" style="padding: " href="/Cart/">
                             <i class="fa-solid fa-cart-shopping"></i> Cart
@@ -43,14 +56,21 @@
                            }
                        </a>
                 </span>
+
             </div>
+
+               
+         
         </nav>
+     
+
     </header>
     <div class="container mb-2">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+    <form> </form>
 
     <footer class="border-top footer text-muted">
         <div class="container">

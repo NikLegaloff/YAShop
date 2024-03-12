@@ -13,5 +13,7 @@ namespace YAShop.Web.Storefront.Controllers
             var latestProducts = SelectproductSummary(Registry.Current.Products.SelectAll().Skip(10).Take(4).ToArray());
             return View(new IndexModel{TopProducts = topProducts, LatestProducts = latestProducts });
         }
+       
     }
+
 }

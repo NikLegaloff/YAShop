@@ -31,9 +31,10 @@ public class CatalogController : YASController
     {
         return View(new ProductViewModel{Product = Registry.Current.Products.Find(id) ,SimilarProducts = SelectproductSummary(Registry.Current.Products.SelectAll().Skip(12).Take(4).ToArray()) });
     }
-    public IActionResult Index()
+    public IActionResult Index(string query=null)
     {
-        return View(new CatalogModel() { Products = SelectproductSummary(Registry.Current.Products.SelectAll()) });
+        var all = Registry.Current.Products.SelectAll().Where(Product => Product.Title.Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
+        return View(new CatalogModel() { Products = SelectproductSummary(all) });
     }
 
 }

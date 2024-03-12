@@ -95,7 +95,7 @@ namespace YAShop.Common
         {
             return array == null || array.Length == 0;
         }
-
+  
         public static bool IsNotNullOrEmpty(this string? str) => !IsNullOrEmpty(str);
         public static bool IsNullOrEmpty(this string? str)
         {
