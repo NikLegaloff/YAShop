@@ -1,35 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YAShop.Common;
-using YAShop.Common.Domain;
 using YAShop.Web.Storefront.Models;
 
 namespace YAShop.Web.Storefront.Controllers;
 
-public class YASController : Controller
-{
-    public ProductSummary[] SelectproductSummary(Product[] products)
-    {
-        var prs = new List<ProductSummary>();
-        foreach (var p in products)
-        {
-            prs.Add(new ProductSummary
-            {
-                Id = p.Id,
-                Title = p.Title,
-                Image = p.Image,
-                Price = p.Price,
-                QTY = p.QTY
-            });
-        }
-        return prs.ToArray();
-
-    }
-}
-public class CatalogController : YASController
+public class CatalogController : YASControllerBase
 {
     public IActionResult View(Guid id)
     {
-        return View(new ProductViewModel{Product = Registry.Current.Products.Find(id) ,SimilarProducts = SelectproductSummary(Registry.Current.Products.SelectAll().Skip(12).Take(4).ToArray()) });
+        return View(new ProductViewModel{Product = Registry.Current.Products.Find(id) ,SimilarProducts = SelectProductSummary(Registry.Current.Products.SelectAll().Skip(12).Take(4).ToArray()) });
     }
     public IActionResult Index(string? query=null)
     {
@@ -38,7 +17,7 @@ public class CatalogController : YASController
              all = all.Where(p => p.Title.Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
         
         
-        return View(new CatalogModel() { Products = SelectproductSummary(all) });
+        return View(new CatalogModel() { Products = SelectProductSummary(all) });
     }
 
 }
