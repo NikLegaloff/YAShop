@@ -39,7 +39,8 @@ public class FileJsonDataProvider<T> : IDataProvider<T> where T : DomainObject
 
     public void Save(T subj)
     {
-        if (!Directory.Exists(_dataPath)) Directory.CreateDirectory(_dataPath);
+        if (subj.Id == Guid.Empty) subj.Id = Guid.NewGuid();
+        if (!Directory.Exists(GetDirectoryPath())) Directory.CreateDirectory(GetDirectoryPath());
         File.WriteAllText(GetFilePath(subj.Id), JsonConvert.SerializeObject(subj, Formatting.Indented));
     }
 
@@ -51,7 +52,10 @@ public class FileJsonDataProvider<T> : IDataProvider<T> where T : DomainObject
 
     private string GetFilePath(Guid id)
     {
-        return _dataPath + "/" + typeof(T).Name + "/" + id + ".json";
+        return _dataPath + "\\" + typeof(T).Name + "\\" + id + ".json";
     }
-
+    private string GetDirectoryPath()
+    {
+        return _dataPath + "\\" + typeof(T).Name + "\\";
+    }
 }

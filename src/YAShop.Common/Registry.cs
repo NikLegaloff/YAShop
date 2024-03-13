@@ -17,6 +17,7 @@ public class Registry
 
     public ProductDataProvider Products { get; private set; }
 
+    public CustomPageDataProvider CustomPages { get; private set; }
     public ICommonInfrastructureProvider Infrastructure { get; }
     public CartService Cart => new();
 
@@ -25,5 +26,6 @@ public class Registry
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         Infrastructure = commonInfrastructureProvider;
         Products = new ProductDataProvider(dataPath);
+        CustomPages = new CustomPageDataProvider(dataPath);
     }
 }

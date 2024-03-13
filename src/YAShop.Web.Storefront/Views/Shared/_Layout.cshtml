@@ -4,6 +4,8 @@
     var cart = Registry.Current.Cart.GetCart();
     var query = Context.Request.Query.ContainsKey("query") ? Context.Request.Query["query"].First():null;
     var s = query;
+    var pages = Registry.Current.CustomPages.SelectAll().ToList();
+    pages.Sort((p1, p2) => p1.Order.CompareTo(p2.Order));
 }
 
 <!DOCTYPE html>
@@ -35,6 +37,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/Catalog/">Catalog</a>
                         </li>
+                        @foreach(var p in pages)
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/CustomPages/View/?alias=@p.Alias">@p.Title</a>
+                        </li>
+
+                        }
                     </ul>
 
                     <form class="d-flex input-group w-auto me-2" method="get" action="/Catalog/">
