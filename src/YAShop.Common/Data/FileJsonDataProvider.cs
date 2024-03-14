@@ -15,14 +15,14 @@ public class FileJsonDataProvider<T> : IDataProvider<T> where T : DomainObject
 
     public T[] SelectAll()
     {
-        var Ts = new List<T>();
-        var enumerable = Directory.GetFiles(_dataPath + "\\" + typeof(T).Name + "\\");
-        foreach (var file in enumerable)
+        var res = new List<T>();
+        var files = Directory.GetFiles(_dataPath + "\\" + typeof(T).Name + "\\");
+        foreach (var file in files)
         {
             var T = Load(file);
-            if (T != null) Ts.Add(T);
+            if (T != null) res.Add(T);
         }
-        return Ts.ToArray();
+        return res.ToArray();
     }
 
     public T? Find(Guid id)
