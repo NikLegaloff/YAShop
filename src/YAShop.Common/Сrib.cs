@@ -16,7 +16,7 @@ public class Сrib
 {
     public void Numbers()
     {
-        var sum = "1,2,3,4,5,6,7,7,8,8,8".Split(',').Distinct().Select(s=>int.Parse(s)).Where(n=>n>2).Sum(n=>n);
+        var sum = "1,2,3,4,5,6,7,7,8,8,8".Split(',').Distinct().Select(s=>int.Parse(s)).Where(n=>n>2).Sum();
     }
 
     public void Dogs()
@@ -38,11 +38,12 @@ public class Сrib
         dogs.RemoveAll(d => d.Age > 10);
 
         var nik = dogs.Find(d => d.Name == "Nik");
-        var olderThanAvverage = from dog in dogs where dog.Age > dogs.Select(d=>d.Age).Average() select dog.Name;
-        foreach (var dogName in olderThanAvverage)
-        {
-            Console.WriteLine(dogName);
-        }
         var ageSum = dogs.Sum(d => d.Age);
+
+        var avgAge = dogs.Select(d => d.Age).Average(); 
+
+        var olderThanAverage = from dog in dogs where dog.Age > avgAge select dog.Name;
+        var olderNames = string.Join(", ", olderThanAverage);
+
     }
 }
