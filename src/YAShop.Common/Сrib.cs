@@ -22,10 +22,13 @@ public class Сrib
     public void Dogs()
     {
         var dogs = "Nik,2;Josef,3".Split(';').Select(s => new Dog { Name = s.Split(',')[0], Age = int.Parse(s.Split(',')[0])}).ToList();
+
         dogs.Add(new Dog{Name = "Bobic",Age = 12});
         dogs.Insert(0,new Dog("Tuzic",4));
+        
         var first = dogs.First();
         var first2 = dogs.Take(2).ToArray();
+        
         var last3 = dogs.TakeLast(3).ToArray();
         var allExceptFirst2 = dogs.Skip(2);
 
@@ -35,7 +38,11 @@ public class Сrib
         dogs.RemoveAll(d => d.Age > 10);
 
         var nik = dogs.Find(d => d.Name == "Nik");
-        var oldestName = (from dog in dogs where dog.Age == dogs.Select(d=>d.Age).Max() select dog.Name).First();
+        var olderThanAvverage = from dog in dogs where dog.Age > dogs.Select(d=>d.Age).Average() select dog.Name;
+        foreach (var dogName in olderThanAvverage)
+        {
+            Console.WriteLine(dogName);
+        }
         var ageSum = dogs.Sum(d => d.Age);
     }
 }
