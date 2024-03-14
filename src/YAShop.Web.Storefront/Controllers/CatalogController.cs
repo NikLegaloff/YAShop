@@ -10,12 +10,14 @@ public class CatalogController : YASControllerBase
     {
         return View(new ProductViewModel{Product = Registry.Current.Products.Find(id) ,SimilarProducts = SelectProductSummary(Registry.Current.Products.SelectAll().Skip(12).Take(4).ToArray()) });
     }
-    public IActionResult Index(string? query=null)
+    public IActionResult Index(string? query=null, Guid? categotyId=null)
     {
         var all = Registry.Current.Products.SelectAll().ToArray();
         if (!string.IsNullOrEmpty(query))        
              all = all.Where(p => p.Title.Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
-        
+
+        if (categotyId != null)
+            all = all.Where(p => p.StoreCategoryId == categotyId.Value).ToArray();
         
         return View(new CatalogModel() { Products = SelectProductSummary(all) });
     }

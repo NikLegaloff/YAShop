@@ -14,7 +14,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - YAShop.Web.Storefront</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/YAShop.Web.Storefront.styles.css" asp-append-version="true" />
     <script src="https://kit.fontawesome.com/65af487970.js" crossorigin="anonymous"></script>
@@ -36,6 +36,18 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/Catalog/">Catalog</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Categories
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                
+                                @foreach(var c in Registry.Current.StoreCategories.SelectAll())
+                                {
+                                    <a class="dropdown-item" href="/Catalog/Index/?categoryId=@c.Id">@c.Name</a>
+                                }
+                            </div>
                         </li>
                         @foreach(var p in pages)
                         {

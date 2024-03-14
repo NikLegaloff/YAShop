@@ -1,6 +1,6 @@
 ﻿namespace YAShop.Common.Domain;
 
-public class Category : DomainObject
+public class StoreCategory : DomainObject
 {
     public string Name { get; set; }
 
@@ -13,4 +13,7 @@ public class Product : DomainObject
     public int QTY{ get; set; }
     public string? Image{ get; set; }
     public string? Description{ get; set; }
+     
+    public Guid StoreCategoryId { get; set; }
+
 }
