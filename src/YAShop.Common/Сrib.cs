@@ -21,7 +21,7 @@ public class Сrib
 
     public void Dogs()
     {
-        var dogs = "Nik,2;Josef,3".Split(';').Select(s => new Dog { Name = s.Split(',')[0], Age = int.Parse(s.Split(',')[0])}).ToList();
+        List<Dog> dogs = "Nik,2;Josef,3".Split(';').Select(s => new Dog { Name = s.Split(',')[0], Age = int.Parse(s.Split(',')[0])}).ToList();
 
         dogs.Add(new Dog{Name = "Bobic",Age = 12});
         dogs.Insert(0,new Dog("Tuzic",4));
