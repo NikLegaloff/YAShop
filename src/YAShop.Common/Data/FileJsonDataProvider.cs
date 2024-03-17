@@ -5,18 +5,17 @@ namespace YAShop.Common.Data;
 
 public class FileJsonDataProvider<T> : IDataProvider<T> where T : DomainObject
 {
-    private readonly string? _dataPath; // D:\Work\YAShop\src\YAShop.Web.Storefront\wwwroot\data\
+    private readonly string? _dataPath; 
 
     public FileJsonDataProvider(string? dataPath = null)
     {
         _dataPath = dataPath;
     }
 
-
     public T[] SelectAll()
     {
         var res = new List<T>();
-        var files = Directory.GetFiles(_dataPath + "\\" + typeof(T).Name + "\\");
+        var files = Directory.GetFiles(GetDirectoryPath());
         foreach (var file in files)
         {
             var T = Load(file);
@@ -25,16 +24,12 @@ public class FileJsonDataProvider<T> : IDataProvider<T> where T : DomainObject
         return res.ToArray();
     }
 
-    public T? Find(Guid id)
-    {
-        return Load(GetFilePath(id));
-    }
-
+    public T? Find(Guid id) => Load(GetFilePath(id));
+    
     protected T? Load(string path)
     {
         if (!File.Exists(path)) return null;
-        var readAllText = File.ReadAllText(path);
-        return JsonConvert.DeserializeObject<T>(readAllText);
+        return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
     }
 
     public void Save(T subj)
@@ -50,12 +45,6 @@ public class FileJsonDataProvider<T> : IDataProvider<T> where T : DomainObject
         if (File.Exists(path)) File.Delete(path);
     }
 
-    private string GetFilePath(Guid id)
-    {
-        return _dataPath + "\\" + typeof(T).Name + "\\" + id + ".json";
-    }
-    private string GetDirectoryPath()
-    {
-        return _dataPath + "\\" + typeof(T).Name + "\\";
-    }
+    private string GetFilePath(Guid id) => _dataPath + "\\" + typeof(T).Name + "\\" + id + ".json";
+    private string GetDirectoryPath() => _dataPath + "\\" + typeof(T).Name + "\\";
 }
