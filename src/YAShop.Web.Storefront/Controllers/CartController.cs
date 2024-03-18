@@ -12,10 +12,6 @@ public class CartController : Controller
         return Redirect(Request.Headers["Referer"].ToString());
     }
 
-    public IActionResult Checkout()
-    {
-        return View();
-    }
     public IActionResult Index()
     {
         return View(Registry.Current.Cart.GetCart());
