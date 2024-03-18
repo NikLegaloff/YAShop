@@ -1,7 +1,8 @@
 ﻿@model ProductViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewData["Title"] = Model.Product.Title;
+
     Layout = "_Layout";
     var p = Model.Product;
     var inStock = p.QTY > 0;

@@ -20,7 +20,12 @@ html {
 body {
   margin-bottom: 60px;
 }
-
+.start-33 {
+    left: 33.3% !important;
+}
+.start-66 {
+    left: 66.6% !important;
+}
 
 .product-title a {color: var(--bs-body-color); text-decoration: none;}
 .product-title a:hover {color: var(--bs-primary);}

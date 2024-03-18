@@ -1,0 +1,18 @@
+﻿@model int
+@{
+    var w = Model * 33;
+    if (Model == 3) w = 100;
+
+
+}
+
+<div class="position-relative m-6 mt-5 mb-5">
+    <div class="progress" style="height: 1px;">
+        <div class="progress-bar" role="progressbar" style="width: @w%;" aria-valuenow="@w" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+
+    <button type="button" class="position-absolute  top-0 start-0 translate-middle btn btn-sm btn-@(Model>=0?"primary":"secondary") rounded-pill" style="width: 4rem; height:rem;">Cart</button>
+    <button type="button" class="position-absolute top-0 start-33 translate-middle btn btn-sm btn-@(Model>=1?"primary":"secondary") rounded-pill" style="width: 5rem; height:2rem;">Checkout</button>
+    <button type="button" class="position-absolute top-0 start-66 translate-middle btn btn-sm btn-@(Model>=2?"primary":"secondary") rounded-pill" style="width: 6rem; height:2rem;">Confirmation</button>
+    <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-@(Model>=3 ?"primary":"secondary") rounded-pill" style="width: 10rem; height:2rem;">Payment & Shipping</button>
+</div>

@@ -1,13 +1,21 @@
-﻿@model Cart
+﻿@model YAShop.Common.Service.Cart.Cart
 
 @{
     ViewData["Title"] = "Cart";
 }
+
 <style>
-    .cart td {vertical-align: middle}
-    .cart tr:last-child td {border-bottom:0;}
+    .cart td {
+        vertical-align: middle
+    }
+
+    .cart tr:last-child td {
+        border-bottom: 0;
+    }
 </style>
+
 <div>
+    @Html.Partial("_ProgressBar", 0)
     <h1>My shopping cart</h1>
     @if (Model.IsEmpty)
     {
@@ -23,7 +31,7 @@
                     <th class="text-end">Price</th>
                     <th class="text-center">QTY</th>
                     <th class="text-end">Subtotal</th>
-                    
+
                 </tr>
                 @foreach (var i in Model.Items)
                 {
@@ -37,7 +45,7 @@
                                 <input type="text" class="form-control form-control-sm disabled text-center" style="width: 42px;" readonly value="@i.QTY" />
                                 <a href="#" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i></a>
                             </div>
-                            
+
                         </td>
                         <td class="text-end">@((i.QTY * i.Price).ToString("$0.00"))</td>
                     </tr>
@@ -51,10 +59,10 @@
             </table>
         </div>
         <div class="mt-2 text-end">
-            
+
             <a href="/" class="btn me-2 btn-secondary">Continue shopping</a>
-            <a type="submit" class="btn btn-primary" href="/Cart/Checkout/" >Checkout</a>
+            <a  class="btn btn-primary" href="/Cart/Checkout/">Checkout</a>
         </div>
     }
 
-    </div>
+</div>

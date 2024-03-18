@@ -20,7 +20,7 @@ public class Registry
     public CustomPageDataProvider CustomPages { get; private set; }
 
     public StoreCategoryDataProvider StoreCategories { get; private set; }
-    public CheckoutDataProvider Checkout { get; private set; }
+
     public ICommonInfrastructureProvider Infrastructure { get; }
     public CartService Cart => new();
 
@@ -31,6 +31,6 @@ public class Registry
         Products = new ProductDataProvider(dataPath);
         CustomPages = new CustomPageDataProvider(dataPath);
         StoreCategories = new StoreCategoryDataProvider(dataPath);
-        Checkout = new CheckoutDataProvider(dataPath);
+   
     }
 }

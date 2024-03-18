@@ -16,5 +16,8 @@ public class CartController : Controller
     {
         return View(Registry.Current.Cart.GetCart());
     }
-
+    public IActionResult Checkout()
+    {
+        return View(Registry.Current.Cart.GetCart());
+    }
 }
