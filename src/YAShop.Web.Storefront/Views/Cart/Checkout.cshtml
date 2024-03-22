@@ -31,103 +31,86 @@
              <input type="text" class="form-control" id="floatingInput" placeholder="Address Line 1" required />
                 <label for="floatingInput">Address Line 1</label>
            </div>
-            <div class=" form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="Address Line 2" required />
-                <label for="floatingInput">Address Line 2</label>
-            </div>
+
             <div class="row ">
                 <div class="col">
                     <div class="form-floatingmb-3">
-                        <select class="form-select form-select-xl mb-3 countrypicker" aria-label=".form-select-lg example" data-flag="true">
-                            <option value="AD">Andorra</option>
-                            <option value="AL">Albania</option>
-                            <option value="AT">Austria</option>
-                            <option value="BY">Belarus</option>
-                            <option value="BE">Belgium</option>
-                            <option value="BA">Bosnia and Herzegovina</option>
-                            <option value="BG">Bulgaria</option>
-                            <option value="HR">Croatia</option>
-                            <option value="CY">Cyprus</option>
-                            <option value="CZ">Czech Republic</option>
-                            <option value="DK">Denmark</option>
-                            <option value="EE">Estonia</option>
-                            <option value="FI">Finland</option>
-                            <option value="FR">France</option>
-                            <option value="DE">Germany</option>
-                            <option value="GR">Greece</option>
-                            <option value="HU">Hungary</option>
-                            <option value="IS">Iceland</option>
-                            <option value="IE">Ireland</option>
-                            <option value="IT">Italy</option>
-                            <option value="LV">Latvia</option>
-                            <option value="LI">Liechtenstein</option>
-                            <option value="LT">Lithuania</option>
-                            <option value="LU">Luxembourg</option>
-                            <option value="MT">Malta</option>
-                            <option value="MD">Moldova</option>
-                            <option value="MC">Monaco</option>
-                            <option value="ME">Montenegro</option>
-                            <option value="NL">Netherlands</option>
-                            <option value="MK">North Macedonia</option>
-                            <option value="NO">Norway</option>
-                            <option value="PL">Poland</option>
-                            <option value="PT">Portugal</option>
-                            <option value="RO">Romania</option>
-                            <option value="RU">Russia</option>
-                            <option value="SM">San Marino</option>
-                            <option value="RS">Serbia</option>
-                            <option value="SK">Slovakia</option>
-                            <option value="SI">Slovenia</option>
-                            <option value="ES">Spain</option>
-                            <option value="SE">Sweden</option>
-                            <option value="CH">Switzerland</option>
-                            <option value="TR">Turkey</option>
-                            <option value="UA">Ukraine</option>
-                            <option value="GB">United Kingdom</option>
-                            <option value="VA">Vatican City</option>
+                        <select class="form-select form-select-xl mb-3 countrypicker" aria-label=".form-select-lg example" style="height: 3.7rem;">
+                            <option value="b">Бендеры</option>
+                            <option value="t">Тирасполь</option>
+                            <option value="r">Рыбница</option>
+                            <option value="d">Дубоссары</option>
+                            <option value="g">Григориополь</option>
+                            <option value="c">Каменка </option>
+                            <option value="s">Слободзея</option>
+                            
                         </select>
 
                     </div>
                 </div>
                 <div class="col">
                     <div class=" form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="City" required />
-                        <label for="floatingInput">City</label>
+                        <input type="tel" class="form-control" id="floatingInput" placeholder="Phone Number" required />
+                        <label for="floatingInput">Phone Number</label>
                     </div>
+
                 </div>
             </div>
-            <div class="row ">
-                <div class="col">
-                    <div class=" form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="State"  />
-                        <label for="floatingInput">State</label>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class=" form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Postal Code" required />
-                        <label for="floatingInput">Postal Code</label>
-                    </div>
-                </div>
-            </div>
+         
+         
             <div class="input-group form-floating mb-3">
                 <input type="email" class="form-control" placeholder="Email" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
                 <span class="input-group-text" id="basic-addon2">@@</span>
                 <label for="floatingInput">Email</label>
             </div>
-            <div class=" form-floating mb-3">
-                <input type="tel" class="form-control" id="floatingInput" placeholder="Phone Number" required />
-                <label for="floatingInput">Phone Number</label>
-            </div>
-
+       
     </div>
-        <div class="col-1">
-        </div>
+        <div class="col-1 d-flex" style="height: 380px;">
+            
+                <div class="vr"></div>
+
+         </div>
         <div class="col-6">
-            <span class=""> 
-                <h4 class="mt-4  bg-secondary p-2 text-dark bg-opacity-25 fw-bold align-center   ">Summary</h4>
-                <span class="badge badge-secondary badge-pill">3</span>
-                <div class="border"></div>
+           
+             <h4 class="mt-4 mb-3 fw-bold">Summary</h4>
+                 <div class="card">
+                      <div class="card-body">
+
+                            <div class="  d-flex justify-content-between ">
+                        <div style="font-size:18px; ">Subtotal</div>
+                        <span style=" font-size:18px;" class="text-muted">@Model.TotalAmount.ToString("$0.00")   </span>
+                         </div>
+                          <div class=" mt-1 d-flex justify-content-between">
+                        <div style=" font-size:18px;">Shipping</div>
+                        <span style =" font-size:16px;" class="text-muted">Calculated at next step</span>
+                         </div>
+                          
+                         <div class=" d-flex justify-content-between mt-2">
+                        <div style="font-weight:700;font-size:18px;">Total (USD)</div>
+                        <strong style=" font-size:18px;" >@Model.TotalAmount.ToString("$0.00")    </strong>
+                         </div>
+                      </div>
+                </div>
+            <table class="table mt-5">
+                <tbody >
+                   @foreach (var i in Model.Items)
+                    {
+                    <tr>
+                       
+                            <td><img src="@i.Image" style="height: 100px;" />  </td>
+                            <td>
+                                <a href="/Catalog/View/@i.ProductId">@i.Title</a>
+                                <div class="d-flex justify-content-between  mt-3">
+                                <div class=" text-muted ">QTY: @(i.QTY) * @i.Price.ToString("$0.00")</div>
+                            <span class="text-end" style="font-weight:500">@((i.QTY * i.Price).ToString("$0.00"))</span>
+                             
+                                </div>
+                            </td>
+                    </tr>
+                   }
+                </tbody>
+            </table>
+           
         </div>
        
   </div>

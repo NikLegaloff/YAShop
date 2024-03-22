@@ -15,6 +15,7 @@ public class Cart
     [JsonIgnore] 
     public int TotalCount => Items.Sum(i => i.QTY);
     [JsonIgnore] public decimal TotalAmount => Items.Sum(i => i.Price * i.QTY);
+   
 }
 
 public class CartItem
