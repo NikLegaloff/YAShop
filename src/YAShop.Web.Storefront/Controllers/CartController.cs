@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YAShop.Common;
 using YAShop.Common.Service.Cart;
+using YAShop.Web.Storefront.Models;
 
 namespace YAShop.Web.Storefront.Controllers;
 
@@ -18,6 +19,11 @@ public class CartController : Controller
     }
     public IActionResult Checkout()
     {
-        return View(Registry.Current.Cart.GetCart());
+        var cart = Registry.Current.Cart.GetCart();
+        if (cart.IsEmpty) return Redirect("/");
+        return View(new CheckoutModel {
+            Cart = cart,
+            Cities = Registry.Current.Cities. SelectAll()       
+        });
     }
 }

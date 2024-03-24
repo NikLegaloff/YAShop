@@ -7,10 +7,9 @@ using YAShop.Common.Domain;
 
 namespace YAShop.Common.Data
 {
-
-    public class CustomPageDataProvider : FileJsonDataProvider<CustomPage>
+    public class CityDataProvider : FileJsonDataProvider<City>
     {
-        public CustomPageDataProvider(string? dataPath = null) : base(dataPath)
+        public CityDataProvider(string? dataPath = null) : base(dataPath)
         {
         }
     }

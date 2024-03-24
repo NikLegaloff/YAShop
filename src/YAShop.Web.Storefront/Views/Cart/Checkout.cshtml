@@ -1,4 +1,4 @@
-﻿@model YAShop.Common.Service.Cart.Cart
+﻿@model CheckoutModel
 @{
     ViewData["Title"] = "Checkout";
     Layout = "_Layout";
@@ -36,16 +36,13 @@
                 <div class="col">
                     <div class="form-floatingmb-3">
                         <select class="form-select form-select-xl mb-3 countrypicker" aria-label=".form-select-lg example" style="height: 3.7rem;">
-                            <option value="b">Бендеры</option>
-                            <option value="t">Тирасполь</option>
-                            <option value="r">Рыбница</option>
-                            <option value="d">Дубоссары</option>
-                            <option value="g">Григориополь</option>
-                            <option value="c">Каменка </option>
-                            <option value="s">Слободзея</option>
-                            
+                            @foreach(var c in Model.Cities)
+                            {
+                                <option value="@c.Id">@c.Name | Delivery price: @c.Price.ToString("0.00")</option> 
+                            }                       
                         </select>
-
+                    
+                       
                     </div>
                 </div>
                 <div class="col">
@@ -78,7 +75,7 @@
 
                             <div class="  d-flex justify-content-between ">
                         <div style="font-size:18px; ">Subtotal</div>
-                        <span style=" font-size:18px;" class="text-muted">@Model.TotalAmount.ToString("$0.00")   </span>
+                        <span style=" font-size:18px;" class="text-muted">@Model.Cart.TotalAmount.ToString("$0.00")   </span>
                          </div>
                           <div class=" mt-1 d-flex justify-content-between">
                         <div style=" font-size:18px;">Shipping</div>
@@ -87,13 +84,13 @@
                           
                          <div class=" d-flex justify-content-between mt-2">
                         <div style="font-weight:700;font-size:18px;">Total (USD)</div>
-                        <strong style=" font-size:18px;" >@Model.TotalAmount.ToString("$0.00")    </strong>
+                        <strong style=" font-size:18px;">@Model.Cart.TotalAmount.ToString("$0.00")    </strong>
                          </div>
                       </div>
                 </div>
             <table class="table mt-5">
                 <tbody >
-                   @foreach (var i in Model.Items)
+                   @foreach (var i in Model.Cart.Items)
                     {
                     <tr>
                        

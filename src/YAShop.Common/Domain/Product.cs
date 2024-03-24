@@ -5,6 +5,8 @@ public class StoreCategory : DomainObject
     public string Name { get; set; }
 
 }
+
+
 public class Product : DomainObject
 {
     public string SKU { get; set; }
@@ -15,5 +17,6 @@ public class Product : DomainObject
     public string? Description{ get; set; }
      
     public Guid StoreCategoryId { get; set; }
+
 
 }
