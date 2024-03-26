@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using YAShop.Common.Domain.Checkout;
 
 namespace YAShop.Common.Service.Cart;
 
@@ -9,6 +10,8 @@ public class Cart
     }
 
     public List<CartItem> Items { get; set; } = new();
+
+    public CheckoutDetails? CheckoutDetails { get; set; }
 
     [JsonIgnore]
     public bool IsEmpty => TotalCount == 0;

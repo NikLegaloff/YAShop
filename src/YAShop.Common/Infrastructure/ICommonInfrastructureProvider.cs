@@ -9,6 +9,7 @@ namespace YAShop.Common.Infrastructure
     public interface ICommonInfrastructureProvider
     {
         IDictionary<object, object?> IdentityMap { get; }
+        
         T? GetFromSession<T>(string key);
         void PutInSession(string key, object subj);
 

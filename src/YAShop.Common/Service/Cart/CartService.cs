@@ -18,7 +18,7 @@ public class CartService
         SaveCart(cart);
     }
 
-    private void SaveCart(Cart cart)
+    public void SaveCart(Cart cart)
     {
         cart.Items.RemoveAll(i => i.QTY == 0);
         Registry.Current.Infrastructure.PutInSession("Cart",cart);

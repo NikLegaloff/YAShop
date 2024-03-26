@@ -2,6 +2,7 @@
 using YAShop.Common.Data;
 using YAShop.Common.Infrastructure;
 using YAShop.Common.Service.Cart;
+using YAShop.Common.Service.Order;
 
 namespace YAShop.Common;
 
@@ -16,13 +17,16 @@ public class Registry
     }
 
     public ProductDataProvider Products { get; private set; }
+    public OrderDataProvider Orders{ get; private set; }
+    public OrderItemDataProvider OrderItems { get; private set; }
 
     public CustomPageDataProvider CustomPages { get; private set; }
 
     public StoreCategoryDataProvider StoreCategories { get; private set; }
     public CityDataProvider Cities { get; private set; }
     public ICommonInfrastructureProvider Infrastructure { get; }
-    public CartService Cart => new();
+    public CartService CartService => new();
+    public OrderService OrderService=> new();
 
     public Registry(ICommonInfrastructureProvider commonInfrastructureProvider, string? dataPath = null)
     {
@@ -32,5 +36,7 @@ public class Registry
         CustomPages = new CustomPageDataProvider(dataPath);
         StoreCategories = new StoreCategoryDataProvider(dataPath);
         Cities = new CityDataProvider(dataPath);
+        Orders = new OrderDataProvider(dataPath);
+        CustomPages = new CustomPageDataProvider(dataPath);
     }
 }
