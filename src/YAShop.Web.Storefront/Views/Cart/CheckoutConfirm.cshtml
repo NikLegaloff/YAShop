@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Checkout";
     Layout = "_Layout";
+    var SHIPPING = Model.Cities.First(c => c.Id == Model.Cart.CheckoutDetails.Address.CityId).Price;
+    var shipping2 = YAShop.Common.Registry.Current.Cities.Find(Model.Cart.CheckoutDetails.Address.CityId).Price;
 }
 
 @Html.Partial("_ProgressBar", 2)
@@ -75,12 +77,12 @@
                          </div>
                           <div class=" mt-1 d-flex justify-content-between">
                         <div style=" font-size:18px;">Shipping</div>
-                        <span style =" font-size:16px;" class="text-muted">Calculated at next step</span>
+                    <span style=" font-size:16px;" class="text-muted">@SHIPPING.ToString("$0.00")</span>
                          </div>
                           
                          <div class=" d-flex justify-content-between mt-2">
                         <div style="font-weight:700;font-size:18px;">Total (USD)</div>
-                        <strong style=" font-size:18px;">@Model.Cart.TotalAmount.ToString("$0.00")    </strong>
+                        <strong style=" font-size:18px;">@((Model.Cart.TotalAmount+SHIPPING).ToString("$0.00"))    </strong>
                          </div>
                       </div>
                 </div>

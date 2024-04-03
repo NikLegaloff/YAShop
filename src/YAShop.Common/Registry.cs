@@ -38,5 +38,6 @@ public class Registry
         Cities = new CityDataProvider(dataPath);
         Orders = new OrderDataProvider(dataPath);
         CustomPages = new CustomPageDataProvider(dataPath);
+        OrderItems = new OrderItemDataProvider(dataPath);
     }
 }

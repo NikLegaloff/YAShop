@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using YAShop.Common.Domain;
 using YAShop.Common.Domain.Checkout;
 
 namespace YAShop.Common.Service.Cart;
@@ -8,7 +9,7 @@ public class Cart
     public Cart()
     {
     }
-
+    
     public List<CartItem> Items { get; set; } = new();
 
     public CheckoutDetails? CheckoutDetails { get; set; }
@@ -18,6 +19,7 @@ public class Cart
     [JsonIgnore] 
     public int TotalCount => Items.Sum(i => i.QTY);
     [JsonIgnore] public decimal TotalAmount => Items.Sum(i => i.Price * i.QTY);
+
    
 }
 
