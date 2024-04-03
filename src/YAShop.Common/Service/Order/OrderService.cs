@@ -24,7 +24,6 @@ namespace YAShop.Common.Service.Order
             var cityPrice = GetCityPriceById(cart.CheckoutDetails.Address.CityId);
             var order = new Domain.Order
             {
-                Id = Guid.NewGuid(),
                 Date = DateTime.Now,
                 ClientEmail = cart.CheckoutDetails.Email,
                 Status = Domain.OrderStatus.Created,
@@ -39,7 +38,7 @@ namespace YAShop.Common.Service.Order
 
 
             };
-            // TODO: Implement order creation
+            Registry.Current.Orders.Save(order);
 
             foreach (var i in cart.Items)
             {
@@ -54,7 +53,6 @@ namespace YAShop.Common.Service.Order
 
                 Registry.Current.OrderItems.Save(orderItem);
             }
-            Registry.Current.Orders.Save(order);
             return Guid.Empty;
         }
     }
