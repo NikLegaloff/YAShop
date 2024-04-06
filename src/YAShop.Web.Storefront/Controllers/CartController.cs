@@ -23,12 +23,14 @@ public class CartController : Controller
 
 
     [HttpGet]
-    public IActionResult Checkout()
+    public IActionResult Checkout( bool isConfirm=false)
     {
+
         var cart = Registry.Current.CartService.GetCart();
         if (cart.IsEmpty) return Redirect("/");
         return View(new CheckoutModel
         {
+            IsConfirm = isConfirm,
             Cart = cart,
             Cities = Registry.Current.Cities.SelectAll()
         });
@@ -41,11 +43,11 @@ public class CartController : Controller
         if (cart.IsEmpty) return Redirect("/");
         cart.CheckoutDetails = subj;
         Registry.Current.CartService.SaveCart(cart);
-        return RedirectToAction("CheckoutConfirm");
+        return RedirectToAction("Checkout",new {IsConfirm = true});
     }
 
 
-    [HttpGet]
+  /* 
     public IActionResult CheckoutConfirm()
     {
         var cart = Registry.Current.CartService.GetCart();
@@ -55,7 +57,7 @@ public class CartController : Controller
             Cart = cart,
             Cities = Registry.Current.Cities.SelectAll()
         });
-    }
+    }*/
 
     [HttpGet]
     public IActionResult CheckoutCreate()

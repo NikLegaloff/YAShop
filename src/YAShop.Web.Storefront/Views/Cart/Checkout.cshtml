@@ -2,6 +2,9 @@
 @{
     ViewData["Title"] = "Checkout";
     Layout = "_Layout";
+ //     var SHIPPING = Model.Cities.First(c => c.Id == Model.Cart.CheckoutDetails.Address.CityId).Price;
+   // var shipping2 = YAShop.Common.Registry.Current.Cities.Find(Model.Cart.CheckoutDetails.Address.CityId).Price;
+
 }
 
 @Html.Partial("_ProgressBar", 1)
@@ -14,48 +17,48 @@
             <div class="row ">
                 <div class="col-md">
                     <div class=" form-floating mb-3">
-                        <input type="text" class="form-control" name="FirstName" value="@Model.Cart.CheckoutDetails?.FirstName" placeholder="First Name" required />
+                        <input @(Model.IsConfirm ? "readonly=readonly" : "")type="text" class="form-control" name="FirstName" value="    @Model.Cart.CheckoutDetails?.FirstName" placeholder="First Name" required />
                     <label > First Name</label>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class=" form-floating mb-3">
-                        <input type="text" class="form-control" name="LastName" placeholder="Last Name" value="@Model.Cart.CheckoutDetails?.LastName" required />
+                        <input type="text" class="form-control" @(Model.IsConfirm ? "readonly=readonly" : "") name="LastName" placeholder="Last Name" value="@Model.Cart.CheckoutDetails?.LastName" required />
                     <label > Last Name</label>
                     </div>
                 </div>
             </div>
            <div class=" form-floating mb-3">
-                <input type="text" class="form-control" placeholder="Address Line" name="Address.AddressLine" value="@Model.Cart.CheckoutDetails?.Address?.AddressLine" required />
+                <input type="text" @(Model.IsConfirm ? "readonly=readonly" : "") class="form-control" placeholder="Address Line" name="Address.AddressLine" value="@Model.Cart.CheckoutDetails?.Address?.AddressLine" required />
                 <label >Address Line 1</label>
            </div>
 
             <div class="row ">
                 <div class="col-md">
                     <div class="form-floating mb-3">
-                        <select class="form-select form-select-lg mb-3 " name="Address.CityId" aria-label=".form-select-lg example" style="height: 3.7rem;">
+                        <select class="form-select form-select-lg mb-3 "  name="Address.CityId" aria-label=".form-select-lg example" style="height: 3.7rem;">
                             @foreach(var c in Model.Cities)
                             {
-                                <!option @(c.Id==Model.Cart.CheckoutDetails?.Address?.CityId ? "selected=selected":"") value="@c.Id">@c.Name | Delivery price: @c.Price.ToString("0.00")</!option> 
+                                <!option @(c.Id==Model.Cart.CheckoutDetails?.Address?.CityId ? "selected=selected":"")@(Model.IsConfirm ? "readonly=\"readonly\"" : "") value="@c.Id">@c.Name | Delivery price: @c.Price.ToString("0.00")</!option>
                             }                       
                         </select>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class=" form-floating mb-3">
-                        <input type="tel" class="form-control" name="Address.Phone" value="@(Model.Cart.CheckoutDetails?.Address?.Phone)" placeholder="Phone Number" required />
+                        <input type="tel" class="form-control" @(Model.IsConfirm ? "readonly=readonly" : "") name="Address.Phone" value="@(Model.Cart.CheckoutDetails?.Address?.Phone)" placeholder="Phone Number" required />
                         <label >Phone Number</label>
                     </div>
                 </div>
             </div>
             <div class="input-group form-floating mb-3">
-                <input type="email" class="form-control" placeholder="Email" name="Email" aria-label="Recipient's username" value="@Model.Cart.CheckoutDetails?.Email" aria-describedby="basic-addon2" />
+                <input type="email" class="form-control" @(Model.IsConfirm ? "readonly=readonly" : "") placeholder="Email" name="Email" aria-label="Recipient's username" value="@Model.Cart.CheckoutDetails?.Email" aria-describedby="basic-addon2" />
                 <span class="input-group-text" id="basic-addon2">@@</span>
                 <label >Email</label>
             </div>
             <div class="mb-3">
                 Comment<br/>
-                <textarea class="form-control" placeholder="Comments" name="Comment" aria-label="" value="@Model.Cart.CheckoutDetails?.Comment" aria-describedby="basic-addon3"></textarea>
+                <textarea @(Model.IsConfirm ? "readonly=\"readonly\"" : "") class="form-control" placeholder="Comments" name="Comment" aria-label="" value="@Model.Cart.CheckoutDetails?.Comment" aria-describedby="basic-addon3"></textarea>
             </div>
     </div>
         <div class="col-1 d-flex" style="height: 380px;">
@@ -106,8 +109,25 @@
            
         </div>
        
-    </div>
-    <div class="d-grid gap-2 col-6 mx-auto mt-md-5">
-        <button class="btn btn-primary" type="submit">Continue to billing</button>
+   
+    <div class="container text-center mt-5">
+        <div class="row ">
+          
+            <div class="col-md mb-3">
+                    <a href="/Cart/Checkout/" class="btn btn-secondary" id="back" style="width: 170px; @(Model.IsConfirm ? "" : "visibility:hidden;") ">Something wrong</a>
+            </div>
+           
+            <div class="col-md mb-3">
+                    <button class="btn btn-primary"  id="confirm" style="width: 300px;@(Model.IsConfirm ? "visibility:hidden;" : "") "> Continue</button>
+          
+            </div>
+            <div class="col-md mb-3">
+                    <a href="/Cart/CheckoutComplete/" style="width: 170px;  @(
+Model.IsConfirm ? "" : "visibility:hidden;")" class="btn btn-secondary" type="submit" id="continue">
+      
+                    Confirm
+                </a>
+            </div>
+        </div>
     </div>
 </form>

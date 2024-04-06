@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
-
+using YAShop.Common.Domain;
 using YAShop.Common.Domain.Checkout;
 
 
@@ -28,17 +28,17 @@ namespace YAShop.Common.Service.Order
                 Date = DateTime.Now,
                 ClientEmail = cart.CheckoutDetails.Email,
                 Status = Domain.OrderStatus.Created,
-                SubTotal= cart.TotalAmount,
+                SubTotal = cart.TotalAmount,
                 Shipping = cityPrice,
-               Details = new OrderClientDetails { Address= cart.CheckoutDetails.Address,
-                   FirstName= cart.CheckoutDetails.FirstName,
-                   LastName= cart.CheckoutDetails.LastName,
-                   Comment= cart.CheckoutDetails.Comment,
-               },
-               Total = cart.TotalAmount + cityPrice
-
-
-            };
+                Details = new OrderClientDetails { Address = cart.CheckoutDetails.Address,
+                    FirstName = cart.CheckoutDetails.FirstName,
+                    LastName = cart.CheckoutDetails.LastName,
+                    Comment = cart.CheckoutDetails.Comment,
+                },
+                Total = cart.TotalAmount + cityPrice
+               };
+            Registry.Current.Orders.Save(order);
+       
             // TODO: Implement order creation
 
             foreach (var i in cart.Items)
@@ -53,8 +53,11 @@ namespace YAShop.Common.Service.Order
                 };
 
                 Registry.Current.OrderItems.Save(orderItem);
+
+              
+                
             }
-            Registry.Current.Orders.Save(order);
+           
             return Guid.Empty;
         }
     }
