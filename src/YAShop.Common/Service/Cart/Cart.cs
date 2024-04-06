@@ -20,7 +20,8 @@ public class Cart
     public int TotalCount => Items.Sum(i => i.QTY);
     [JsonIgnore] public decimal TotalAmount => Items.Sum(i => i.Price * i.QTY);
 
-   
+    public string ShippingStr => CheckoutDetails == null ? "Calculating" : Registry.Current.Cities.Find(CheckoutDetails.Address.CityId).Price.ToString("$0.00");
+    public object CityName => CheckoutDetails==null ? "": Registry.Current.Cities.Find(CheckoutDetails.Address.CityId).NameWithPrice;
 }
 
 public class CartItem

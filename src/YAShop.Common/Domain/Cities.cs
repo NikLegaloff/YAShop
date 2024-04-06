@@ -9,6 +9,7 @@ namespace YAShop.Common.Domain
     public class City : DomainObject
     {
         public string Name { get; set; }
+        public string NameWithPrice => Name + ", delivery: " + Price.ToString("$0.00");
         public decimal Price { get; set; }
 
     }

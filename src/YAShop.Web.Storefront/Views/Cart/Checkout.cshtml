@@ -2,8 +2,7 @@
 @{
     ViewData["Title"] = "Checkout";
     Layout = "_Layout";
- //     var SHIPPING = Model.Cities.First(c => c.Id == Model.Cart.CheckoutDetails.Address.CityId).Price;
-   // var shipping2 = YAShop.Common.Registry.Current.Cities.Find(Model.Cart.CheckoutDetails.Address.CityId).Price;
+   
 
 }
 
@@ -24,7 +23,7 @@
                 <div class="col-md">
                     <div class=" form-floating mb-3">
                         <input type="text" class="form-control" @(Model.IsConfirm ? "readonly=readonly" : "") name="LastName" placeholder="Last Name" value="@Model.Cart.CheckoutDetails?.LastName" required />
-                    <label > Last Name</label>
+                    <label> Last Name</label>
                     </div>
                 </div>
             </div>
@@ -36,12 +35,22 @@
             <div class="row ">
                 <div class="col-md">
                     <div class="form-floating mb-3">
-                        <select class="form-select form-select-lg mb-3 "  name="Address.CityId" aria-label=".form-select-lg example" style="height: 3.7rem;">
-                            @foreach(var c in Model.Cities)
-                            {
-                                <!option @(c.Id==Model.Cart.CheckoutDetails?.Address?.CityId ? "selected=selected":"")@(Model.IsConfirm ? "readonly=\"readonly\"" : "") value="@c.Id">@c.Name | Delivery price: @c.Price.ToString("0.00")</!option>
-                            }                       
-                        </select>
+                        @if (Model.IsConfirm)
+                        {
+                            <div class=" form-floating mb-3">
+                            <input type="text" readonly class="form-control" value="@Model.Cart.CityName" />
+                            <label >City</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <select class="form-select form-select-lg mb-3 " name="Address.CityId" aria-label=".form-select-lg example" style="height: 3.7rem; padding-top: 0.4rem">
+                                @foreach (var c in Model.Cities)
+                                {
+                                    <!option @(c.Id == Model.Cart.CheckoutDetails?.Address?.CityId ? "selected=selected" : "") value="@c.Id">@c.NameWithPrice</!option>
+                                }
+                            </select>
+                        }
                     </div>
                 </div>
                 <div class="col-md">
@@ -58,7 +67,7 @@
             </div>
             <div class="mb-3">
                 Comment<br/>
-                <textarea @(Model.IsConfirm ? "readonly=\"readonly\"" : "") class="form-control" placeholder="Comments" name="Comment" aria-label="" value="@Model.Cart.CheckoutDetails?.Comment" aria-describedby="basic-addon3"></textarea>
+                <textarea @(Model.IsConfirm ? "readonly=\"readonly\"" : "") class="form-control" placeholder="Comments" name="Comment" aria-label="" aria-describedby="basic-addon3">@(Model.Cart.CheckoutDetails?.Comment)</textarea>
             </div>
     </div>
         <div class="col-1 d-flex" style="height: 380px;">
@@ -78,7 +87,7 @@
                          </div>
                           <div class=" mt-1 d-flex justify-content-between">
                         <div style=" font-size:18px;">Shipping</div>
-                        <span style =" font-size:16px;" class="text-muted">Calulating...</span>
+                        <span style =" font-size:16px;" class="text-muted">@Model.Cart.ShippingStr</span>
                          </div>
                           
                          <div class=" d-flex justify-content-between mt-2">
@@ -112,22 +121,17 @@
    
     <div class="container text-center mt-5">
         <div class="row ">
-          
             <div class="col-md mb-3">
-                    <a href="/Cart/Checkout/" class="btn btn-secondary" id="back" style="width: 170px; @(Model.IsConfirm ? "" : "visibility:hidden;") ">Something wrong</a>
+                <a href="/Cart/Checkout/" class="btn btn-secondary" id="back" style="width: 170px; @(Model.IsConfirm ? "" : "visibility:hidden;") ">Something wrong</a>
             </div>
-           
             <div class="col-md mb-3">
-                    <button class="btn btn-primary"  id="confirm" style="width: 300px;@(Model.IsConfirm ? "visibility:hidden;" : "") "> Continue</button>
+                <button class="btn btn-primary"  id="confirm" style="width: 300px;@(Model.IsConfirm ? "visibility:hidden;" : "") "> Continue</button>
           
             </div>
             <div class="col-md mb-3">
-                    <a href="/Cart/CheckoutComplete/" style="width: 170px;  @(
-Model.IsConfirm ? "" : "visibility:hidden;")" class="btn btn-secondary" type="submit" id="continue">
-      
-                    Confirm
-                </a>
+                <a href="/Cart/CheckoutComplete/" style="width: 170px;  @(Model.IsConfirm ? "" : "visibility:hidden;")" class="btn btn-primary" type="submit" id="continue">Confirm</a>
             </div>
         </div>
     </div>
+</div>
 </form>
