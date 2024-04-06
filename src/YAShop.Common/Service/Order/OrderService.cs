@@ -24,7 +24,6 @@ namespace YAShop.Common.Service.Order
             var cityPrice = GetCityPriceById(cart.CheckoutDetails.Address.CityId);
             var order = new Domain.Order
             {
-                Id = Guid.NewGuid(),
                 Date = DateTime.Now,
                 ClientEmail = cart.CheckoutDetails.Email,
                 Status = Domain.OrderStatus.Created,
