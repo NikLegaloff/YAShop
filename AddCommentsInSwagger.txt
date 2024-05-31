@@ -1,0 +1,9 @@
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "YAShop.Web.API doc", Version = "v1" });
+
+    // generate the XML docs that'll drive the swagger docs
+    var xmlFile = $"YAShop.Web.API.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
